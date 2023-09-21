@@ -15,7 +15,6 @@ app.get('/', (_req, _res) => {
 // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/prefer-nullish-coalescing
 const PORT = process.env.PORT || 3000;
 
-
 // Server setup
 app.listen(PORT, () => {
 	console.log('The server is running on port', PORT);
