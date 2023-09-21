@@ -1,5 +1,5 @@
 {
-  "name": "tinytitletinderserver",
+  "name": "azuredeployment",
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
@@ -8,8 +8,8 @@
     "lint": "eslint src/*",
     "eslint-fix": "npx eslint src/* --fix",
     "start-dev": "nodemon --exec \"npm run lint && ts-node src/index.ts\"",
-    "start": "ts-node ./src/index.ts/",
-    "test": "jest"
+    "start": "node build/src/index.js",
+    "build": "npx tsc"
   },
   "keywords": [],
   "author": "",
