@@ -36,7 +36,7 @@ jobs:
         with:
           name: node-app
           #TODO describe a path that only takes build if it doesnt work, make changes i package.json file probably.
-          path: ./build
+          path: build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
