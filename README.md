@@ -23,3 +23,13 @@
 
 express setup with typescript: 
 https://www.geeksforgeeks.org/how-to-use-express-in-typescript/
+
+# Documentation on lib
+- Axios     =   https://www.npmjs.com/package/axios
+- Dotenv    =   https://www.npmjs.com/package/dotenv
+- Express   =   https://www.npmjs.com/package/express
+- Nodemon   =   https://www.npmjs.com/package/nodemon
+- Ts-node   =   https://www.npmjs.com/package/ts-node
+- Typescript =  https://www.npmjs.com/package/typescript
+- Eslint    =   https://www.npmjs.com/package/eslint
+
