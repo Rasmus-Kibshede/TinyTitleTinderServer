@@ -47,12 +47,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: package-lock.json
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: node-app
           path: node_modules
 
   deploy:
