@@ -13,13 +13,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up Node.js version
         uses: actions/setup-node@v1
         with:
-          node-version: '18.x'
+          node-version: ${{ matrix.node-version }}
 
       - name: npm install, build, and test
         run: |
@@ -31,7 +35,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          #TODO describe a path that only takes build if it doesnt work, make changes i package.json file probably.
+          path: ./build 
 
   deploy:
     runs-on: ubuntu-latest
