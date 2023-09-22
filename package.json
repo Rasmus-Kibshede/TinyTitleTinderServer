@@ -8,7 +8,7 @@
     "lint": "eslint src/*",
     "eslint-fix": "npx eslint src/* --fix",
     "start-dev": "nodemon --exec \"npm run lint && ts-node src/index.ts\"",
-    "start": "node build/src/index.js",
+    "start": "node src/index.js",
     "build": "npx tsc"
   },
   "keywords": [],
