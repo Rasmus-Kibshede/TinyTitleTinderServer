@@ -35,14 +35,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          #TODO describe a path that only takes build if it doesnt work, make changes i package.json file probably.
           path: build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: package.json
+          path: package.json package-lock.json node_modules
 
   deploy:
     runs-on: ubuntu-latest
