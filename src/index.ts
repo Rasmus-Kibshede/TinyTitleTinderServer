@@ -10,7 +10,7 @@ const app = express();
 app.get('/', (_req, _res) => {
 	_res.send('TypeScript With Expresssss');
 });
-import userRouter from 'routers/userRouter.ts';
+import userRouter from './routes/userRouter';
 app.use(userRouter);
 
 // Take a port 8080 for running server.
