@@ -10,6 +10,8 @@ const app = express();
 app.get('/', (_req, _res) => {
 	_res.send('TypeScript With Expresssss');
 });
+import userRouter from 'routers/userRouter.ts';
+app.use(userRouter);
 
 // Take a port 8080 for running server.
 // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/prefer-nullish-coalescing
