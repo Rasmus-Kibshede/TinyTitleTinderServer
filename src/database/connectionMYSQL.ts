@@ -1,7 +1,8 @@
 import mysql from 'mysql2/promise';
+import { Connection } from 'mysql2/typings/mysql/lib/Connection';
 
 // Create the connection pool. The pool-specific settings are the defaults
-const pool = mysql.createPool({
+const connection = mysql.createPool({
   host: process.env.HOST,
   user: process.env.USER,
   database: process.env.DATABASE,
@@ -15,10 +16,12 @@ const pool = mysql.createPool({
   keepAliveInitialDelay: 0
 });
 
+export default connection;
 
-
+/*
 const users = async () => {
   const [rows, fields] = await pool.query('select * from user')
 console.log(rows)
 };
 users();
+*/

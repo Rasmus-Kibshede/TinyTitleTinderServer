@@ -1,17 +1,12 @@
 import { Router } from 'express';
 import { User } from '../model/user';
+import connection from '../database/connectionMYSQL';
+
 const router = Router();
 
-router.get('/user/:id', (req, res) => {
-	const user: any = {
-		userId: req.params.id,
-		email: 'test@test.com,',
-		password: 'password1234',
-		userActive: true,
-		createdAt: '1-12-22 12:00',
-		lastLogin: '2-12-22 13:00',
-	};  
-	res.send({data: user});
+router.get('/user/:id', async (req, res) => {
+	const [rows,fields] = await connection.query('select * from user where userID = (?)', [req.params.id]);
+	res.send({data: rows})
 });
 
 export default router;
