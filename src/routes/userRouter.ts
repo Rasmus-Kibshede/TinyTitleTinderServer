@@ -7,9 +7,9 @@ import { Router } from 'express';
 import { User } from '../model/user';
 const router = Router();
 
-router.get('/user', (req, res) => {
+router.get('/user/:id', (req, res) => {
 	const user: any = {
-		userId: 10,
+		userId: req.params.id,
 		email: 'test@test.com,',
 		password: 'password1234',
 		userActive: true,
@@ -19,4 +19,5 @@ router.get('/user', (req, res) => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	res.send({data: user});
 });
+
 export default router;

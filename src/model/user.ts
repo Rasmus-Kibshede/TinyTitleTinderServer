@@ -1,14 +1,12 @@
-import { Role } from "./role"
+import {type Role} from './role';
 
-export interface User {
-    userId: number,
-    email: string,
-    password: string,
-    userActive: boolean,
-    createdAt: string,
-    lastLogin: string,
-    role: Role[]
-}
-
-
+export type User = {
+	userId: number;
+	email: string;
+	password: string;
+	userActive: boolean;
+	createdAt: string;
+	lastLogin: string;
+	role: Role[];
+};
 
