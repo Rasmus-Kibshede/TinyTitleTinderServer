@@ -4,9 +4,10 @@ import { Connection } from 'mysql2/typings/mysql/lib/Connection';
 // Create the connection pool. The pool-specific settings are the defaults
 const connection = mysql.createPool({
   host: process.env.HOST,
-  user: process.env.USER,
+  user: process.env.USERNAME,
   database: process.env.DATABASE,
   password: process.env.PASSWORD,
+  port: 3306,
   waitForConnections: true,
   connectionLimit: 10,
   maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
