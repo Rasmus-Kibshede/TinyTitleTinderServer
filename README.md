@@ -5,15 +5,14 @@
 - Run: npm i
 
 <details>
-<summary>Env file setup guide</summary>
-# Env file setup guide before running
-- Make an .env file in root with the following variables
-- PORT = The port the application is running on 
-- DB_HOST = Name of the database host
-- DB_PORT = Database port
-- DB_USERNAME = Database username
-- DB_PASSWORD = Database password
-- DB_DATABASE = The name of the database
+<summary>Env file setup guide before running</summary>
+- Make an .env file in root with the following variables<br>
+- PORT = The port the application is running on<br>
+- DB_HOST = Name of the database host<br>
+- DB_PORT = Database port<br>
+- DB_USERNAME = Database username<br>
+- DB_PASSWORD = Database password<br>
+- DB_DATABASE = The name of the database<br>
 </details>
 
 <details>
