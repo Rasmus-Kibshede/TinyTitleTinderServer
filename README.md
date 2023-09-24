@@ -1,8 +1,10 @@
 # TinyTitleTinderServer
 
 # Install guide
-- To install the project run the follwing in the terminal.
-- Run: npm i
+- To install the project run the follwing in the terminal run: 
+```
+npm i
+```
 
 <details>
 <summary>Env file setup guide before running</summary>
