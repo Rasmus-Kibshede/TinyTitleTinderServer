@@ -70,13 +70,17 @@ https://www.geeksforgeeks.org/how-to-use-express-in-typescript/
 
 <details>
 <summary>Documentation on lib</summary>
-- Axios     =   https://www.npmjs.com/package/axios<br>
-- Dotenv    =   https://www.npmjs.com/package/dotenv<br>
-- Express   =   https://www.npmjs.com/package/express<br>
-- Nodemon   =   https://www.npmjs.com/package/nodemon<br>
-- Ts-node   =   https://www.npmjs.com/package/ts-node<br>
-- Typescript =  https://www.npmjs.com/package/typescript<br>
-- Eslint    =   https://www.npmjs.com/package/eslint<br>
+- Axios        =   https://www.npmjs.com/package/axios<br>
+- Dotenv       =   https://www.npmjs.com/package/dotenv<br>
+- Express      =   https://www.npmjs.com/package/express<br>
+- Nodemon      =   https://www.npmjs.com/package/nodemon<br>
+- Ts-node      =   https://www.npmjs.com/package/ts-node<br>
+- Typescript   =  https://www.npmjs.com/package/typescript<br>
+- Eslint       =   https://www.npmjs.com/package/eslint<br>
+- Moment       =   https://momentjs.com/docs/<br>
+- Bcrypt       =   https://github.com/kelektiv/node.bcrypt.js<br>
+- Cors         =   https://www.npmjs.com/package/cors<br>
+- JsonWebToken = https://github.com/auth0/node-jsonwebtoken<br>
 </details>
 
 
