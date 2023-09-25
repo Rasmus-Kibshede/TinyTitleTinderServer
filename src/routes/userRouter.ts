@@ -7,6 +7,7 @@ const router = Router();
 
 router.get('/user/:id', async (req, res) => {
 	const [rows] = await connection.query('select * from user where user_id = (?)', [req.params.id]);
+	console.log(rows);
 	res.send({data: rows});
 });
 
