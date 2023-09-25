@@ -5,12 +5,12 @@ import express from 'express';
 
 // Initialize the express engine
 const app = express();
-
+app.use(express.json());
 // Handling '/' Request
 app.get('/', (req, res) => {
 	res.send('TypeScript With Express');
 });
-import userRouter from './routes/userRouter';
+import userRouter from './routes/userRoutes';
 app.use(userRouter);
 
 // Take a port 8080 for running server.
