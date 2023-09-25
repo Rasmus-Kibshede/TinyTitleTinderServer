@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 import userRouter from './routes/userRoutes';
 app.use(userRouter);
 
+
 // Take a port 8080 for running server.
 const PORT = process.env.PORT || 3000;
 

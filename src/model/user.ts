@@ -1,4 +1,4 @@
-import {type Role} from './role';
+import { type Role } from './role';
 
 export type User = {
 	userId: number;
@@ -7,6 +7,6 @@ export type User = {
 	userActive: boolean;
 	createdAt: string;
 	lastLogin: string;
-	role: Role[];
+	role: Role[] | null;
 };
 
