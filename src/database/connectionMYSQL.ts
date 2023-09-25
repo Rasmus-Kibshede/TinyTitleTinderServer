@@ -14,6 +14,10 @@ const connection = mysql.createPool({
 	queueLimit: 0,
 	enableKeepAlive: true,
 	keepAliveInitialDelay: 0,
-});
+};
 
-export default connection;
+const conn = mysql.createPool(access);
+
+log('Connection to MySQL established');
+
+export default conn;
