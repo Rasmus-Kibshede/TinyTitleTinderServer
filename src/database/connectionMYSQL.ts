@@ -1,6 +1,5 @@
 import mysql from 'mysql2/promise';
 import { PoolOptions } from 'mysql2';
-import { log } from 'console';
 
 const access: PoolOptions = {
 	host: process.env.DB_HOST,
@@ -18,7 +17,5 @@ const access: PoolOptions = {
 };
 
 const conn = mysql.createPool(access);
-
-log('Connection to MySQL established');
 
 export default conn;
