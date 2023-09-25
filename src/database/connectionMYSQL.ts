@@ -1,12 +1,13 @@
 import mysql from 'mysql2/promise';
+import { PoolOptions } from 'mysql2';
+import { log } from 'console';
 
-// Create the connection pool. The pool-specific settings are the defaults
-const connection = mysql.createPool({
-	host: process.env.HOST,
-	user: process.env.USERNAME,
-	database: process.env.DATABASE,
-	password: process.env.PASSWORD,
-	port: Number(process.env.DBPORT),
+const access: PoolOptions = {
+	host: process.env.DB_HOST,
+	user: process.env.DB_USERNAME,
+	database: process.env.DB_DATABASE,
+	password: process.env.DB_PASSWORD,
+	port: Number(process.env.DB_PORT),
 	waitForConnections: true,
 	connectionLimit: 2,
 	maxIdle: 2, // Max idle connections, the default value is the same as `connectionLimit`
@@ -14,6 +15,10 @@ const connection = mysql.createPool({
 	queueLimit: 0,
 	enableKeepAlive: true,
 	keepAliveInitialDelay: 0,
-});
+};
 
-export default connection;
+const conn = mysql.createPool(access);
+
+log('Connection to MySQL established');
+
+export default conn;
