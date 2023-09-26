@@ -45,8 +45,6 @@ export const updateUser = async (req: Request, res: Response)=> {
 		role: null
 	};
 	const response = await update(user);
-	console.log(response);
-	console.log(user);
 	res.send(response);
 };
 
