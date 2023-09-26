@@ -8,15 +8,17 @@ import { updateUser as update } from '../database/userRepository';
 import { User } from '../model/user';
 
 //TODO SKAL I UTILS. 
-const currentTime = moment().format('DD-MM-YYYY hh:mm:ss');
-
-export const createUser = (user: User) => {
-
+const userCreation = (user: User)=>{
+    const currentTime = moment().format('YYYY-MM-DD hh:mm:ss');
     user.createdAt = currentTime;
     user.userActive = true;
     user.lastLogin = currentTime;
-    user.role = null;
-    return newUser(user);
+    return user;
+};
+
+export const createUser = async (user: User) => {
+   const testUser = userCreation(user);
+    return newUser(testUser);
 };
 
 export const getUserByID = (id: number) => {

@@ -11,7 +11,6 @@ import { updateUser as update } from '../service/userService';
 //TODO DTO entity
 //TODO Validering af data, så applikation ikke crasher
 export const createUser = async (req: Request, res: Response) => {
-	console.log('in method');
 	const user: User = {
 		userId: -1,
 		email: req.body.email,
@@ -21,10 +20,7 @@ export const createUser = async (req: Request, res: Response) => {
 		lastLogin: '',
 		role: null
 	};
-	
-	console.log(user);
 	const response = await newUser(user);
-	console.log(response);
 	res.send(response);
 };
 
@@ -40,7 +36,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response)=> {
 	const user: User = {
-		userId: req.body.id,
+		userId: req.body.user_id,
 		email: req.body.email,
 		password: req.body.password,
 		userActive: true,
