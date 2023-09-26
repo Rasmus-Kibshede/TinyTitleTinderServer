@@ -3,6 +3,8 @@ import { getUserByID as getUser } from '../database/userRepository';
 import { getUsers as users } from '../database/userRepository';
 import { deleteUser } from '../database/userRepository';
 import { createUser as newUser } from '../database/userRepository';
+import { updateUser as update } from '../database/userRepository';
+
 import { User } from '../model/user';
 
 //TODO SKAL I UTILS. 
@@ -29,6 +31,10 @@ export const getUsers = () => {
         return { err: 'No users' };
     }
     return users();
+};
+
+export const updateUser = (user: User) => {
+    return update(user);
 };
 
 export const deleteUserByID = (id: number) => {
