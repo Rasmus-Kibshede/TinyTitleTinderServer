@@ -1,6 +1,6 @@
 import { type Role } from './role';
 
-export type User = {
+export class User {
 	userId: number;
 	email: string;
 	password: string;
@@ -8,5 +8,5 @@ export type User = {
 	createdAt: string;
 	lastLogin: string;
 	role: Role[] | null;
-};
+}
 

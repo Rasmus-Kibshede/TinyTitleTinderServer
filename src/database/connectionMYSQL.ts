@@ -2,11 +2,11 @@ import mysql from 'mysql2/promise';
 import { PoolOptions } from 'mysql2';
 
 const access: PoolOptions = {
-	host: process.env.DB_HOST,
-	user: process.env.DB_USERNAME,
-	database: process.env.DB_DATABASE,
-	password: process.env.DB_PASSWORD,
-	port: Number(process.env.DB_PORT),
+	host: process.env.L_HOST,
+	user: process.env.L_USERNAME,
+	database: process.env.L_DATABASE,
+	password: process.env.L_PASSWORD,
+	port: Number(process.env.L_PORT),
 	waitForConnections: true,
 	connectionLimit: 2,
 	maxIdle: 2, // Max idle connections, the default value is the same as `connectionLimit`

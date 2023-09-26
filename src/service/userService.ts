@@ -8,7 +8,7 @@ import { updateUser as update } from '../database/userRepository';
 import { User } from '../model/user';
 
 //TODO SKAL I UTILS. 
-const userCreation = (user: User)=>{
+const userCreation = (user: User) => {
     const currentTime = moment().format('YYYY-MM-DD hh:mm:ss');
     user.createdAt = currentTime;
     user.userActive = true;
@@ -17,7 +17,7 @@ const userCreation = (user: User)=>{
 };
 
 export const createUser = async (user: User) => {
-   const testUser = userCreation(user);
+    const testUser = userCreation(user);
     return newUser(testUser);
 };
 

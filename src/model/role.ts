@@ -1,4 +1,4 @@
-export type Role = {
+export class Role {
 	roleId: number;
 	title: string;
-};
+}

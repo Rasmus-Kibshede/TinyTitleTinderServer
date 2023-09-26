@@ -34,7 +34,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 	res.send(response);
 };
 
-export const updateUser = async (req: Request, res: Response)=> {
+export const updateUser = async (req: Request, res: Response) => {
 	const user: User = {
 		userId: req.body.user_id,
 		email: req.body.email,
