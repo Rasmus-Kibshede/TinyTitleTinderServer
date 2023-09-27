@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
-import { getUserByID as getUser } from '../service/userService';
-import { getUsers as users } from '../service/userService';
-import { deleteUserByID as deleteUser } from '../service/userService';
-import { createUser as newUser } from '../service/userService';
-import { User } from '../model/user';
-import { updateUser as update } from '../service/userService';
+import { getUserByID as getUser } from '../Services/userService';
+import { createUser as newUser } from '../Services/userService';
+import { User } from '../DTO/userDTO';
 
 //TODO Dependency injection eller String med besked om hvilken db
 //TODO TYPEORM.
@@ -28,7 +25,7 @@ export const getUserByID = async (req: Request, res: Response) => {
 	const response = await getUser(Number(req.params.id));
 	res.send(response);
 };
-
+/*
 export const getAllUsers = async (req: Request, res: Response) => {
 	const response = await users();
 	res.send(response);
@@ -51,4 +48,4 @@ export const updateUser = async (req: Request, res: Response) => {
 export const deleteUserByID = async (req: Request, res: Response) => {
 	const response = await deleteUser(Number(req.params.id));
 	res.send(response);
-};
+};*/

@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
-import { User } from '../entity/User';
-import { Role } from '../entity/Role';
+import { User } from '../EntityManual/User';
+import { Role } from '../EntityManual/Role';
 
 export const appDataSource = new DataSource({
     type: 'mysql',

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './Role';
 
 @Entity()
@@ -15,11 +15,11 @@ export class User {
     @Column('tinyint', { nullable: false, name: 'user_active' })
     userActive: boolean;
 
-    @Column('datetime', { nullable: false, name: 'created_at' })
-    createdAt: string;
+    @CreateDateColumn({name: 'created_at'})
+    createdAt: Date;
 
     @Column('datetime', { nullable: false, name: 'last_login' })
-    lastLogin: string;
+    lastLogin: Date;
 
     @ManyToMany(() => Role, (role) => role.users)
     @JoinTable()

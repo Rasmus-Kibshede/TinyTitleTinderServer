@@ -1,4 +1,4 @@
-import {type User} from './user';
+import {type User} from './userDTO';
 
 export type Parent = {
 	parentIt: number;

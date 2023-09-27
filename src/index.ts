@@ -3,14 +3,14 @@ import 'dotenv/config';
 // Import the express in typescript file
 import express from 'express';
 import 'reflect-metadata';
-import userRouter from './routes/userRoutes';
+import userRouter from './Routes/userRoutes';
 
 // Initialize the express engine
 const app = express();
 app.use(express.json());
 
 //Typeorm setup
-import { appDataSource } from './database/data-source';
+import { appDataSource } from './Repositorys/data-source';
 appDataSource.initialize().then(() => {
 console.log('Database connection established');
 	// Handling '/' Request

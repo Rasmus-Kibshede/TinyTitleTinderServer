@@ -1,11 +1,7 @@
 import moment from 'moment';
-import { getUserByID as getUser } from '../database/userRepository';
-import { getUsers as users } from '../database/userRepository';
-import { deleteUser } from '../database/userRepository';
-import { createUser as newUser } from '../database/userRepository';
-import { updateUser as update } from '../database/userRepository';
-
-import { User } from '../model/user';
+//import { createUser as newUser } from '../Repositorys/userRepository';
+import { userRepo } from '../Repositorys/userRepository';
+import { User } from '../DTO/userDTO';
 
 //TODO SKAL I UTILS. 
 const userCreation = (user: User) => {
@@ -17,17 +13,20 @@ const userCreation = (user: User) => {
 };
 
 export const createUser = async (user: User) => {
-    const testUser = userCreation(user);
-    return newUser(testUser);
+    user = userCreation(user);
+    const save = await userRepo.save(user);
+    return save;
 };
 
 export const getUserByID = (id: number) => {
     if (!id) {
         return { err: 'Invalid ID' };
     }
-    return getUser(id);
+    return userRepo.findBy({
+        userId: id
+    });
 };
-
+/*
 export const getUsers = () => {
     if (!users) {
         return { err: 'No users' };
@@ -45,5 +44,5 @@ export const deleteUserByID = (id: number) => {
     }
     return deleteUser(id);
 };
-
+*/
 
