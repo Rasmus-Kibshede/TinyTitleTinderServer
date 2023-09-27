@@ -3,6 +3,7 @@ import { Role } from './Role';
 
 @Entity()
 export class User {
+
     @PrimaryGeneratedColumn({ name: 'user_id' })
     userId: number;
 
@@ -12,16 +13,17 @@ export class User {
     @Column('varchar', { length: 255, nullable: false, name: 'password' })
     password: string;
 
-    @Column('tinyint', { nullable: false, name: 'user_active' })
+    @Column('boolean', { nullable: false, name: 'user_active' })
     userActive: boolean;
 
     @CreateDateColumn({name: 'created_at'})
-    createdAt: Date;
+    createdAt: Date | null;
 
-    @Column('datetime', { nullable: false, name: 'last_login' })
-    lastLogin: Date;
+    @Column('datetime', { nullable: true, name: 'last_login' })
+    lastLogin: Date | null;
 
-    @ManyToMany(() => Role, (role) => role.users)
+    @ManyToMany(() => Role, (role) => role.users, {nullable: true})
     @JoinTable()
-    roles: Role[];
+    @Column({default: 3})
+    roles: Role[] | null;
 }

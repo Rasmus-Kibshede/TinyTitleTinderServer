@@ -1,19 +1,9 @@
-import moment from 'moment';
 //import { createUser as newUser } from '../Repositorys/userRepository';
 import { userRepo } from '../Repositorys/userRepository';
-import { User } from '../DTO/userDTO';
-
-//TODO SKAL I UTILS. 
-const userCreation = (user: User) => {
-    const currentTime = moment().format('YYYY-MM-DD hh:mm:ss');
-    user.createdAt = currentTime;
-    user.userActive = true;
-    user.lastLogin = currentTime;
-    return user;
-};
+import { User } from '../Entities/User';
 
 export const createUser = async (user: User) => {
-    user = userCreation(user);
+    user.userActive = true;
     const save = await userRepo.save(user);
     return save;
 };
@@ -26,18 +16,16 @@ export const getUserByID = (id: number) => {
         userId: id
     });
 };
-/*
-export const getUsers = () => {
-    if (!users) {
-        return { err: 'No users' };
-    }
-    return users();
+
+export const getUsers = async () => {
+    const users = await userRepo.find();
+    return users;
 };
 
 export const updateUser = (user: User) => {
-    return update(user);
+    return userRepo.save(user);
 };
-
+/*
 export const deleteUserByID = (id: number) => {
     if (!id) {
         return { err: 'Invalid ID' };

@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
-import { getUserByID as getUser } from '../Services/userService';
-import { createUser as newUser } from '../Services/userService';
-import { User } from '../DTO/userDTO';
+import * as userService from '../Services/userService';
+import { User } from '../Entities/User';
 
 //TODO Dependency injection eller String med besked om hvilken db
 //TODO TYPEORM.
@@ -13,21 +12,21 @@ export const createUser = async (req: Request, res: Response) => {
 		email: req.body.email,
 		password: req.body.password,
 		userActive: true,
-		createdAt: '',
-		lastLogin: '',
-		role: null
+		createdAt: null,
+		lastLogin: null,
+		roles: null
 	};
-	const response = await newUser(user);
+	const response = await userService.createUser(user);
 	res.send(response);
 };
 
 export const getUserByID = async (req: Request, res: Response) => {
-	const response = await getUser(Number(req.params.id));
+	const response = await userService.getUserByID(Number(req.params.id));
 	res.send(response);
 };
-/*
+
 export const getAllUsers = async (req: Request, res: Response) => {
-	const response = await users();
+	const response = await userService.getUsers();
 	res.send(response);
 };
 
@@ -36,15 +35,15 @@ export const updateUser = async (req: Request, res: Response) => {
 		userId: req.body.user_id,
 		email: req.body.email,
 		password: req.body.password,
-		userActive: true,
-		createdAt: '',
-		lastLogin: '',
-		role: null
+		userActive: req.body.user_active,
+		createdAt: null,
+		lastLogin: null,
+		roles: null
 	};
-	const response = await update(user);
+	const response = await userService.updateUser(user);
 	res.send(response);
 };
-
+/*
 export const deleteUserByID = async (req: Request, res: Response) => {
 	const response = await deleteUser(Number(req.params.id));
 	res.send(response);
