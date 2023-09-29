@@ -16,14 +16,23 @@ export class User {
     @Column('boolean', { nullable: false, name: 'user_active' })
     userActive: boolean;
 
-    @CreateDateColumn({name: 'created_at'})
+    @CreateDateColumn({ name: 'created_at' })
     createdAt: Date | null;
 
     @Column('datetime', { nullable: true, name: 'last_login' })
     lastLogin: Date | null;
 
-    @ManyToMany(() => Role, (role) => role.users, {nullable: true})
-    @JoinTable()
-    @Column({default: 3})
+    @ManyToMany(() => Role, (role) => role.users, { nullable: true })
+    @JoinTable({
+        name: 'user_role',
+        joinColumn: {
+            name: 'fk_user_id',
+            referencedColumnName: 'userId'
+        },
+        inverseJoinColumn: {
+            name: 'fk_role_id',
+            referencedColumnName: 'roleId'
+        }
+    })
     roles: Role[] | null;
 }
