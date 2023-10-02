@@ -8,7 +8,7 @@ The app defines following CRUD APIs.
 <details>
 <summary>The app defines following CRUD EndPoints.</summary>
 | Method | Url                   | Description                    | Sample Valid Request Body                               |
-|--------|-----------------------|--------------------------------|---------------------------------------------------------|
+|--------|-----------------------|-------------------------|----------------------------------------------------------------|
 | POST   | /users                | Create a user           | {"email": "Post@man.com", "password": "CreatedWithPostman1234"}|
 | GET    | /users/:id            | Get a user by ID        |                                                                |
 | GET    | /users                | Get all users           |                                                                |
