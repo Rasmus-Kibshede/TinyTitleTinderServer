@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 //Typeorm setup
-import { appDataSource } from './Repositorys/data-source';
+import { appDataSource } from './Repositories/data-source';
 appDataSource.initialize().then(() => {
 console.log('Database connection established');
 	// Handling '/' Request

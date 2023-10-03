@@ -1,16 +1,20 @@
 //import { createUser as newUser } from '../Repositorys/userRepository';
-import { userRepo } from '../Repositorys/userRepository';
+import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
 import { UserDTO } from '../DTO/userDTO';
 import { getroleByID } from './roleService';
 import { Role } from '../Entities/Role';
 
 export const createUser = async (userDTO: UserDTO) => {
-
     const role = await getroleByID(3) as Role;
+    
+    if(!role){
+        return {err: 'Role not found'};
+    }
 
-    userDTO.roles = [role];
-
+    userDTO.roles = [];
+    userDTO.roles.push(role);
+    
     if (!userDTO.roles) {
         //TODO: dev log
         return { err: 'Something went wrong, we have a team of highly dedicated, monkeys working on it' };
@@ -22,47 +26,70 @@ export const createUser = async (userDTO: UserDTO) => {
         return { err: 'User not saved' };
     }
 
-    return save;
+    return convertToDTO(save);
 };
 
 export const getUserByID = async (id: number) => {
-    if (!id) {
-        return { err: 'Invalid ID' };
+    const response = await userRepo.findOneByID(id);
+
+    if (!response) {
+        return { err: 'User not found' };
     }
 
-    const response = await userRepo.findOneBy({
-        userId: id
-    });
-
-    return response || { err: 'User not found' };
+    return convertToDTO(response);
 };
 
 export const getUsers = async () => {
-    const users = await userRepo.find();
-    return users;
+    const users = await userRepo.findAll();
+    const userDTOs: UserDTO[] = users.map(user => convertToDTO(user));
+    return userDTOs;
 };
 
-export const updateUser = (user: User) => {
-    return userRepo.save(user);
+export const updateUser = async (userDTO: UserDTO, id: number) => {
+    //Future Developer log
+    if (!userDTO) {
+        return { err: 'invalid userDTO' };
+    }
+
+    const userDB = await getUserByID(id) as User;
+    if (!userDB) {
+        return { err: 'User not found' };
+    }
+
+    userDB.email = userDTO.email;
+    userDB.password = userDTO.password;
+
+    const savedUser = await userRepo.save(userDB) as User;
+    if (!savedUser) {
+        return { err: 'User could not be saved' };
+    }
+
+    return convertToDTO(savedUser);
 };
 
 
 export const deleteUserByID = async (id: number) => {
-    if (!id) {
-        return { err: 'Invalid ID' };
-    }
+    const response = await userRepo.findOneByID(id);
 
-    const user = await getUserByID(id) as User;
-
-    if (!user) {
+    if (!response || !response.userActive) {
         return { err: 'User not found' };
     }
 
-    user.userActive = false;
+    response.userActive = false;
 
-    const response = await userRepo.save(user);
+    return convertToDTO(await userRepo.save(response)) || { err: 'User not deleted' };
+};
 
-    return response || { err: 'User not deleted' };
+
+const convertToDTO = (user: User) => {
+    const dto: UserDTO = {
+        email: user.email,
+        password: user.password,
+        userActive: user.userActive,
+        roles: user.roles,
+    };
+
+    return dto;
 };
 
 

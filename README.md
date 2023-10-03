@@ -82,6 +82,7 @@ https://www.geeksforgeeks.org/how-to-use-express-in-typescript/
 - Cors         =   https://www.npmjs.com/package/cors<br>
 - JsonWebToken =   https://github.com/auth0/node-jsonwebtoken<br>
 - Typeorm      =   https://typeorm.io/<br>
+- Validator    =   https://www.npmjs.com/package/validator<br>
 </details>
 
 

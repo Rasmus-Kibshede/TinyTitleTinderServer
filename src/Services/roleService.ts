@@ -1,4 +1,4 @@
-import { roleRepo } from '../Repositorys/roleRepository';
+import { roleRepo } from '../Repositories/roleRepository';
 
 export const getroleByID = async (id: number) => {
     if (!id) {

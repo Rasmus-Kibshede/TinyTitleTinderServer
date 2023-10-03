@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import * as userService from '../Services/userService';
-import { User } from '../Entities/User';
 import { UserDTO } from '../DTO/userDTO';
 
 //TODO Dependency injection eller String med besked om hvilken db
@@ -29,17 +28,17 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-	const user: User = {
-		userId: req.body.user_id,
+	//This is temp, as we will get id from JWT later on. 
+	const id = req.body.user_id;
+
+	const userRequestDTO: UserDTO = {
 		email: req.body.email,
 		password: req.body.password,
-		userActive: req.body.user_active,
-		createdAt: null,
-		lastLogin: null,
-		roles: null
+		roles: req.body.roles
 	};
-	const response = await userService.updateUser(user);
-	res.send(response);
+
+	const response = await userService.updateUser(userRequestDTO, id);
+	userRespone(response ? response : { err: response }, res, 201);
 };
 
 export const deleteUserByID = async (req: Request, res: Response) => {
@@ -49,7 +48,7 @@ export const deleteUserByID = async (req: Request, res: Response) => {
 };
 
 
-const userRespone = (response: User | { err: string }, res: Response, statusCode: number) => {
+const userRespone = (response: UserDTO | { err: string }, res: Response, statusCode: number) => {
 	if (!response) {
 		res.status(404).send({ err: response });
 	} else {
