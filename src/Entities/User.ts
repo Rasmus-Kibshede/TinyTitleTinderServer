@@ -13,7 +13,7 @@ export class User {
     @Column('varchar', { length: 255, nullable: false, name: 'password' })
     password: string;
 
-    @Column('boolean', { nullable: false, name: 'user_active' })
+    @Column('boolean', { nullable: false, name: 'user_active', default: true })
     userActive: boolean;
 
     @CreateDateColumn({ name: 'created_at' })
