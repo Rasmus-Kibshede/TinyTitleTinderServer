@@ -16,8 +16,8 @@ export class User {
     @Column('boolean', { nullable: false, name: 'user_active', default: true })
     userActive: boolean;
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date | null;
+    @CreateDateColumn({ nullable: false, name: 'created_at' })
+    createdAt: Date;
 
     @Column('datetime', { nullable: true, name: 'last_login' })
     lastLogin: Date | null;

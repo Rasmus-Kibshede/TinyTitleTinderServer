@@ -1,7 +1,7 @@
-import {type User} from './userDTO';
+import { User } from '../Entities/User';
 
 export type Parent = {
-	parentIt: number;
+	parentId: number;
 	age: number;
 	gender: string;
 	firstName: string;

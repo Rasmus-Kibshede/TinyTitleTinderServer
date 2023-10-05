@@ -1,9 +1,6 @@
 import { roleRepo } from '../Repositories/roleRepository';
 
-export const getroleByID = async (id: number) => {
-    if (!id) {
-        return { err: 'Invalid ID' };
-    }
+export const getRoleById = async (id: number) => {
 
     const response = await roleRepo.findOneBy({
         roleId: id

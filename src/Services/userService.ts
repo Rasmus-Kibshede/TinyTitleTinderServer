@@ -2,11 +2,11 @@
 import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
 import { UserDTO } from '../DTO/userDTO';
-import { getroleByID } from './roleService';
+import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
 
 export const createUser = async (userDTO: UserDTO) => {
-    const role = await getroleByID(3) as Role;
+    const role = await getRoleById(3) as Role;
     
     if(!role){
         return {err: 'Role not found'};
@@ -17,7 +17,7 @@ export const createUser = async (userDTO: UserDTO) => {
     
     if (!userDTO.roles) {
         //TODO: dev log
-        return { err: 'Something went wrong, we have a team of highly dedicated, monkeys working on it' };
+        return { err: 'Something went wrong! - We have a team of highly trained monkeys working on it'};
     }
 
     const save = await userRepo.save(userDTO);
