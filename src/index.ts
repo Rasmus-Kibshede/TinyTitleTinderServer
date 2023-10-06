@@ -3,7 +3,7 @@ import 'dotenv/config';
 // Import the express in typescript file
 import express from 'express';
 import 'reflect-metadata';
-import userRouter from './Routes/userRoutes';
+import router from './routes/userRoutes';
 
 // Initialize the express engine
 const app = express();
@@ -18,7 +18,7 @@ console.log('Database connection established');
 		res.send('TypeScript With Express');
 	});
 
-	app.use(userRouter);
+	app.use(router);
 
 	// Take a port 8080 for running server.
 	const PORT = process.env.PORT || 3000;
