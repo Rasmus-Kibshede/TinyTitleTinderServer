@@ -1,22 +1,33 @@
 import 'dotenv/config';
-/* eslint-disable no-console */
+
 // Import the express in typescript file
 import express from 'express';
+import 'reflect-metadata';
+import userRouter from './Routes/userRoutes';
 
 // Initialize the express engine
 const app = express();
+app.use(express.json());
 
-// Handling '/' Request
-app.get('/', (_req, _res) => {
-	_res.send('TypeScript With Express');
-});
+//Typeorm setup
+import { appDataSource } from './Repositories/data-source';
+appDataSource.initialize().then(() => {
+console.log('Database connection established');
+	// Handling '/' Request
+	app.get('/', (req, res) => {
+		res.send('TypeScript With Express');
+	});
 
-// Take a port 8080 for running server.
-// eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/prefer-nullish-coalescing
-const PORT = process.env.PORT || 3000;
+	app.use(userRouter);
 
-// Server setup
-app.listen(PORT, () => {
-	console.log('The server is running on port', PORT);
-	console.log(`App: http://localhost:${PORT}/`);
+	// Take a port 8080 for running server.
+	const PORT = process.env.PORT || 3000;
+
+	// Server setup
+	app.listen(PORT, () => {
+		console.log(`App: http://localhost:${PORT}/`);
+	});
+
+}).catch((error) => {
+	console.log(error);
 });
