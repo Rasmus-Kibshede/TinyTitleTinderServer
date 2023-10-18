@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as userService from '../Services/userService';
+import * as userService from '../Services/userService'; 	
 import { UserDTO } from '../DTO/userDTO';
 
 //TODO Dependency injection eller String med besked om hvilken db

@@ -11,3 +11,19 @@ export type Parent = {
 	inviteId: number;
 	user: User;
 };
+
+export type ParentDTO = ParentResponseDTO | ParentRequestDTO;
+
+interface ParentResponseDTO {
+	email: string;
+	password: string;
+	userActive: boolean;
+	
+}
+
+interface ParentRequestDTO {
+	email: string;
+	password: string;
+	
+}
+
