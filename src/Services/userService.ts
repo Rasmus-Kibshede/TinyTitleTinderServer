@@ -45,13 +45,14 @@ export const getUsers = async () => {
     return userDTOs;
 };
 
-export const updateUser = async (userDTO: UserRequestDTO, id: number) => {
+export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
     //Future Developer log
     if (!userDTO) {
         return { err: 'invalid userDTO' };
     }
 
-    const userDB = await getUserByID(id) as User;
+    const userDB = await userRepo.findOneByEmail(email) as User;
+
     if (!userDB) {
         return { err: 'User not found' };
     }
@@ -59,12 +60,12 @@ export const updateUser = async (userDTO: UserRequestDTO, id: number) => {
     userDB.email = userDTO.email;
     userDB.password = userDTO.password;
 
-    const savedUser = await userRepo.save(userDB) as User;
+    const savedUser = await userRepo.save(userDB);
     if (!savedUser) {
         return { err: 'User could not be saved' };
     }
 
-    return convertToDTO(savedUser);
+    return savedUser;
 };
 
 

@@ -28,16 +28,14 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-	//This is temp, as we will get id from JWT later on. 
-	const id = req.body.user_id;
 
 	const userRequestDTO: UserRequestDTO = {
-		email: req.body.email,
+		email: req.body.newEmail,
 		password: req.body.password,
 		roles: req.body.roles
 	};
 
-	const response = await userService.updateUser(userRequestDTO, id);
+	const response = await userService.updateUser(userRequestDTO, req.body.email);
 	userRespone(response ? response : { err: response }, res, 201);
 };
 
