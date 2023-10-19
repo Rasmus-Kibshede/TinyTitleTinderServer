@@ -1,18 +1,22 @@
 import { type Role } from './roleDTO';
 
 
-export type UserDTO = UserResponseDTO | UserRequestDTO;
+// export type UserDTO = UserResponseDTO | UserRequestDTO;
 
-interface UserResponseDTO {
+export interface UserResponseDTO {
 	email: string;
-	password: string;
 	userActive: boolean;
 	roles: Role[] | null;
 }
 
-interface UserRequestDTO {
+export interface UserRequestDTO {
 	email: string;
 	password: string;
 	roles: Role[] | null;
+}
+
+export interface userLogin {
+	email: string;
+	password: string;
 }
 

@@ -1,8 +1,12 @@
+import { userLogin } from '../DTO/userDTO';
 import { userRepo } from '../Repositories/userRepository';
+import { convertToDTO } from './userService';
 
-export const login = async (email: string, password: string) => {
+export const login = async (userLogin: userLogin) => {
 
-    const user = userRepo.findOneByEmailAndPassword(email, password);
+    const response = await userRepo.findOneByEmailAndPassword(userLogin.email, userLogin.password);
 
-    return user;
+    if (!response) throw new Error('User not found');
+
+    return convertToDTO(response);
 };

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { createUser, getUserByID, getAllUsers, updateUser, deleteUserByID } from '../Controllers/userController';
-import { validateParamsId } from './routeUtils';
-import { validateCredintials } from './routeUtils';
+import { validateParamsId } from '../Utils/routeUtil';
+import { validateCredintials } from '../Utils/routeUtil';
 
 const userRouter = Router();
 

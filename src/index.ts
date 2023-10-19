@@ -5,7 +5,7 @@ import express from 'express';
 import 'reflect-metadata';
 
 // import routes
-import userRouter from './routes/userRoute';
+import userRouter from './Routes/userRoute';
 
 // Initialize the express engine
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 
 //Typeorm setup
 import { appDataSource } from './Repositories/data-source';
-import authRouter from './routes/authRoute';
+import authRouter from './Routes/authRoute';
 appDataSource.initialize().then(() => {
 	// eslint-disable-next-line no-console
 	console.log('Database connection established');

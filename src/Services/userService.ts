@@ -1,26 +1,26 @@
 //import { createUser as newUser } from '../Repositorys/userRepository';
 import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
-import { UserDTO } from '../DTO/userDTO';
+import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
 
-export const createUser = async (userDTO: UserDTO) => {
+export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     const role = await getRoleById(3) as Role;
-    
-    if(!role){
-        return {err: 'Role not found'};
+
+    if (!role) {
+        return { err: 'Role not found' };
     }
 
-    userDTO.roles = [];
-    userDTO.roles.push(role);
-    
-    if (!userDTO.roles) {
+    UserRequestDTO.roles = [];
+    UserRequestDTO.roles.push(role);
+
+    if (!UserRequestDTO.roles) {
         //TODO: dev log
-        return { err: 'Something went wrong! - We have a team of highly trained monkeys working on it'};
+        return { err: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
     }
 
-    const save = await userRepo.save(userDTO);
+    const save = await userRepo.save(UserRequestDTO);
 
     if (!save) {
         return { err: 'User not saved' };
@@ -41,11 +41,11 @@ export const getUserByID = async (id: number) => {
 
 export const getUsers = async () => {
     const users = await userRepo.findAll();
-    const userDTOs: UserDTO[] = users.map(user => convertToDTO(user));
+    const userDTOs: UserResponseDTO[] = users.map(user => convertToDTO(user));
     return userDTOs;
 };
 
-export const updateUser = async (userDTO: UserDTO, id: number) => {
+export const updateUser = async (userDTO: UserRequestDTO, id: number) => {
     //Future Developer log
     if (!userDTO) {
         return { err: 'invalid userDTO' };
@@ -81,10 +81,9 @@ export const deleteUserByID = async (id: number) => {
 };
 
 
-const convertToDTO = (user: User) => {
-    const dto: UserDTO = {
+export const convertToDTO = (user: User) => {
+    const dto: UserResponseDTO = {
         email: user.email,
-        password: user.password,
         userActive: user.userActive,
         roles: user.roles,
     };
