@@ -3,30 +3,19 @@ import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
 import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
-import { Role } from '../Entities/Role';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
-    const role = await getRoleById(3) as Role;
+    try {
+        const role = await getRoleById(3);
+        UserRequestDTO.roles = [];
+        UserRequestDTO.roles.push(role);
 
-    if (!role) {
-        return { err: 'Role not found' };
+        const save = await userRepo.save(UserRequestDTO);
+
+        return convertToDTO(save);
+    } catch (err) {
+        return err.message === 'Role not found' ? { err: err.message } : { err: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
     }
-
-    UserRequestDTO.roles = [];
-    UserRequestDTO.roles.push(role);
-
-    if (!UserRequestDTO.roles) {
-        //TODO: dev log
-        return { err: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
-    }
-
-    const save = await userRepo.save(UserRequestDTO);
-
-    if (!save) {
-        return { err: 'User not saved' };
-    }
-
-    return convertToDTO(save);
 };
 
 export const getUserByID = async (id: number) => {
