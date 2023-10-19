@@ -5,7 +5,7 @@
   "type": "commonjs",
   "main": "./src/index.ts",
   "scripts": {
-    "start-dev": "nodemon --exec \"npm run lint && ts-node src/index.ts\"",
+    "dev": "nodemon src/index.ts --exec \"npm run lint && ts-node\"",
     "start": "npm i && node src/index.js",
     "build": "npx tsc",
     "lint": "eslint src/**/*.ts",
