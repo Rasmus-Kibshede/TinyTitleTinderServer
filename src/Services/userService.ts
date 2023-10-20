@@ -52,7 +52,7 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
     const savedUser = await userRepo.save(userDB);
     if (!savedUser) {
         return { err: 'User could not be saved' };
-    }
+    }   
 
     return savedUser;
 };

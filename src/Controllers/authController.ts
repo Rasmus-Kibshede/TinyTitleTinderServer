@@ -16,3 +16,8 @@ export const login = async (req: Request, res: Response) => {
         res.status(400).send(err.message);
     }
 };
+
+export const checkAuth = async (req: Request, res: Response) => {
+
+    res.send({ auth: req.body.tokenlogin });
+};

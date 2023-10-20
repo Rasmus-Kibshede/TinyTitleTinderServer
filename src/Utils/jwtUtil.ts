@@ -6,19 +6,17 @@ export const authorize = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization!.split(' ')[1];
 
     if (!token) {
-        return res.status(401).json({ auth: false, message: 'No token provided.' });
+        res.status(401).json({ auth: false, message: 'No token provided.' });
     } else {
 
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
 
-            console.log(decoded);
-
-            req.body.user = decoded;
+            req.body.tokenlogin = decoded;
 
             next();
         } catch (err) {
-            res.status(500).send({ err: `Invalid token: ${err}` });
+            res.status(500).send({ err: `Invalid token: ${err.message}` });
         }
 
     }
@@ -26,13 +24,13 @@ export const authorize = (req: Request, res: Response, next: NextFunction) => {
 
 export const authSignin = (user: UserResponseDTO, res: Response) => {
     try {
-        const bearerToken = jwt.sign({ id: user }, process.env.JWT_SECRET as string, {
+        const bearerToken = jwt.sign({ tokenlogin: user }, process.env.JWT_SECRET as string, {
             expiresIn: '1d',
         });
 
         res.header('Authorization', `Bearer ${bearerToken}`);
 
-        res.status(200).send({ user });
+        res.status(200).send(user);
     } catch (err) {
         res.status(500).send({ err: err });
     }
