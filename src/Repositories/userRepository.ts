@@ -5,7 +5,7 @@ import { appDataSource } from './data-source';
 
 export const userRepo = appDataSource.getRepository(User).extend({
     findOneByID(id: number) {
-         return userRepo.findOne({
+        return userRepo.findOne({
             relations: {
                 roles: true
             },
@@ -14,12 +14,33 @@ export const userRepo = appDataSource.getRepository(User).extend({
             },
         });
     },
+    findOneByEmail(email: string) {
+        return userRepo.findOne({
+            relations: {
+                roles: true
+            },
+            where: {
+                email: email
+            },
+        });
+    },
+    findOneByEmailAndPassword(email: string, password: string) {
+        return userRepo.findOne({
+            relations: {
+                roles: true
+            },
+            where: {
+                email: email,
+                password: password
+            },
+        });
+    },
     findAll() {
         return userRepo.find({
-           relations: {
-               roles: true
-           },
-       });
-   }
+            relations: {
+                roles: true
+            },
+        });
+    }
 });
 

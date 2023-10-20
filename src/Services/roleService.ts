@@ -6,5 +6,7 @@ export const getRoleById = async (id: number) => {
         roleId: id
     });
 
-    return response || { err: 'Role not found' };
+    if (!response) throw new Error('Role not found');
+
+    return response;
 };
