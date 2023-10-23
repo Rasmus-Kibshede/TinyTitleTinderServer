@@ -60,4 +60,4 @@ jobs:
           app-name: 'tinytitletinderserver'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E3285C21C9FE46F8ADBB2AB3EB599573 }}
-          package: .
+          package: ./build
