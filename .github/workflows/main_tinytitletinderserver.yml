@@ -35,13 +35,10 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: build
+          path: | 
+            build
+            package.json
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: node-app
-          path: package.json
 
   deploy:
     runs-on: ubuntu-latest
