@@ -35,9 +35,15 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: | 
-            build
+          path:
             package.json
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path:
+            build
 
 
   deploy:
