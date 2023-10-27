@@ -33,10 +33,13 @@ export const updateAddress = async (addressDTO: AddressRequestDTO) => {
     if(!addressDB){
         return { err: 'Address not found!' };
     }
-    
-    const response = await addressRepo.update(addressDB, addressDTO);
 
-    return convertToDTO(response);
+    const response = await addressRepo.update(addressDB, addressDTO);
+console.log(response);
+console.log(addressDTO);
+
+
+    return convertToDTO(addressDTO);
 };
 
 export const convertToDTO = (address: Address) => {
