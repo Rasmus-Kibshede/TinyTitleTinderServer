@@ -11,6 +11,6 @@ export const appDataSource = new DataSource({
     password: process.env.L_PASSWORD,
     port: Number(process.env.L_PORT),
     entities: [User, Role, Address],
-    synchronize: true,
+    synchronize: false,
     logging: false
 });
