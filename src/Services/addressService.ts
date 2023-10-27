@@ -29,10 +29,14 @@ export const updateAddress = async (addressDTO: AddressRequestDTO) => {
     if (!addressDTO) {
         return { err: 'Invalid address DTO!' };
     }
-    const response = await addressRepo.save(addressDTO);
+    const addressDB = await addressRepo.findOneById(addressDTO.addressId);
+    if(!addressDB){
+        return { err: 'Address not found!' };
+    }
+    
+    const response = await addressRepo.update(addressDB, addressDTO);
 
     return convertToDTO(response);
-
 };
 
 export const convertToDTO = (address: Address) => {
