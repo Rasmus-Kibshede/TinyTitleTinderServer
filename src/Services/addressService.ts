@@ -21,7 +21,7 @@ export const convertToDTO = (address: Address) => {
 };
 
 export const getAddresses = async () => {
-    const addresses = await addressRepo.find();
-    const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
+    const addresses = await addressRepo.find();    
+    const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));    
     return addressDTOs;
 };

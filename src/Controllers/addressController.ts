@@ -14,6 +14,6 @@ export const createAddress = async (req: Request, res: Response) => {
 };
 
 export const getAllAddresses = async (req: Request, res: Response) => {
-    const response = addressService.getAddresses();
+    const response = await addressService.getAddresses();
     res.send(response);
 };
