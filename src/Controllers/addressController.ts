@@ -1,9 +1,9 @@
-import { Request, Response, response } from 'express';
+import { Request, Response} from 'express';
 import * as addressService from '../Services/addressService';
-import { AddressRequestDTO } from '../DTO/addressDTO';
+import { AddressRequest2DTO, AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 
 export const createAddress = async (req: Request, res: Response) => {
-    const addressRequestDTO: AddressRequestDTO = {
+    const addressRequestDTO: AddressRequest2DTO = {
         city: req.body.city,
         zipcode: req.body.zipcode,
         address:req.body.address
@@ -31,5 +31,13 @@ export const updateAddress = async (req: Request, res: Response) => {
         address: req.body.address
     };
     const response = await addressService.updateAddress(addressRequestDTO);
-        if(!)
+    addressResponse(response ? response : { err: response }, res, 201);
+};
+
+const addressResponse = (response: AddressResponseDTO | { err: string }, res: Response, statusCode: number) => {
+	if (!response) {
+		res.status(404).send({ err: response });
+	} else {
+		res.status(statusCode).send(response);
+	}
 };
