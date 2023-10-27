@@ -6,7 +6,7 @@ export class Name {
     @PrimaryGeneratedColumn({ name: 'name_suggest_id' })
     nameSuggestId: number;
 
-    @Column('varchar', { length: 255, nullable: false, name: 'name_suggest_name' })
+    @Column('varchar', { length: 255, nullable: false, name: 'name_suggest_name', unique: true })
     nameSuggestName: string;
 
     @Column('varchar', { length: 255, nullable: false, name: 'gender' })
