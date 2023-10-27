@@ -42,6 +42,16 @@ export const updateName = async (nameDTO: NameRequestDTO, id: number) => {
     return savedName;
 };
 
+export const deleteNameByID = async (id: number) => {
+    const response = await nameRepo.findOneByID(id);
+
+    if(!response) {
+        return { err: 'Name not found' };
+    }
+
+    return convertToDTO(await nameRepo.remove(response)) || { err: 'Name not deleted' };
+};
+
 const convertToDTO = (name: Name) => {
     const dto: NameResponseDTO = {
         name: name.nameSuggestName,
