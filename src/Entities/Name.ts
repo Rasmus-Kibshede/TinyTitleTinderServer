@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Origin } from './Origin';
 
-@Entity()
+@Entity({ name: 'name_suggest' })
 export class Name {
 
     @PrimaryGeneratedColumn({ name: 'name_suggest_id' })
@@ -21,4 +22,17 @@ export class Name {
     @Column('varchar', { length: 255, nullable: true, name: 'namesakes' })
     namesakes: string | null;
 
+    @ManyToMany(() => Origin, (origin) => origin.names, { nullable: true })
+    @JoinTable({
+        name: 'name_suggest_origin',
+        joinColumn: {
+            name: 'fk_name_suggest_id',
+            referencedColumnName: 'nameSuggestId'
+        },
+        inverseJoinColumn: {
+            name: 'fk_origin_id',
+            referencedColumnName: 'originId'
+        }
+    })
+    origins: Origin[] | null;
 }

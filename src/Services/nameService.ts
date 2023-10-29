@@ -2,8 +2,9 @@ import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
 
+//TODO: Validation of unique name
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
-  const save = await nameRepo.save(nameRequestDTO);
+  const save = await nameRepo.save(nameRequestDTO) as Name;
   return convertToDTO(save);
 };
 
@@ -23,21 +24,20 @@ export const getNames = async () => {
   return nameDTOs;
 };
 
-
 // TODO: Fix any type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const updateName = async (nameDTO: NameRequestDTO, name: any) => {
+export const updateName = async (nameDTO: NameRequestDTO, name: string) => {
   if (!nameDTO) {
     return { err: 'invalid nameDTO' };
   }
 
-  const nameDB = (await nameRepo.findOneByName(name)) as Name;
+  const nameDB = await nameRepo.findOneByName(name) as Name;
 
   if (!nameDB) {
     return { err: 'Name not found' };
   }
 
-  nameDB.nameSuggestName = nameDTO.name;
+  nameDB.nameSuggestName = nameDTO.nameSuggestName;
 
   const savedName = await nameRepo.save(nameDB);
 
@@ -62,11 +62,9 @@ export const deleteNameByID = async (id: number) => {
 
 const convertToDTO = (name: Name) => {
   const dto: NameResponseDTO = {
-    name: name.nameSuggestName,
+    nameSuggestName: name.nameSuggestName,
     gender: name.gender,
-    popularity: name.popularity,
-    nameDays: name.nameDays,
-    namesakes: name.namesakes,
   };
+
   return dto;
 };
