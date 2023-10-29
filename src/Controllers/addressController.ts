@@ -29,8 +29,8 @@ export const updateAddress = async (req: Request, res: Response) => {
         city: req.body.city,
         zipcode: req.body.zipcode,
         address: req.body.address
-    };
-    const response = await addressService.updateAddress(addressRequestDTO);
+    };   
+    const response = await addressService.updateAddress(addressRequestDTO); 
     addressResponse(response ? response : { err: response }, res, 201);
 };
 
