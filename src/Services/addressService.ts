@@ -26,39 +26,20 @@ export const getAddressById = async (id: number) => {
 };
 
 export const updateAddress = async (addressDTO: AddressRequestDTO) => {
-    console.log('In UdpateAdress method');
-
     if (!addressDTO) {
         return { err: 'Invalid address DTO!' };
     }
-
-    /*const response = await addressRepo.update({}, {
-        addressId: addressDTO.addressId,
-        city: addressDTO.city,
-        zipcode: addressDTO.zipcode,
-        address: addressDTO.address
-    });*/
-    //const response = await addressRepo.save(addressDTO);
-   /* const response = await addressRepo.update({ addressId: addressDTO.addressId },
-        {
-            city: addressDTO.city,
-            zipcode: addressDTO.zipcode,
-            address: addressDTO.address
-        }).then(response => response.raw[0]);
-      */  
-    return convertToDTO(addressDTO);
+    const response = await addressRepo.save(addressDTO);
+        
+    return convertToDTO(response);
 };
 
 export const convertToDTO = (address: Address) => {
-    console.log(address);
-    
     const dto: AddressResponseDTO = {
         addressId: address.addressId,
         city: address.city,
         zipcode: address.zipcode,
         address: address.address
-    };
-    console.log(dto);
-    
+    };    
     return dto;
 };
