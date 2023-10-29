@@ -1,4 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+// import * as validator from 'class-validator';
 import { Origin } from './Origin';
 
 @Entity({ name: 'name_suggest' })
@@ -16,11 +17,11 @@ export class Name {
     @Column('int', { nullable: true, name: 'popularity' })
     popularity: number | null;
 
-    @Column('datetime', { nullable: true, name: 'name_days' })
-    nameDays: Date | null;
+    @Column('simple-array', { nullable: true, name: 'name_days' })
+    nameDays?: Date[] | null;
 
-    @Column('varchar', { length: 255, nullable: true, name: 'namesakes' })
-    namesakes: string | null;
+    @Column('simple-array', { nullable: true, name: 'namesakes'})
+    namesakes?: string[] | null;
 
     @ManyToMany(() => Origin, (origin) => origin.names, { nullable: true })
     @JoinTable({

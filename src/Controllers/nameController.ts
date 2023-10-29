@@ -7,10 +7,10 @@ export const createName = async (req: Request, res: Response) => {
   const nameRequestDTO: NameRequestDTO = {
     nameSuggestName: req.body.name,
     gender: req.body.gender,
-    namedays: req.body.namedays,
+    nameDays: req.body.namedays,
     namesakes: req.body.namesakes,
   };
-  
+
   const response = await nameService.createName(nameRequestDTO);
   nameResponse(response ? response : { err: response }, res, 201);
 };

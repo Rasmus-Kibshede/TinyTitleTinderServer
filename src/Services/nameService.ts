@@ -24,14 +24,12 @@ export const getNames = async () => {
   return nameDTOs;
 };
 
-// TODO: Fix any type
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const updateName = async (nameDTO: NameRequestDTO, name: string) => {
   if (!nameDTO) {
     return { err: 'invalid nameDTO' };
   }
 
-  const nameDB = await nameRepo.findOneByName(name) as Name;
+  const nameDB = (await nameRepo.findOneByName(name)) as Name;
 
   if (!nameDB) {
     return { err: 'Name not found' };
@@ -64,6 +62,8 @@ const convertToDTO = (name: Name) => {
   const dto: NameResponseDTO = {
     nameSuggestName: name.nameSuggestName,
     gender: name.gender,
+    nameDays: name.nameDays,
+    namesakes: name.namesakes,
   };
 
   return dto;
