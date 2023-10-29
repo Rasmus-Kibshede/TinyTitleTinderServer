@@ -30,7 +30,21 @@ export const updateAddress = async (addressDTO: AddressRequestDTO) => {
         return { err: 'Invalid address DTO!' };
     }
     const response = await addressRepo.save(addressDTO);
-        
+
+    return convertToDTO(response);
+};
+
+export const deleteAddress = async (addressId: number) => {
+    if (!addressId) {
+        return { err: 'Invalid address id!' };
+    }
+    const addressDB = await addressRepo.findOneById(addressId);
+
+    if (!addressDB) {
+        return { err: 'Invalid Address' };
+    }
+    const response = await addressRepo.remove(addressDB);
+
     return convertToDTO(response);
 };
 
@@ -40,6 +54,6 @@ export const convertToDTO = (address: Address) => {
         city: address.city,
         zipcode: address.zipcode,
         address: address.address
-    };    
+    };
     return dto;
 };
