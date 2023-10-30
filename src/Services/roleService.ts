@@ -9,8 +9,7 @@ export const createRole = async (roleRequestDTO: RoleTest) => {
         return convertToDTO(response);
 
     } catch (error) {
-        return error.message === 'Role was not saved' ? { error: error.message } :
-            { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
+        return error.message === 'Something went wrong, Role not saved!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
@@ -22,8 +21,7 @@ export const getRoleById = async (id: number) => {
 
         return convertToDTO(response);
     } catch (error) {
-        return error.message === 'Role not found' ? { error: error.message } :
-            { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
+        return error.message === 'Couldn\'t find any Role with that id!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
@@ -34,8 +32,7 @@ export const getRoles = async () => {
         return roleDTOs;
 
     } catch (error) {
-        return error.message === 'No Roles found' ? { error: error.message } :
-            { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
+        return error.message === 'Couldn\'t find any Roles!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
@@ -45,8 +42,7 @@ export const updateRole = async (roleDTO: RoleTest) => {
         return convertToDTO(response);
 
     } catch (error) {
-        return error.message === 'Role was not updated' ? { error: error.message } :
-            { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
+        return error.message === 'Couldn\'t find any Role to update!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
@@ -62,8 +58,7 @@ export const deleteRoleByID = async (roleId: number) => {
         return convertToDTO(deleted);
 
     } catch (error) {
-        return error.message === 'Role was not deleted' ? { error: error.message } :
-            { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
+        return error.message === 'Couldn\'t find any Role!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
