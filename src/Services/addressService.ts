@@ -19,7 +19,7 @@ export const getAddresses = async () => {
         return addressDTOs;
 
     } catch (error) {
-        return error.message === 'Couldent find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return error.message === 'Couldn\'t find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
@@ -32,7 +32,7 @@ export const getAddressById = async (id: number) => {
         return convertToDTO(response);
 
     } catch (error) {
-        return error.message === 'Couldent find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return error.message === 'Couldn\'t find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
@@ -45,7 +45,7 @@ export const updateAddress = async (addressDTO: AddressRequestDTO) => {
         return convertToDTO(response);
 
     } catch (error) {
-        return error.message === 'Couldent find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return error.message === 'Couldn\'t find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
@@ -63,7 +63,7 @@ export const deleteAddress = async (addressId: number) => {
         return convertToDTO(response);
 
     } catch (error) {
-        return error.message === 'Couldent find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return error.message === 'Couldn\'t find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
