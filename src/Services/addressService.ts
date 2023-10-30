@@ -6,47 +6,65 @@ export const createAddress = async (addressRequestDTO: AddressRequestDTO) => {
     try {
         const save = await addressRepo.save(addressRequestDTO);
         return convertToDTO(save);
-    } catch (err) {
-        return err.message === 'Something went wrong!' ? { err: err.message } : { err: 'Something went wrong!- we are working on it!' };
+        
+    } catch (error) {
+        return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
 export const getAddresses = async () => {
-    const addresses = await addressRepo.find();
-    const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
-    return addressDTOs;
+    try {
+        const addresses = await addressRepo.find();
+        const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
+        return addressDTOs;
+
+    } catch (error) {
+        return error.message === 'Couldent find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    }
 };
 
 export const getAddressById = async (id: number) => {
-    const response = await addressRepo.findOneById(id);
-    if (!response) {
-        return { err: 'Address not found!' };
+    try {
+        const response = await addressRepo.findOneByID(id);
+        if (!response) {
+            return { err: 'Invalid id' };
+        }
+        return convertToDTO(response);
+
+    } catch (error) {
+        return error.message === 'Couldent find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
-    return convertToDTO(response);
 };
 
 export const updateAddress = async (addressDTO: AddressRequestDTO) => {
-    if (!addressDTO) {
-        return { err: 'Invalid address DTO!' };
+    try {
+        if (!addressDTO) {
+            return { err: 'Invalid address DTO!' };
+        }
+        const response = await addressRepo.save(addressDTO);
+        return convertToDTO(response);
+
+    } catch (error) {
+        return error.message === 'Couldent find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
-
-    const response = await addressRepo.save(addressDTO);
-
-    return convertToDTO(response);
 };
 
 export const deleteAddress = async (addressId: number) => {
-    if (!addressId) {
-        return { err: 'Invalid address id!' };
-    }
-    const addressDB = await addressRepo.findOneById(addressId);
+    try {
+        if (!addressId) {
+            return { err: 'Invalid address id!' };
+        }
+        const addressDB = await addressRepo.findOneByID(addressId);
 
-    if (!addressDB) {
-        return { err: 'Invalid Address' };
-    }
-    const response = await addressRepo.remove(addressDB);
+        if (!addressDB) {
+            return { err: 'Invalid Address' };
+        }
+        const response = await addressRepo.remove(addressDB);
+        return convertToDTO(response);
 
-    return convertToDTO(response);
+    } catch (error) {
+        return error.message === 'Couldent find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    }
 };
 
 export const convertToDTO = (address: Address) => {
