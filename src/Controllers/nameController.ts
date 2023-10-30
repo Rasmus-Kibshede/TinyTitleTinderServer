@@ -12,7 +12,7 @@ export const createName = async (req: Request, res: Response) => {
   };
 
   const response = await nameService.createName(nameRequestDTO);
-  nameResponse(response ? response : { err: response }, res, 201);
+  res.send(response);
 };
 
 export const getNameByID = async (req: Request, res: Response) => {

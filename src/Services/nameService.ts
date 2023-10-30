@@ -4,8 +4,19 @@ import { nameRepo } from '../Repositories/nameRepository';
 
 //TODO: Validation of unique name
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
-  const save = await nameRepo.save(nameRequestDTO) as Name;
-  return convertToDTO(save);
+    try {
+      const save = await nameRepo.save(nameRequestDTO) as Name;
+
+      return convertToDTO(save);
+    } catch(error: unknown) {
+      if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
+        const response = { err: 'Duplicate entry of name' };
+        return { status: 400, response };
+    } else {
+        const response = { err: 'Name not saved' };
+        return { status: 400, response };
+    }
+  }
 };
 
 export const getNameByID = async (id: number) => {
