@@ -3,10 +3,11 @@ import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
 import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
+import { Role } from '../Entities/Role';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
-        const role = await getRoleById(3);
+        const role = await getRoleById(3) as Role;
         UserRequestDTO.roles = [];
         UserRequestDTO.roles.push(role);
 
