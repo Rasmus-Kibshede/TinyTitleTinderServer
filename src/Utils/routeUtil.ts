@@ -1,9 +1,6 @@
 // Middleware
 import { NextFunction, Request, Response } from 'express';
 import validator from 'validator';
-import { NameRequestDTO } from '../DTO/nameDTO';
-import { nameRepo } from '../Repositories/nameRepository';
-
 // Middleware
 export const validateParamsId = (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
@@ -47,30 +44,3 @@ export const validateDate = (req: Request, res: Response, next: NextFunction) =>
         res.status(400).send({ err: 'Invalid date' });
     }
 };
-
-// TODO: Validation of unique name. In it's current state hangs in loading time when called in route. FIX or remove and implement generic unique validation
-export const validateNameIsUniqueMiddleware = () => {
-    return async (req: Request, res: Response, next: NextFunction) => {
-      const newName = req.body.newName;
-      const nameRequestDTO: NameRequestDTO = {
-        nameSuggestName: req.body.name,
-        gender: req.body.gender,
-      };
-  
-      const name = await nameRepo.findOneByName(nameRequestDTO.nameSuggestName);
-  
-      if (!name) {
-        res.status(400).send({ err: 'Name not found' });
-      }
-  
-      name!.nameSuggestName = nameRequestDTO.nameSuggestName;
-  
-      const nameValidation = await nameRepo.findOne({ where: { nameSuggestName: newName } });
-  
-      if (nameValidation) {
-        res.status(400).send({ err: 'Name already exists' });
-      } else {
-        next();
-      }
-    };
-  };
