@@ -11,7 +11,7 @@ export interface RoleRequestDTO {
 	users: User[];
 }
 
-export interface RoleTest {
+export interface RoleTitle {
 	title: string;
 }
 

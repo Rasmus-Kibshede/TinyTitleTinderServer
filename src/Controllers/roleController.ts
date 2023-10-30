@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import * as roleService from '../Services/roleService';
-import { RoleRequestDTO, RoleTest, RoleResponseDTO } from '../DTO/roleDTO';
+import { RoleRequestDTO, RoleTitle, RoleResponseDTO } from '../DTO/roleDTO';
 
 export const createRole = async (req: Request, res: Response) => {
-	const roleRequestDTO: RoleTest = {
+	const roleRequestDTO: RoleTitle = {
         title: req.body.title
     };
 	const response = await roleService.createRole(roleRequestDTO);

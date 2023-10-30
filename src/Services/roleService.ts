@@ -1,9 +1,9 @@
 import { roleRepo } from '../Repositories/roleRepository';
 import { Role } from '../Entities/Role';
-import { RoleRequestDTO, RoleResponseDTO, RoleTest } from '../DTO/roleDTO';
+import { RoleRequestDTO, RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
 
 
-export const createRole = async (roleRequestDTO: RoleTest) => {
+export const createRole = async (roleRequestDTO: RoleTitle) => {
     try {
         const response = await roleRepo.save(roleRequestDTO);
         return convertToDTO(response);
@@ -36,7 +36,7 @@ export const getRoles = async () => {
     }
 };
 
-export const updateRole = async (roleDTO: RoleTest) => {
+export const updateRole = async (roleDTO: RoleTitle) => {
     try {        
         const response = await roleRepo.save(roleDTO);
         return convertToDTO(response);
