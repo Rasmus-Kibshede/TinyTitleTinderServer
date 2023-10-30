@@ -1,9 +1,9 @@
 import { roleRepo } from '../Repositories/roleRepository';
 import { Role } from '../Entities/Role';
-import { RoleRequestDTO, RoleResponseDTO } from '../DTO/roleDTO';
+import { RoleRequestDTO, RoleResponseDTO, RoleTest } from '../DTO/roleDTO';
 
 
-export const createRole = async (roleRequestDTO: RoleRequestDTO) => {
+export const createRole = async (roleRequestDTO: RoleTest) => {
     try {
         const save = await roleRepo.save(roleRequestDTO);
         return convertToDTO(save);
@@ -21,9 +21,9 @@ try {
 
     if (!response) throw new Error('Role not found');
 
-    return response;
+    return convertToDTO(response);
 } catch (error) {
-    return error.message === 'Role was not saved' ? { error: error.message } : 
+    return error.message === 'Role not found' ? { error: error.message } : 
     { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
 }   
 };
@@ -34,28 +34,34 @@ export const getRoles = async () => {
         const roleDTOs: RoleRequestDTO[] = roles.map(role => convertToDTO(role));
         return roleDTOs;
     } catch (error) {
-        return error.message === 'Role was not saved' ? { error: error.message } : 
+        return error.message === 'No Roles found' ? { error: error.message } : 
         { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
     }
     
 };
 
-export const updateRole = async (roleDTO: RoleRequestDTO) => {
+export const updateRole = async (roleDTO: RoleTest) => {
     try {
         const update = await roleRepo.save(roleDTO);
         return convertToDTO(update);
     } catch (error) {
-        return error.message === 'Role was not saved' ? { error: error.message } : 
+        return error.message === 'Role was not updated' ? { error: error.message } : 
         { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
     }  
 };
 
-export const deleteRoleByID = async (roleDTO: RoleRequestDTO) => {
+export const deleteRoleByID = async (roleId: number) => {
     try {
-        const deleted = await roleRepo.remove(roleDTO);
+        const response = await roleRepo.findOneById(roleId);
+
+        if (!response) {
+            return { err: 'Role not found' };
+        }
+
+        const deleted = await roleRepo.remove(response);
         return convertToDTO(deleted);
     } catch (error) {
-        return error.message === 'Role was not saved' ? { error: error.message } : 
+        return error.message === 'Role was not deleted' ? { error: error.message } : 
         { error: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
     }  
 };

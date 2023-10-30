@@ -1,17 +1,17 @@
 import { Request, Response } from 'express';
 import * as roleService from '../Services/roleService';
-import { RoleRequestDTO, RoleResponseDTO } from '../DTO/roleDTO';
+import { RoleResponseDTO, RoleTest } from '../DTO/roleDTO';
 
 export const createRole = async (req: Request, res: Response) => {
-	const roleRequestDTO: RoleRequestDTO = {
-		
-	};
+	const roleRequestDTO: RoleTest = {
+        title: req.body.title
+    };
 	const response = await roleService.createRole(roleRequestDTO);
 	res.send(response);
 };
 
 export const getRoleByID = async (req: Request, res: Response) => {
-	const response = await roleService.getRoleByID(Number(req.params.id));
+	const response = await roleService.getRoleById(Number(req.params.id));
 
 	roleResponse(response ? response : { err: response }, res, 200);
 };
@@ -23,11 +23,12 @@ export const getAllRoles = async (req: Request, res: Response) => {
 
 export const updateRole = async (req: Request, res: Response) => {
 
-	const roleRequestDTO: RoleRequestDTO = {
-		
+	const roleRequestDTO: RoleTest = {
+		title: req.body.title
 	};
 
-	const response = await roleService.updateRole(roleRequestDTO, req.body.email);
+	const response = await roleService.updateRole(roleRequestDTO);
+    
 	roleResponse(response ? response : { err: response }, res, 201);
 };
 
