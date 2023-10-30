@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // Middleware
 import { NextFunction, Request, Response } from 'express';
 import validator from 'validator';
+import { NameRequestDTO } from '../DTO/nameDTO';
+import { nameRepo } from '../Repositories/nameRepository';
 
 // Middleware
 export const validateParamsId = (req: Request, res: Response, next: NextFunction) => {
@@ -38,56 +38,39 @@ export const validateNewMail = (req: Request, res: Response, next: NextFunction)
     }
 };
 
-// // Validator to check uniqueness of generic type
-// import { EntityTarget, FindOneOptions, ObjectLiteral } from 'typeorm';
-// import { appDataSource } from '../Repositories/data-source';
+export const validateDate = (req: Request, res: Response, next: NextFunction) => {
+    const nameDays = req.body.namedays;
 
-// async function checkUniqueness<T extends ObjectLiteral>(entity: EntityTarget<T>, column: string, value: any): Promise<void> {
-//   const repository = appDataSource.getRepository(entity);
-//   const existingRecord = await repository.findOne({
-//     where: {
-//       [column]: value,
-//     },
-//   } as FindOneOptions<T>);
+    if (Array.isArray(nameDays) && nameDays.every(date => validator.isDate(date, { format: 'DD-MM-YYYY' })) || validator.isDate(nameDays, { format: 'DD-MM-YYYY' })){
+        next();
+    } else {
+        res.status(400).send({ err: 'Invalid date' });
+    }
+};
 
-//   if (existingRecord) {
-//     throw new Error(`The value '${value}' for '${column}' is not unique.`);
-//   }
-// }
-
-// export const validateUniqueness = (entity: EntityTarget<any>, column: string) => {
-//   return async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       await checkUniqueness(entity, column, req.body[column]);
-//       next();
-//     } catch (error) {
-//       if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
-//         res.status(400).json({ error: 'Duplicate entry' });
-//       } else {
-//         res.status(400).json({ error: error.message });
-//       }
-//     }
-//   };
-// };
-
-// eslint-disable-next-line no-unused-vars
-// import { EntityTarget, FindOptionsWhere, ObjectLiteral, Repository  } from 'typeorm';
-
-// export async function saveAndHandleDuplication<T extends ObjectLiteral>(
-//   entityRepository: Repository<T>,
-//   entityData: T,
-//   errorMessage: string
-// ): Promise<T | { err: string }> {
-//   try {
-//     const savedEntity = await entityRepository.save(entityData);
-//     return savedEntity;
-//   } catch (error) {
-//     if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
-//       return { err: errorMessage };
-//     } else {
-//       return { err: 'Name not saved' };
-//     }
-//   }
-// }
-
-// CHECK https://medium.com/@josiahoyahaya/custom-dynamic-validators-with-typeorm-and-nestjs-2f38b0bc0919 TOMORROW
+// TODO: Validation of unique name. In it's current state hangs in loading time when called in route. FIX or remove and implement generic unique validation
+export const validateNameIsUniqueMiddleware = () => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      const newName = req.body.newName;
+      const nameRequestDTO: NameRequestDTO = {
+        nameSuggestName: req.body.name,
+        gender: req.body.gender,
+      };
+  
+      const name = await nameRepo.findOneByName(nameRequestDTO.nameSuggestName);
+  
+      if (!name) {
+        res.status(400).send({ err: 'Name not found' });
+      }
+  
+      name!.nameSuggestName = nameRequestDTO.nameSuggestName;
+  
+      const nameValidation = await nameRepo.findOne({ where: { nameSuggestName: newName } });
+  
+      if (nameValidation) {
+        res.status(400).send({ err: 'Name already exists' });
+      } else {
+        next();
+      }
+    };
+  };

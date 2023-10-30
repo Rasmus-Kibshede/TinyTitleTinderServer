@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import * as nameService from '../Services/nameService';
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 
-//TODO: Validation of unique name
 export const createName = async (req: Request, res: Response) => {
   const nameRequestDTO: NameRequestDTO = {
     nameSuggestName: req.body.name,
@@ -29,7 +28,7 @@ export const getAllNames = async (req: Request, res: Response) => {
 
 export const updateName = async (req: Request, res: Response) => {
   const nameRequestDTO: NameRequestDTO = {
-    nameSuggestName: req.body.name,
+    nameSuggestName: req.body.newName,
     gender: req.body.gender,
   };
 
@@ -43,11 +42,7 @@ export const deleteNameByID = async (req: Request, res: Response) => {
   nameResponse(response ? response : { err: response }, res, 200);
 };
 
-const nameResponse = (
-  response: NameResponseDTO | { err: string },
-  res: Response,
-  statusCode: number
-) => {
+const nameResponse = (response: NameResponseDTO | { err: string }, res: Response, statusCode: number) => {
   if (!response) {
     res.status(404).send({ err: response });
   } else {

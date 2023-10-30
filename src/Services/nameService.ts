@@ -2,71 +2,106 @@ import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
 
-//TODO: Validation of unique name
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
     try {
+      if (!nameRequestDTO) {
+        return { err: 'Invalid nameDTO' };
+      }
+
       const save = await nameRepo.save(nameRequestDTO) as Name;
 
       return convertToDTO(save);
     } catch(error: unknown) {
+      // Temporary solution before implementing generic validation on unique constraints
       if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
-        const response = { err: 'Duplicate entry of name' };
-        return { status: 400, response };
+        return { status: 409, error: 'Name already exists' };
     } else {
-        const response = { err: 'Name not saved' };
-        return { status: 400, response };
+        return { status: 400, error: 'Name not saved' };
     }
   }
 };
 
 export const getNameByID = async (id: number) => {
-  const response = await nameRepo.findOneByID(id);
+  try {
+    if (!id) {
+      return { err: 'Invalid ID' };
+    }
+    const response = await nameRepo.findOneByID(id);
 
-  if (!response) {
-    return { err: 'Name not found' };
+    if (!response) {
+      return { err: 'Invalid ID' };
+    }
+    
+    return convertToDTO(response);
+
+  } catch (error) {
+    return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
   }
-
-  return convertToDTO(response);
 };
 
 export const getNames = async () => {
-  const names = await nameRepo.findAll();
-  const nameDTOs: NameResponseDTO[] = names.map((name) => convertToDTO(name));
-  return nameDTOs;
+  try {
+    const names = await nameRepo.findAll();
+    const nameDTOs: NameResponseDTO[] = names.map((name) => convertToDTO(name));
+    return nameDTOs;
+
+  } catch (error) {
+      return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+  }
+
 };
 
-export const updateName = async (nameDTO: NameRequestDTO, name: string) => {
-  if (!nameDTO) {
-    return { err: 'invalid nameDTO' };
+export const updateName = async (nameRequestDTO: NameRequestDTO, name: string) => {
+  try {
+    if (!nameRequestDTO) {
+      return { err: 'Invalid nameDTO' };
+    }
+  
+    const response = await nameRepo.findOneByName(name);
+  
+    if (!response) {
+      return { err: 'Name not found' };
+    }
+  
+    response.nameSuggestName = nameRequestDTO.nameSuggestName;
+  
+    // Temporary solution before implementing generic validation on unique constraints
+    const nameValidation = await nameRepo.findOne({ where: { nameSuggestName: nameRequestDTO.nameSuggestName } });
+    if (nameValidation) {
+      return { err: 'Name already exists' };
+    }
+  
+    const savedName = await nameRepo.save(response);
+  
+    if (!savedName) {
+      return { err: 'Name could not be saved' };
+    }
+  
+    return nameRequestDTO;
+  } catch (error) {
+    return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
   }
-
-  const nameDB = (await nameRepo.findOneByName(name)) as Name;
-
-  if (!nameDB) {
-    return { err: 'Name not found' };
-  }
-
-  nameDB.nameSuggestName = nameDTO.nameSuggestName;
-
-  const savedName = await nameRepo.save(nameDB);
-
-  if (!savedName) {
-    return { err: 'Name could not be saved' };
-  }
-
-  return savedName;
+  
 };
 
 export const deleteNameByID = async (id: number) => {
-  const response = await nameRepo.findOneByID(id);
+  try {
+    if (!id) {
+      return { err: 'Invalid ID' };
+    }
 
-  if (!response) {
-    return { err: 'Name not found' };
+    const response = await nameRepo.findOneByID(id);
+
+    if (!response) {
+      return { err: 'Name not found' };
+    }
+
+    return (
+      convertToDTO(await nameRepo.remove(response)) || { err: 'Name not deleted' }
+    );
+  } catch (error) {
+    return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
   }
-
-  return (
-    convertToDTO(await nameRepo.remove(response)) || { err: 'Name not deleted' }
-  );
 };
 
 const convertToDTO = (name: Name) => {
