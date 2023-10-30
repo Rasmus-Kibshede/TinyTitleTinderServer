@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import * as addressService from '../Services/addressService';
-import { AddressRequest2DTO, AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
+import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 
 export const createAddress = async (req: Request, res: Response) => {
-    const addressRequestDTO: AddressRequest2DTO = {
+    const addressRequestDTO: AddressRequestDTO = {
         city: req.body.city,
         zipcode: req.body.zipcode,
         address: req.body.address

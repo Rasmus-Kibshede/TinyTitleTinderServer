@@ -1,8 +1,8 @@
 import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
-import { AddressRequest2DTO, AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
+import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 
-export const createAddress = async (addressRequestDTO: AddressRequest2DTO) => {
+export const createAddress = async (addressRequestDTO: AddressRequestDTO) => {
     try {
         const save = await addressRepo.save(addressRequestDTO);
         return convertToDTO(save);
@@ -29,6 +29,7 @@ export const updateAddress = async (addressDTO: AddressRequestDTO) => {
     if (!addressDTO) {
         return { err: 'Invalid address DTO!' };
     }
+
     const response = await addressRepo.save(addressDTO);
 
     return convertToDTO(response);
