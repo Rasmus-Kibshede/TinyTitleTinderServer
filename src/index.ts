@@ -5,7 +5,8 @@ import express from 'express';
 import 'reflect-metadata';
 
 // import routes
-import userRouter from './routes/userRoute';
+import userRouter from './Routes/userRoute';
+import addressRoute from './Routes/addressRoute';
 import roleRouter from './routes/roleRoute';
 
 // Initialize the express engine
@@ -14,7 +15,7 @@ app.use(express.json());
 
 //Typeorm setup
 import { appDataSource } from './Repositories/data-source';
-import authRouter from './routes/authRoute';
+import authRouter from './Routes/authRoute';
 appDataSource.initialize().then(() => {
 	// eslint-disable-next-line no-console
 	console.log('Database connection established');
@@ -22,6 +23,7 @@ appDataSource.initialize().then(() => {
 	// Routes
 	app.use(userRouter);
 	app.use(authRouter);
+	app.use(addressRoute);
 	app.use(roleRouter);
 
 	// Take a port 8080 for running server.
