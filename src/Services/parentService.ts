@@ -14,7 +14,6 @@ export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
 
 export const getParents = async () => {
     try {
-       
         const parents = await parentRepo.findAll();
         const parentDTOs: ParentRequestDTO[] = parents.map(parent => convertToDTO(parent));
         return parentDTOs;
@@ -33,11 +32,10 @@ export const getParentById = async (id: number) => {
         if (!response) {
             return { err: 'Invalid id' };
         }
+
         return convertToDTO(response);
 
     } catch (error) {
-        console.log(error);
-        
         return error.message === 'Couldn\'t find a parent with that id!' ? { err: error.message } : { err: 'Something terrible went wrong!- we are working on it!' };
     }
 };
@@ -57,9 +55,6 @@ export const updateParent = async (parentDTO: ParentRequestDTO) => {
 
 export const deleteParent = async (parentId: number) => {
     try {
-        if (!parentId) {
-            return { err: 'Invalid parent id!' };
-        }
         const parentDB = await parentRepo.findOneByID(parentId);
 
         if (!parentDB) {
