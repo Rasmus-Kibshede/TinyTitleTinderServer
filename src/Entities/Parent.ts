@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
 import { User } from './User';
 import { Name } from './Name';
 
@@ -20,18 +20,20 @@ export class Parent {
     lastName: string; 
 
     @OneToOne(() => User)
+    @JoinColumn()
     user: User;
 
     @ManyToMany(() => Name, (name) => name.parents, { nullable: true })
+    @JoinColumn()
   @JoinTable({
-    name: 'name_suggest_parent',
+    name: 'parent_name_suggest',
     joinColumn: {
-      name: 'fk_name_suggest_id',
-      referencedColumnName: 'nameSuggestId',
-    },
-    inverseJoinColumn: {
       name: 'fk_parent_id',
       referencedColumnName: 'parentId',
+    },
+    inverseJoinColumn: {
+      name: 'fk_name_suggest_id',
+      referencedColumnName: 'nameSuggestId',
     },
   })
   names: Name[] | null;

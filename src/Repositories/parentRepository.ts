@@ -6,13 +6,18 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
         return parentRepo.findOne({
             where: {
                 parentId: id
+            },
+            relations: {
+                user: true,
+                names: true
             }
         });
     },
     findAll() {
         return parentRepo.find({
             relations: {
-                user: true
+                user: true,
+                names: true
             },
         });
     }

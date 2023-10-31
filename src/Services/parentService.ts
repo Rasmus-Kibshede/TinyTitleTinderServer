@@ -14,8 +14,8 @@ export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
 
 export const getParents = async () => {
     try {
-        //TODO FindAll extension --> relation true
-        const parents = await parentRepo.find();
+       
+        const parents = await parentRepo.findAll();
         const parentDTOs: ParentRequestDTO[] = parents.map(parent => convertToDTO(parent));
         return parentDTOs;
 
@@ -26,15 +26,19 @@ export const getParents = async () => {
 
 export const getParentById = async (id: number) => {
     try {
-        //TODO findOneByID extension --> relation true
+         //TODO get user with role from userRepo
+        //TODO get names with origins and meaning from nameRepo. 
         const response = await parentRepo.findOneByID(id);
+        
         if (!response) {
             return { err: 'Invalid id' };
         }
         return convertToDTO(response);
 
     } catch (error) {
-        return error.message === 'Couldn\'t find a parent with that id!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        console.log(error);
+        
+        return error.message === 'Couldn\'t find a parent with that id!' ? { err: error.message } : { err: 'Something terrible went wrong!- we are working on it!' };
     }
 };
 
@@ -76,7 +80,8 @@ export const convertToDTO = (parent: Parent) => {
         gender: parent.gender,
         firstName: parent.firstName,
         lastName: parent.lastName,
-        user: parent.user
+        user: parent.user,
+        names: parent.names
     };
     return dto;
 };

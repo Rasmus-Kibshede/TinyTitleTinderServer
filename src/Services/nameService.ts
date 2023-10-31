@@ -91,6 +91,7 @@ const convertToDTO = (name: Name) => {
     gender: name.gender,
     nameDays: name.nameDays,
     namesakes: name.namesakes,
+    origins: name.origins
   };
 
   return dto;

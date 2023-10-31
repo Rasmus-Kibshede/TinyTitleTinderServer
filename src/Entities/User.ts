@@ -1,6 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './Role';
-import { Parent } from './Parent';
 
 @Entity()
 export class User {
@@ -37,6 +36,4 @@ export class User {
     })
     roles: Role[] | null;
 
-    @OneToOne(() => Parent)
-    parent: Parent;
 }
