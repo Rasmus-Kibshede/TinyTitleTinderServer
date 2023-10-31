@@ -30,12 +30,4 @@ export class Parent {
     //@ManyToMany()
     //invite: Invite[];
 */
-    
 }
-
-/*
-	userId: number;
-	locationId: number;
-	inviteId: number;
-	user: User;
-*/

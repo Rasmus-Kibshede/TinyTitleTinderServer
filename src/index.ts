@@ -7,7 +7,8 @@ import 'reflect-metadata';
 // import routes
 import userRouter from './Routes/userRoute';
 import addressRoute from './Routes/addressRoute';
-import roleRouter from './routes/roleRoute';
+import roleRouter from './Routes/roleRoute';
+import parentRouter from './Routes/parentRoute'
 
 // Initialize the express engine
 const app = express();
@@ -25,6 +26,7 @@ appDataSource.initialize().then(() => {
 	app.use(authRouter);
 	app.use(addressRoute);
 	app.use(roleRouter);
+	app.use(parentRouter);
 
 	// Take a port 8080 for running server.
 	const PORT = process.env.PORT || 3000;
