@@ -11,7 +11,7 @@ export const createName = async (req: Request, res: Response) => {
   };
 
   const response = await nameService.createName(nameRequestDTO);
-  res.send(response);
+  nameResponse(response ? response : { err: response }, res, 200);
 };
 
 export const getNameByID = async (req: Request, res: Response) => {
