@@ -9,13 +9,6 @@ export const nameRepo = appDataSource.getRepository(Name).extend({
       },
     });
   },
-  findOneByName(name: string) {
-    return nameRepo.findOne({
-      where: {
-        nameSuggestName: name,
-      },
-    });
-  },
   findAll() {
     return nameRepo.find();
   },
