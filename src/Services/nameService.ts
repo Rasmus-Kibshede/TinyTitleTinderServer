@@ -26,6 +26,7 @@ export const getNameByID = async (id: number) => {
     if (!id) {
       return { err: 'Invalid ID' };
     }
+    
     const response = await nameRepo.findOneByID(id);
 
     if (!response) {
@@ -82,9 +83,7 @@ export const deleteNameByID = async (id: number) => {
     }
 
     return (
-      convertToDTO(await nameRepo.remove(response)) || {
-        err: 'Name not deleted',
-      }
+      convertToDTO(await nameRepo.remove(response)) || {err: 'Name not deleted',}
     );
   } catch (error) {
     return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
@@ -97,6 +96,7 @@ const convertToDTO = (name: Name) => {
     gender: name.gender,
     nameDays: name.nameDays,
     namesakes: name.namesakes,
+    origins: name.origins,
   };
 
   return dto;

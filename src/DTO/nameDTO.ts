@@ -6,7 +6,7 @@ export interface NameResponseDTO {
   gender: string;
   nameDays: string;
   namesakes: string;
-  origins: Origin[];
+  origins: Origin[] | null;
 }
 
 export interface NameRequestDTO {
@@ -15,5 +15,5 @@ export interface NameRequestDTO {
   gender: string;
   nameDays: string;
   namesakes: string;
-  origins: Origin[];
+  origins: Origin[] | null;
 }
