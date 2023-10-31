@@ -5,8 +5,10 @@ import express from 'express';
 import 'reflect-metadata';
 
 // import routes
-import userRouter from './Routes/userRoute';
-import addressRoute from './Routes/addressRoute';
+import userRouter from './routes/userRoute';
+import addressRoute from './routes/addressRoute';
+import nameRouter from './routes/nameRoute';
+import authRouter from './routes/authRoute';
 import roleRouter from './routes/roleRoute';
 
 // Initialize the express engine
@@ -15,7 +17,6 @@ app.use(express.json());
 
 //Typeorm setup
 import { appDataSource } from './Repositories/data-source';
-import authRouter from './Routes/authRoute';
 appDataSource.initialize().then(() => {
 	// eslint-disable-next-line no-console
 	console.log('Database connection established');
@@ -23,6 +24,7 @@ appDataSource.initialize().then(() => {
 	// Routes
 	app.use(userRouter);
 	app.use(authRouter);
+	app.use(nameRouter);
 	app.use(addressRoute);
 	app.use(roleRouter);
 
