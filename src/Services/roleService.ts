@@ -16,11 +16,9 @@ export const createRole = async (roleRequestDTO: RoleTitle) => {
 export const getRoleById = async (id: number) => {
     try {
         const response = await roleRepo.findOneByID(id);
+        return convertToDTO(response!);
 
-        if (!response) throw new Error('Role not found');
-
-        return convertToDTO(response);
-    } catch (error) {
+    } catch (error) {    
         return error.message === 'Couldn\'t find any Role with that id!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };

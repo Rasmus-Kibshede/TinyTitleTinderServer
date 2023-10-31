@@ -4,7 +4,7 @@ import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 
 export const createName = async (req: Request, res: Response) => {
   const nameRequestDTO: NameRequestDTO = {
-    nameSuggestName: req.body.name,
+    nameSuggestName: req.body.nameSuggestName,
     gender: req.body.gender,
     nameDays: req.body.nameDays,
     namesakes: req.body.namesakes
@@ -33,7 +33,7 @@ export const getAllNames = async (req: Request, res: Response) => {
 // TODO: Rafactor to update name by id
 export const updateName = async (req: Request, res: Response) => {
   const nameRequestDTO: NameRequestDTO = {
-    nameSuggestId: Number(req.body.id),
+    nameSuggestId: req.body.nameId,
     nameSuggestName: req.body.nameSuggestName,
     gender: req.body.gender,
     nameDays: req.body.nameDays,

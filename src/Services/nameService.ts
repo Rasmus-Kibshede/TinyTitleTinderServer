@@ -3,7 +3,7 @@ import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
-  try {
+  try {  
     if (!nameRequestDTO) {
       return { err: 'Invalid nameDTO' };
     }
@@ -18,6 +18,8 @@ export const createName = async (nameRequestDTO: NameRequestDTO) => {
     } else {
       return { status: 400, error: 'Name not saved' };
     }*/
+    console.log(error);
+      
     return error.message === 'Couldn\'t find any name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
   }
 };
@@ -49,20 +51,16 @@ export const getNames = async () => {
 
 export const updateName = async (nameRequestDTO: NameRequestDTO) => {
   try {
-    if (!nameRequestDTO) {
-      return { err: 'Invalid nameDTO' };
-    }
-
     const response = await nameRepo.save(nameRequestDTO);
-
     return convertToDTO(response);
+
   } catch (error) {
     // Temporary solution before implementing generic validation on unique constraints
     /*if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
       return { status: 409, error: 'Name already exists' };
     } else {
       return { status: 400, error };
-    }*/
+    }*/  
     return error.message === 'Couldn\'t find any parents!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
   }
 };
@@ -87,6 +85,7 @@ export const deleteNameByID = async (id: number) => {
 
 const convertToDTO = (name: Name) => {
   const dto: NameResponseDTO = {
+    nameSuggestId: name.nameSuggestId,
     nameSuggestName: name.nameSuggestName,
     gender: name.gender,
     nameDays: name.nameDays,
