@@ -7,6 +7,7 @@ import 'reflect-metadata';
 // import routes
 import userRouter from './Routes/userRoute';
 import addressRoute from './Routes/addressRoute';
+import roleRouter from './routes/roleRoute';
 import locationRoute from './Routes/locationRoute';
 
 // Initialize the express engine
@@ -24,6 +25,7 @@ appDataSource.initialize().then(() => {
 	app.use(userRouter);
 	app.use(authRouter);
 	app.use(addressRoute);
+	app.use(roleRouter);
 	app.use(locationRoute);
 
 

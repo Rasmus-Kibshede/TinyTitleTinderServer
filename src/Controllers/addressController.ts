@@ -11,17 +11,22 @@ export const createAddress = async (req: Request, res: Response) => {
     };
 
     const response = await addressService.createAddress(addressRequestDTO);
-    res.send(response);
+    addressResponse(response ? response : { err: response }, res, 201);
 };
 
 export const getAllAddresses = async (req: Request, res: Response) => {
     const response = await addressService.getAddresses();
-    res.send(response);
+    
+    if (!response) {
+        res.status(404).send({ err: response });
+    } else {
+        res.status(200).send(response);
+    }
 };
 
 export const getAddressById = async (req: Request, res: Response) => {
     const response = await addressService.getAddressById(Number(req.params.id));
-    res.send(response);
+    addressResponse(response ? response : { err: response }, res, 201);
 };
 
 export const updateAddress = async (req: Request, res: Response) => {
