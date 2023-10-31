@@ -68,11 +68,13 @@ export const deleteAddress = async (addressId: number) => {
 };
 
 export const convertToDTO = (address: Address) => {
+    console.log(address);
     const dto: AddressResponseDTO = {
         addressId: address.addressId,
         city: address.city,
         zipcode: address.zipcode,
-        address: address.address
+        address: address.address,
+        location: address.location
     };
     return dto;
 };

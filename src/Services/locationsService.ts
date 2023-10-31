@@ -1,6 +1,5 @@
 import { locationRepo } from '../Repositories/locationRepository';
 import { Location } from '../Entities/Location';
-import { Address } from '../Entities/Address'; 
 import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
 
 export const createLocation = async (locationRequestDTO: LocationRequestDTO) => {
@@ -16,7 +15,7 @@ export const createLocation = async (locationRequestDTO: LocationRequestDTO) => 
 export const getLocations = async () => {
     try {
         const locations = await locationRepo.find();
-        const locationDTOs: LocationResponseDTO[] = locations.map(location => convertToDTO(location, Address));
+        const locationDTOs: LocationResponseDTO[] = locations.map(location => convertToDTO(location));
         return locationDTOs;
 
     } catch (error) {
@@ -68,11 +67,12 @@ export const deleteLocation = async (locationId: number) => {
     }
 };
 
-export const convertToDTO = (location: Location, address: Address) => {
+export const convertToDTO = (location: Location) => {
+    console.log(location);
     const dto: LocationResponseDTO = {
         locationId: location.locationId,
         country: location.country,
-        addressId: address.addressId
+        addresses: location.addresses
     };
     return dto;
 };
