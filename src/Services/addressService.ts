@@ -14,7 +14,7 @@ export const createAddress = async (addressRequestDTO: AddressRequestDTO) => {
 
 export const getAddresses = async () => {
     try {
-        const addresses = await addressRepo.find();
+        const addresses = await addressRepo.findAll();
         const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
         return addressDTOs;
 
@@ -68,7 +68,6 @@ export const deleteAddress = async (addressId: number) => {
 };
 
 export const convertToDTO = (address: Address) => {
-    console.log(address);
     const dto: AddressResponseDTO = {
         addressId: address.addressId,
         city: address.city,

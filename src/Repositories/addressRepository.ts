@@ -11,5 +11,12 @@ export const addressRepo = appDataSource.getRepository(Address).extend({
                 addressId: id
             }
         });
+    },
+    findAll(){
+        return addressRepo.find({
+            relations: {
+                location: true,
+            }
+        });
     }
 });
