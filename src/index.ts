@@ -9,6 +9,7 @@ import userRouter from './routes/userRoute';
 import addressRoute from './routes/addressRoute';
 import nameRouter from './routes/nameRoute';
 import authRouter from './routes/authRoute';
+import roleRouter from './routes/roleRoute';
 
 // Initialize the express engine
 const app = express();
@@ -25,6 +26,7 @@ appDataSource.initialize().then(() => {
 	app.use(authRouter);
 	app.use(nameRouter);
 	app.use(addressRoute);
+	app.use(roleRouter);
 
 	// Take a port 8080 for running server.
 	const PORT = process.env.PORT || 3000;
