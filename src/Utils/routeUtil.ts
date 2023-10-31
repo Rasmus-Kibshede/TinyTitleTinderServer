@@ -36,9 +36,11 @@ export const validateNewMail = (req: Request, res: Response, next: NextFunction)
 };
 
 export const validateDate = (req: Request, res: Response, next: NextFunction) => {
-    const nameDays = req.body.namedays;
+    const nameDays = req.body.nameDays;
 
-    if (Array.isArray(nameDays) && nameDays.every(date => validator.isDate(date, { format: 'DD-MM-YYYY' })) || validator.isDate(nameDays, { format: 'DD-MM-YYYY' })){
+    if (validator.isDate(nameDays, { format: 'DD-MM-YYYY' })){
+        next();
+    } else if (!nameDays) {
         next();
     } else {
         res.status(400).send({ err: 'Invalid date' });

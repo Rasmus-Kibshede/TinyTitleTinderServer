@@ -5,8 +5,8 @@ import express from 'express';
 import 'reflect-metadata';
 
 // import routes
-import userRouter from './Routes/userRoute';
-import addressRoute from './Routes/addressRoute';
+import userRouter from './routes/userRoute';
+import addressRoute from './routes/addressRoute';
 import nameRouter from './routes/nameRoute';
 import authRouter from './routes/authRoute';
 

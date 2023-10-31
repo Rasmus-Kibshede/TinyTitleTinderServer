@@ -6,8 +6,8 @@ export const createName = async (req: Request, res: Response) => {
   const nameRequestDTO: NameRequestDTO = {
     nameSuggestName: req.body.name,
     gender: req.body.gender,
-    nameDays: req.body.namedays,
-    namesakes: req.body.namesakes,
+    nameDays: req.body.nameDays,
+    namesakes: req.body.namesakes
   };
 
   const response = await nameService.createName(nameRequestDTO);
@@ -26,13 +26,17 @@ export const getAllNames = async (req: Request, res: Response) => {
   res.send(response);
 };
 
+// TODO: Rafactor to update name by id
 export const updateName = async (req: Request, res: Response) => {
   const nameRequestDTO: NameRequestDTO = {
-    nameSuggestName: req.body.newName,
+    nameSuggestId: Number(req.body.id),
+    nameSuggestName: req.body.nameSuggestName,
     gender: req.body.gender,
+    nameDays: req.body.nameDays,
+    namesakes: req.body.namesakes
   };
 
-  const response = await nameService.updateName(nameRequestDTO, req.body.name);
+  const response = await nameService.updateName(nameRequestDTO);
   res.send(response);
 };
 

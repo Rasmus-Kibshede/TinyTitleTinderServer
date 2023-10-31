@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { createName, deleteNameByID, getNameByID, getAllNames, updateName } from '../Controllers/nameController';
+import * as nameController from '../Controllers/nameController';
 import { validateDate, validateParamsId } from '../Utils/routeUtil';
 
 const nameRouter = Router();
 
-nameRouter.post('/names', validateDate, createName);
-nameRouter.get('/names/:id', validateParamsId, getNameByID);
-nameRouter.get('/names', getAllNames);
-nameRouter.put('/names', validateDate, updateName);
-nameRouter.delete('/name/:id', validateParamsId, deleteNameByID);
+nameRouter.post('/names', validateDate, nameController.createName);
+nameRouter.get('/names/:id', validateParamsId, nameController.getNameByID);
+nameRouter.get('/names', nameController.getAllNames);
+nameRouter.put('/names', validateDate, nameController.updateName);
+nameRouter.put('/name/:id', validateParamsId, nameController.deleteNameByID);
 
 export default nameRouter;
