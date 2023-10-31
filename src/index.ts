@@ -8,7 +8,9 @@ import 'reflect-metadata';
 import userRouter from './Routes/userRoute';
 import addressRoute from './Routes/addressRoute';
 import roleRouter from './Routes/roleRoute';
-import parentRouter from './Routes/parentRoute'
+import parentRouter from './Routes/parentRoute';
+import nameRouter from './Routes/nameRoute';
+import authRouter from './Routes/authRoute';
 
 // Initialize the express engine
 const app = express();
@@ -16,7 +18,6 @@ app.use(express.json());
 
 //Typeorm setup
 import { appDataSource } from './Repositories/data-source';
-import authRouter from './Routes/authRoute';
 appDataSource.initialize().then(() => {
 	// eslint-disable-next-line no-console
 	console.log('Database connection established');
@@ -24,6 +25,7 @@ appDataSource.initialize().then(() => {
 	// Routes
 	app.use(userRouter);
 	app.use(authRouter);
+	app.use(nameRouter);
 	app.use(addressRoute);
 	app.use(roleRouter);
 	app.use(parentRouter);

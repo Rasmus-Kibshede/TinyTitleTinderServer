@@ -1,17 +1,13 @@
 import { DataSource } from 'typeorm';
-import { User } from '../Entities/User';
-import { Role } from '../Entities/Role';
-import { Address } from '../Entities/Address';
-import { Parent } from '../Entities/Parent';
 
 export const appDataSource = new DataSource({
     type: 'mysql',
-    host: process.env.L_HOST,
-    username: process.env.L_USERNAME,
-    database: process.env.L_DATABASE,
-    password: process.env.L_PASSWORD,
-    port: Number(process.env.L_PORT),
-    entities: [User, Role, Address, Parent],
+    host: process.env.DB_HOST,
+    username: process.env.DB_USERNAME,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    port: Number(process.env.DB_PORT),
+    entities: ['src/Entities/**/*.ts'],
     synchronize: false,
     logging: false
 });
