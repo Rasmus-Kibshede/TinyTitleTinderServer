@@ -37,7 +37,7 @@ export const updateName = async (req: Request, res: Response) => {
   };
 
   const response = await nameService.updateName(nameRequestDTO);
-  res.send(response);
+  nameResponse(response ? response : { err: response }, res, 200);
 };
 
 export const deleteNameByID = async (req: Request, res: Response) => {
