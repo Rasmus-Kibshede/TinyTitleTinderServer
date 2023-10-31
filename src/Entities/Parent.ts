@@ -1,5 +1,6 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { User } from './User';
+import { Name } from './Name';
 
 @Entity()
 export class Parent {
@@ -20,6 +21,20 @@ export class Parent {
 
     @OneToOne(() => User)
     user: User;
+
+    @ManyToMany(() => Name, (name) => name.parents, { nullable: true })
+  @JoinTable({
+    name: 'name_suggest_parent',
+    joinColumn: {
+      name: 'fk_name_suggest_id',
+      referencedColumnName: 'nameSuggestId',
+    },
+    inverseJoinColumn: {
+      name: 'fk_parent_id',
+      referencedColumnName: 'parentId',
+    },
+  })
+  names: Name[] | null;
 
     /*
     //TODO skal have Location på når den er klar.
