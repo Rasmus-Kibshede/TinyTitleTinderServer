@@ -13,6 +13,7 @@ import nameRouter from './Routes/nameRoute';
 import authRouter from './Routes/authRoute';
 import originRouter from './Routes/originRoute';
 import locationRoute from './Routes/locationRoute';
+import familyRoute from './Routes/familyRoute';
 
 // Initialize the express engine
 const app = express();
@@ -33,6 +34,7 @@ appDataSource.initialize().then(() => {
 	app.use(parentRouter);
 	app.use(originRouter);
 	app.use(locationRoute);
+	app.use(familyRoute);
 
 
 	// Take a port 8080 for running server.
