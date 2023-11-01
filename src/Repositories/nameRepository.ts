@@ -5,7 +5,8 @@ export const nameRepo = appDataSource.getRepository(Name).extend({
   findOneByID(id: number) {
     return nameRepo.findOne({
       relations: {
-        origins: true
+        origins: true,
+        meanings: true
       },
       where: {
         nameSuggestId: id,
@@ -16,6 +17,7 @@ export const nameRepo = appDataSource.getRepository(Name).extend({
     return nameRepo.find({
       relations: {
         origins: true,
+        meanings: true
       }
     });
   },

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Origin } from './Origin';
 import { Parent } from './Parent';
+import { Meaning } from './Meaning';
 
 @Entity({ name: 'name_suggest' })
 export class Name {
@@ -43,6 +44,20 @@ export class Name {
     },
   })
   origins: Origin[] | null;
+
+  @ManyToMany(() => Meaning, (meaning) => meaning.names, { nullable: true })
+  @JoinTable({
+    name: 'name_suggest_meaning',
+    joinColumn: {
+      name: 'fk_name_suggest_id',
+      referencedColumnName: 'nameSuggestId',
+    },
+    inverseJoinColumn: {
+      name: 'fk_meaning_id',
+      referencedColumnName: 'meaningId',
+    },
+  })
+  meanings: Meaning[] | null;
 
   @ManyToMany(() => Parent, (parent) => parent.names)
   @JoinColumn()
