@@ -3,14 +3,7 @@ import * as familyService from '../Services/familyService';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
 
 export const createFamily = async (req: Request, res: Response) => {
-    let familyRequestDTO: FamilyRequestDTO;
-    if (!req.body.familyId) {
-        familyRequestDTO = {
-            familyName: req.body.familyName,
-            parents: req.body.parents
-        };
-    }
-    familyRequestDTO = {
+    const familyRequestDTO: FamilyRequestDTO = {
         familyId: req.body.familyId,
         familyName: req.body.familyName,
         parents: req.body.parents
