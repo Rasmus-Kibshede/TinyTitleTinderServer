@@ -11,6 +11,7 @@ import roleRouter from './Routes/roleRoute';
 import parentRouter from './Routes/parentRoute';
 import nameRouter from './Routes/nameRoute';
 import authRouter from './Routes/authRoute';
+import originRouter from './Routes/originRoute';
 import locationRoute from './Routes/locationRoute';
 
 // Initialize the express engine
@@ -30,6 +31,7 @@ appDataSource.initialize().then(() => {
 	app.use(addressRoute);
 	app.use(roleRouter);
 	app.use(parentRouter);
+	app.use(originRouter);
 	app.use(locationRoute);
 
 

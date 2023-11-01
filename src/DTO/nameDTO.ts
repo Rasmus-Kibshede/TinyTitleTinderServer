@@ -15,4 +15,5 @@ export interface NameRequestDTO {
   gender: string;
   nameDays: string;
   namesakes: string;
+  origins: Origin[] | null;
 }

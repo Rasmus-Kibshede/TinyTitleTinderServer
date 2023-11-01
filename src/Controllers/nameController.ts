@@ -7,7 +7,8 @@ export const createName = async (req: Request, res: Response) => {
     nameSuggestName: req.body.nameSuggestName,
     gender: req.body.gender,
     nameDays: req.body.nameDays,
-    namesakes: req.body.namesakes
+    namesakes: req.body.namesakes,
+    origins: req.body.origins
   };
 
   const response = await nameService.createName(nameRequestDTO);
@@ -37,7 +38,8 @@ export const updateName = async (req: Request, res: Response) => {
     nameSuggestName: req.body.nameSuggestName,
     gender: req.body.gender,
     nameDays: req.body.nameDays,
-    namesakes: req.body.namesakes
+    namesakes: req.body.namesakes,
+    origins: req.body.origins
   };
 
   const response = await nameService.updateName(nameRequestDTO);
