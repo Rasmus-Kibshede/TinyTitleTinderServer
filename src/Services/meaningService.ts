@@ -59,8 +59,8 @@ export const deleteMeaning = async (meaningId: number) => {
             return { err: 'Invalid Meaning' };
         }
 
-        await meaningRepo.remove(meaningDB);
-        return { msg: 'Meaning deleted successfully!' };
+        const response = await meaningRepo.remove(meaningDB);
+        return convertToDTO(response);
 
     } catch (error) {
         return error.message === 'Couldn\'t find any Meaning!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };

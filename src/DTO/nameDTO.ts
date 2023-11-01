@@ -8,7 +8,7 @@ export interface NameResponseDTO {
   nameDays: string;
   namesakes: string;
   origins: Origin[] | null;
-  meanings: Meaning[] | null;
+  meanings?: Meaning[] | null;
 }
 
 export interface NameRequestDTO {
@@ -18,5 +18,5 @@ export interface NameRequestDTO {
   nameDays: string;
   namesakes: string;
   origins: Origin[] | null;
-  meanings: Meaning[] | null;
+  meanings?: Meaning[] | null;
 }

@@ -4,7 +4,7 @@ import { Name } from './Name';
 @Entity()
 export class Meaning {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn( { name: 'meaning_id' })
     meaningId: number;
 
     @Column('varchar', { length: 255, nullable: false, name: 'definition', unique: true, })

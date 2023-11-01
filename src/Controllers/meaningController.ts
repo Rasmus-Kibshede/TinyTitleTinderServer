@@ -4,7 +4,6 @@ import { MeaningRequestDTO, MeaningResponseDTO } from '../DTO/meaningDTO';
 
 export const createMeaning = async (req: Request, res: Response) => {
 	const meaningRequestDTO: MeaningRequestDTO = {
-        meaningId: req.body.meaningId,
         definition: req.body.definition,
         names: req.body.names
 	};
@@ -27,7 +26,7 @@ export const getAllMeanings = async (req: Request, res: Response) => {
 	}
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateMeaning = async (req: Request, res: Response) => {
 
 	const meaningRequestDTO: MeaningRequestDTO = {
 		meaningId: req.body.meaningId,
