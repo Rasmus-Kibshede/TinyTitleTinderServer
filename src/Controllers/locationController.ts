@@ -9,17 +9,21 @@ export const createLocation = async (req: Request, res: Response) => {
     };
 
     const response = await locationService.createLocation(locationRequestDTO);
-    res.send(response);
+    locationResponse(response ? response : { err: response }, res, 200);
 };
 
 export const getAllLocations = async (req: Request, res: Response) => {
     const response = await locationService.getLocations();
-    res.send(response);
+    if (!response) {
+        res.status(404).send({ err: response });
+    } else {
+        res.status(201).send(response);
+    }
 };
 
 export const getLocationById = async (req: Request, res: Response) => {
     const response = await locationService.getLocationById(Number(req.params.id));
-    res.send(response);
+    locationResponse(response ? response : { err: response }, res, 200);
 };
 
 export const updateLocation = async (req: Request, res: Response) => {
