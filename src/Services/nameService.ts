@@ -17,9 +17,7 @@ export const createName = async (nameRequestDTO: NameRequestDTO) => {
       return { status: 409, error: 'Name already exists' };
     } else {
       return { status: 400, error: 'Name not saved' };
-    }*/
-    console.log(error);
-      
+    }*/    
     return error.message === 'Couldn\'t find any name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
   }
 };
