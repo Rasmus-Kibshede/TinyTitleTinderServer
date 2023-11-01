@@ -1,13 +1,20 @@
+import { Name } from '../Entities/Name';
 import { User } from '../Entities/User';
+export interface ParentResponseDTO{
+parentId: number;
+age: number;
+gender: string;
+firstName: string; 
+lastName: string; 
+user?: User;
+names?: Name[] | null;
+}
 
-export type Parent = {
-	parentId: number;
-	age: number;
-	gender: string;
-	firstName: string;
-	lastName: string;
-	userId: number;
-	locationId: number;
-	inviteId: number;
-	user: User;
-};
+export interface ParentRequestDTO{
+parentId?: number;
+age: number;
+gender: string;
+firstName: string; 
+lastName: string; 
+user?: User;
+}

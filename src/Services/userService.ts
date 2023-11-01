@@ -36,11 +36,7 @@ export const getUsers = async () => {
 };
 
 export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
-    //Future Developer log
-    if (!userDTO) {
-        return { err: 'invalid userDTO' };
-    }
-
+   try {
     const userDB = await userRepo.findOneByEmail(email) as User;
 
     if (!userDB) {
@@ -55,7 +51,13 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
         return { err: 'User could not be saved' };
     }   
 
-    return savedUser;
+    return convertToDTO(savedUser);
+
+   } catch (error) {
+    return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+   }
+    //Future Developer log
+    
 };
 
 

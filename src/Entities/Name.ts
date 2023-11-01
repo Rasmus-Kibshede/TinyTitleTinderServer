@@ -4,8 +4,10 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  JoinColumn
 } from 'typeorm';
 import { Origin } from './Origin';
+import { Parent } from './Parent';
 
 @Entity({ name: 'name_suggest' })
 export class Name {
@@ -41,4 +43,8 @@ export class Name {
     },
   })
   origins: Origin[] | null;
+
+  @ManyToMany(() => Parent, (parent) => parent.names)
+  @JoinColumn()
+    parents: Parent[];
 }
