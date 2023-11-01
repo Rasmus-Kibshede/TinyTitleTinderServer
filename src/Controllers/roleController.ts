@@ -39,9 +39,6 @@ export const updateRole = async (req: Request, res: Response) => {
 
 export const deleteRoleByID = async (req: Request, res: Response) => {
 	const response = await roleService.deleteRoleByID(Number(req.params.id));
-
-	res.send(response);
-
 	roleResponse(response ? response : { err: response }, res, 201);
 };
 

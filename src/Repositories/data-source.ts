@@ -2,12 +2,12 @@ import { DataSource } from 'typeorm';
 
 export const appDataSource = new DataSource({
     type: 'mysql',
-    host: process.env.DB_HOST,
-    username: process.env.DB_USERNAME,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    port: Number(process.env.DB_PORT),
+    host: process.env.L_HOST,
+    username: process.env.L_USERNAME,
+    database: process.env.L_DATABASE,
+    password: process.env.L_PASSWORD,
+    port: Number(process.env.L_PORT),
     entities: ['src/Entities/**/*.ts'],
-    synchronize: true,
+    synchronize: false,
     logging: false
 });
