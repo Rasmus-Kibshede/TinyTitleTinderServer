@@ -10,7 +10,8 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
             relations: {
                 user: true,
                 names: true,
-                famalies: true
+                famalies: true,
+                location: true
             }
         });
     },
@@ -19,7 +20,8 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
             relations: {
                 user: true,
                 names: true,
-                famalies: true
+                famalies: true,
+                location: true
             },
         });
     }

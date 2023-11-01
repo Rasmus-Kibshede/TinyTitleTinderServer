@@ -1,4 +1,3 @@
-//import { createUser as newUser } from '../Repositorys/userRepository';
 import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
 import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
@@ -55,9 +54,7 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
 
    } catch (error) {
     return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-   }
-    //Future Developer log
-    
+   }    
 };
 
 

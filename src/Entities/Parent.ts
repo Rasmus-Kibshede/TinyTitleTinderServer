@@ -1,7 +1,8 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from './User';
 import { Name } from './Name';
 import { Family } from './Family';
+import { Location } from './Location';
 
 @Entity()
 export class Parent {
@@ -42,13 +43,10 @@ export class Parent {
   @ManyToMany(() => Family, (family) => family.parents)
     famalies: Family[];
 
-    /*
-    //TODO skal have Location på når den er klar.
-    @OneToMany(() => Location, (location) => location.parents)
+    @ManyToOne(() => Location, (location) => location.parents)
     location: Location;
 
     //TODO skal have invite på
     //@ManyToMany()
     //invite: Invite[];
-*/
 }
