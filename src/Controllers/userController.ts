@@ -3,9 +3,7 @@ import * as userService from '../Services/userService';
 import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 
 //TODO Dependency injection eller String med besked om hvilken db
-//TODO TYPEORM.
-//TODO DTO entity
-//TODO Validering af data, så applikation ikke crasher
+//TODO Validering af data, så applikation ikke crasher.
 export const createUser = async (req: Request, res: Response) => {
 	const UserRequestDTO: UserRequestDTO = {
 		email: req.body.email,
