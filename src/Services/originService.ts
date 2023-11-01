@@ -13,9 +13,6 @@ export const createOrigin = async (OriginRequestDTO: OriginRequestDTO) => {
 
 export const getOriginByID = async (id: number) => {
     try {
-        if (!id) {
-            return { err: 'Invalid ID' };
-        }
 
         const response = await originRepo.findOneByID(id);
 
