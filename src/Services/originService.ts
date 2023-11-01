@@ -68,6 +68,7 @@ export const deleteOriginByID = async (id: number) => {
 
 const convertToDTO = (origin: Origin) => {
     const dto: OriginResponseDTO = {
+        originId: origin.originId,
         region: origin.region,
         religion: origin.religion,
         description: origin.description,
