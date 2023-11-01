@@ -1,3 +1,4 @@
+import { Meaning } from '../Entities/Meaning';
 import { Origin } from '../Entities/Origin';
 
 export interface NameResponseDTO {
@@ -7,6 +8,7 @@ export interface NameResponseDTO {
   nameDays: string;
   namesakes: string;
   origins: Origin[] | null;
+  meanings: Meaning[] | null;
 }
 
 export interface NameRequestDTO {
@@ -16,4 +18,5 @@ export interface NameRequestDTO {
   nameDays: string;
   namesakes: string;
   origins: Origin[] | null;
+  meanings: Meaning[] | null;
 }
