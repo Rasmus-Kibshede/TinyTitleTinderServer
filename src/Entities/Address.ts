@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Location } from './Location'; 
 
 @Entity()
 export class Address {
@@ -13,4 +14,8 @@ export class Address {
 
     @Column('varchar',{ length: 255, nullable: false, name: 'address' })
     address: string; 
+
+    @ManyToOne(() => Location, (location) => location.addresses)
+    location: Location;
+
 }
