@@ -48,7 +48,6 @@ export const updateName = async (req: Request, res: Response) => {
 
 export const deleteNameByID = async (req: Request, res: Response) => {
   const response = await nameService.deleteNameByID(Number(req.params.id));
-
   nameResponse(response ? response : { err: response }, res, 200);
 };
 

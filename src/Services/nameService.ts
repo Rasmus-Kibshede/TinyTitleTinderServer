@@ -59,7 +59,7 @@ export const updateName = async (nameRequestDTO: NameRequestDTO) => {
     } else {
       return { status: 400, error };
     }*/  
-    return error.message === 'Couldn\'t find any parents!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
   }
 };
 
