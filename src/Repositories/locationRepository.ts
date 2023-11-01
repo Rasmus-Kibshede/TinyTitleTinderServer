@@ -14,11 +14,6 @@ export const locationRepo = appDataSource.getRepository(Location).extend({
     },
     findAll() {
         return locationRepo.find({
-            select: {
-                locationId: true,
-                country: true,
-                addresses: true
-            },
             relations: {
                 addresses: true
             },

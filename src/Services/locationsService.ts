@@ -44,16 +44,13 @@ export const updateLocation = async (locationDTO: LocationRequestDTO) => {
         const response = await locationRepo.save(locationDTO);
         return convertToDTO(response);
 
-    } catch (error) {
+    } catch (error) {    
         return error.message === 'Couldent find any location!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
 export const deleteLocation = async (locationId: number) => {
     try {
-        if (!locationId) {
-            return { err: 'Invalid Location id!' };
-        }
         const locationDB = await locationRepo.findOneByID(locationId);
 
         if (!locationDB) {
@@ -63,6 +60,8 @@ export const deleteLocation = async (locationId: number) => {
         return convertToDTO(response);
 
     } catch (error) {
+        console.log(error);
+        
         return error.message === 'Couldent find any locations!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };

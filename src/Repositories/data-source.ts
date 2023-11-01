@@ -8,6 +8,6 @@ export const appDataSource = new DataSource({
     password: process.env.L_PASSWORD,
     port: Number(process.env.L_PORT),
     entities: ['src/Entities/**/*.ts'],
-    synchronize: false,
+    synchronize: true,
     logging: false
 });

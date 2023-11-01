@@ -10,5 +10,5 @@ export interface LocationResponseDTO{
 export interface LocationRequestDTO{
     locationId?: number;
     country: string;
-    addresses: Address[];
+    addresses?: Address[];
 }

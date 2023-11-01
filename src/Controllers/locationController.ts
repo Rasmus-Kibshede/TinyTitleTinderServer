@@ -24,18 +24,18 @@ export const getLocationById = async (req: Request, res: Response) => {
 
 export const updateLocation = async (req: Request, res: Response) => {
     const locationRequestDTO: LocationRequestDTO = {
-        //locationId: req.body.locationId,
+        locationId: req.body.locationId,
         country: req.body.country,
-        addresses: req.body.address
+        addresses: req.body.addresses
     };
+    
     const response = await locationService.updateLocation(locationRequestDTO);
-
     locationResponse(response ? response : { err: response }, res, 201);
 };
 
+//TODO Look at constraint, can't delete location if address is connected. 
 export const deleteLocation = async (req: Request, res: Response) => {
     const response = await locationService.deleteLocation(Number(req.params.id));
-    
     locationResponse(response ? response : { err: response }, res, 201);
 };
 
