@@ -1,6 +1,7 @@
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
 import { User } from './User';
 import { Name } from './Name';
+import { Family } from './Family';
 
 @Entity()
 export class Parent {
@@ -37,6 +38,9 @@ export class Parent {
     },
   })
   names: Name[] | null;
+
+  @ManyToMany(() => Family, (family) => family.parents)
+    famalies: Family[];
 
     /*
     //TODO skal have Location på når den er klar.

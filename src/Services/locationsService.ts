@@ -59,15 +59,12 @@ export const deleteLocation = async (locationId: number) => {
         const response = await locationRepo.remove(locationDB);
         return convertToDTO(response);
 
-    } catch (error) {
-        console.log(error);
-        
+    } catch (error) {    
         return error.message === 'Couldent find any locations!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
 export const convertToDTO = (location: Location) => {
-    console.log(location);
     const dto: LocationResponseDTO = {
         locationId: location.locationId,
         country: location.country,
