@@ -9,5 +9,5 @@ export interface MeaningResponseDTO {
 export interface MeaningRequestDTO {
     meaningId?: number;
     definition: string;
-    names?: Name[] | null;
+    names?: Name[];
 }
