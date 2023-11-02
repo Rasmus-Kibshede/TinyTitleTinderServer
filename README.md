@@ -7,7 +7,7 @@ The app defines following CRUD APIs.
 ### User
 
 <summary>The app defines following CRUD EndPoints.</summary>
-| Method | Url                   | Description              
+| Method | Url                   | Description             |
 |--------|-----------------------|-------------------------|
 | POST   | /users                | Create a user           |
 | GET    | /users/:id            | Get a user by ID        |
@@ -18,11 +18,11 @@ The app defines following CRUD APIs.
 ### Parent
 | Method | Url                   | Description             | 
 |--------|-----------------------|-------------------------|
-| POST   | /parents                | Create a parent       | 
-| GET    | /parents/:id            | Get a parent by ID    | 
-| GET    | /parents                | Get all parents       |  
-| PUT    | /parents                | Edit a parent by Id   | 
-| PUT    | /parents/:id            | Delete a parent by Id | 
+| POST   | /parents              | Create a parent         | 
+| GET    | /parents/:id          | Get a parent by ID      | 
+| GET    | /parents              | Get all parents         |  
+| PUT    | /parents              | Edit a parent by Id     | 
+| PUT    | /parents/:id          | Delete a parent by Id   | 
 
 ### Family
 | Method | Url                   | Description             | 
