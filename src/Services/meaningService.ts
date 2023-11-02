@@ -8,7 +8,12 @@ export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
         return convertToDTO(save);
 
     } catch (error) {
-        return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        // Temporary solution before implementing generic validation on unique constraints
+        if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
+            return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Meaning already exists' };
+        } else {
+            return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        }
     }
 };
 
@@ -19,14 +24,14 @@ export const getMeanings = async () => {
         return meaningDTOs;
 
     } catch (error) {
-        return error.message === 'Couldn\'t find any Meanings!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return error.message === 'Couldn\'t find any meanings!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
 export const getMeaningById = async (id: number) => {
     try {
         const response = await meaningRepo.findOneByID(id);
-        
+
         if (!response) {
             return { err: 'Invalid Meaning' };
         }
@@ -47,7 +52,12 @@ export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
         return convertToDTO(response);
 
     } catch (error) {
-        return error.message === 'Couldn\'t find any Meaning!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        // Temporary solution before implementing generic validation on unique constraints
+        if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
+            return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Meaning already exists' };
+        } else {
+            return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        }
     }
 };
 
@@ -63,7 +73,7 @@ export const deleteMeaning = async (meaningId: number) => {
         return convertToDTO(response);
 
     } catch (error) {
-        return error.message === 'Couldn\'t find any Meaning!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return error.message === 'Couldn\'t find any meaning!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
     }
 };
 
