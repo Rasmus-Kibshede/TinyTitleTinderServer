@@ -8,8 +8,8 @@ export const appDataSource = new DataSource({
     database: process.env.L_DATABASE,
     password: process.env.L_PASSWORD,
     port: Number(process.env.L_PORT),
-    entities: ['src/Entities/**/*.ts', 'src/Entities/AuditEntities/**/*.ts'],
+    entities: ['src/Entities/**/*.ts'],
     subscribers: [AuditingSubscriber],
     synchronize: true,
-    logging: false
+    logging: 'all'
 });

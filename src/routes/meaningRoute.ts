@@ -8,6 +8,6 @@ meaningRoute.post('/meanings',  meaningController.createMeaning);
 meaningRoute.get('/meanings/:id', validateParamsId, meaningController.getMeaningByID);
 meaningRoute.get('/meanings', meaningController.getAllMeanings);
 meaningRoute.put('/meanings',  meaningController.updateMeaning);
-meaningRoute.put('/meaning/:id', validateParamsId, meaningController.deleteMeaningByID);
+meaningRoute.put('/meanings/:id', validateParamsId, meaningController.deleteMeaningByID);
 
 export default meaningRoute;
