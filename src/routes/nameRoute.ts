@@ -8,6 +8,6 @@ nameRouter.post('/names', validateDate, nameController.createName);
 nameRouter.get('/names/:id', validateParamsId, nameController.getNameByID);
 nameRouter.get('/names', nameController.getAllNames);
 nameRouter.put('/names', validateDate, nameController.updateName);
-nameRouter.put('/name/:id', validateParamsId, nameController.deleteNameByID);
+nameRouter.put('/names/:id', validateParamsId, nameController.deleteNameByID);
 
 export default nameRouter;

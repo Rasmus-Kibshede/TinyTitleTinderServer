@@ -3,22 +3,17 @@ import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
-  try {  
-    if (!nameRequestDTO) {
-      return { err: 'Invalid nameDTO' };
-    }
-
+  try { 
     const save = await nameRepo.save(nameRequestDTO);
 
     return convertToDTO(save);
   } catch (error) {
     // Temporary solution before implementing generic validation on unique constraints
-   /* if ( error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
-      return { status: 409, error: 'Name already exists' };
+   if ( error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
+      return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Name already exists' };
     } else {
-      return { status: 400, error: 'Name not saved' };
-    }*/    
-    return error.message === 'Couldn\'t find any name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+      return error.message === 'Couldn\'t find any name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    }
   }
 };
 
@@ -54,12 +49,11 @@ export const updateName = async (nameRequestDTO: NameRequestDTO) => {
 
   } catch (error) {
     // Temporary solution before implementing generic validation on unique constraints
-    /*if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
-      return { status: 409, error: 'Name already exists' };
+    if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
+      return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Name already exists' };
     } else {
-      return { status: 400, error };
-    }*/  
-    return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+      return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    }
   }
 };
 
@@ -87,6 +81,7 @@ const convertToDTO = (name: Name) => {
     nameDays: name.nameDays,
     namesakes: name.namesakes,
     origins: name.origins,
+    meanings: name.meanings,
   };
 
   return dto;
