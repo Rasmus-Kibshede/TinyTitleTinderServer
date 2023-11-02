@@ -61,5 +61,5 @@ export class Name {
 
   @ManyToMany(() => Parent, (parent) => parent.names)
   @JoinColumn()
-    parents: Parent[];
+  parents: Parent[];
 }
