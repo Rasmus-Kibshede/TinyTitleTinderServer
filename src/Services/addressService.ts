@@ -10,10 +10,12 @@ export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promi
         const dto = convertToDTO(save);
         return { success: true, result:{data: dto}};
     } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
         const error = ensureError(err);
         return { success: false, error: new BaseError('Could not create address', {
             error: error, 
-            context: 404
+            statusCode: 404
         })};
     }
 };
@@ -25,10 +27,12 @@ export const getAddresses = async () => {
         return { success: true, result:{data: addressDTOs}};
 
     } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
         const error = ensureError(err);
         return { success: false, error: new BaseError('Could not create address', {
             error: error, 
-            context: 'placeholder for object'
+            statusCode: 404
         })};
     }
 };
@@ -42,12 +46,12 @@ export const getAddressById = async (id: number) => {
         return { success: true, result:{data: convertToDTO(response)}};
 
     } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
         const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not get address with that id', {
+        return { success: false, error: new BaseError('Could not create address', {
             error: error, 
-            //her kan vi indsætte årsagen til error, ved at prikke os ind i error objektet. 
-            //Alternativt kan vi kalde på en metode som har fejlkoder i sig som tjekker hvorfor error er sket og indsætter korrekt fejlkode. 
-            context: 404
+            statusCode: 404
         })};
     }
     };
@@ -58,10 +62,16 @@ export const updateAddress = async (addressDTO: AddressRequestDTO) => {
             return { err: 'Invalid address DTO!' };
         }
         const response = await addressRepo.save(addressDTO);
-        return convertToDTO(response);
+        return { success: true, result:{data: response}};
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
+        const error = ensureError(err);
+        return { success: false, error: new BaseError('Could not create address', {
+            error: error, 
+            statusCode: 404
+        })};
     }
 };
 
@@ -76,10 +86,16 @@ export const deleteAddress = async (addressId: number) => {
             return { err: 'Invalid Address' };
         }
         const response = await addressRepo.remove(addressDB);
-        return convertToDTO(response);
+        return { success: true, result:{data: convertToDTO(response)}};
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+       //TODO Add custom message for each endpoint
+       //TODO Add dynamic statuscode from the ErrorType.
+       const error = ensureError(err);
+       return { success: false, error: new BaseError('Could not create address', {
+           error: error, 
+           statusCode: 404
+       })};
     }
 };
 
