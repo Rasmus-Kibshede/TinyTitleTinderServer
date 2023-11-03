@@ -1,16 +1,16 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Meaning } from '../Meaning';
 import { JoinColumn, ManyToMany } from 'typeorm';
-import { ADTName } from './NameADT';
+import { NameADT } from './NameADT';
 
 @AuditingEntity(Meaning, { name: 'adt_meaning' })
-export class ADTMeaning extends Meaning implements AuditingEntityDefaultColumns {
+export class MeaningADT extends Meaning implements AuditingEntityDefaultColumns {
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    @ManyToMany(() => ADTName, (name) => name.meanings, { nullable: true })
+    @ManyToMany(() => NameADT, (name) => name.meanings, { nullable: true })
     @JoinColumn()
-    names: ADTName[];
+    names: NameADT[];
 
 }

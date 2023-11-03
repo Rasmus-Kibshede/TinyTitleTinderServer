@@ -2,15 +2,15 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { User } from '../User';
 import { ManyToMany, JoinTable } from 'typeorm';
-import { ADTRole } from './RoleADT';
+import { RoleADT } from './RoleADT';
 
 @AuditingEntity(User, { name: 'adt_user' })
-export class ADTUser extends User implements AuditingEntityDefaultColumns {
+export class UserADT extends User implements AuditingEntityDefaultColumns {
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    @ManyToMany(() => ADTRole, (role) => role.users, { nullable: true })
+    @ManyToMany(() => RoleADT, (role) => role.users, { nullable: true })
     @JoinTable({
         name: 'adt_user_role',
         joinColumn: {
@@ -22,6 +22,6 @@ export class ADTUser extends User implements AuditingEntityDefaultColumns {
             referencedColumnName: 'roleId'
         }
     })
-    roles: ADTRole[] | null;
+    roles: RoleADT[] | null;
 
 }

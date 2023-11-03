@@ -1,15 +1,15 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Family } from '../Family';
 import { ManyToMany, JoinColumn, JoinTable } from 'typeorm';
-import { ADTParent } from './ParentADT';
+import { ParentADT } from './ParentADT';
 
 @AuditingEntity(Family, { name: 'adt_family' })
-export class ADTFamily extends Family implements AuditingEntityDefaultColumns {
+export class FamilyADT extends Family implements AuditingEntityDefaultColumns {
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    @ManyToMany(() => ADTParent, (parent) => parent.families, { nullable: true })
+    @ManyToMany(() => ParentADT, (parent) => parent.families, { nullable: true })
     @JoinColumn()
     @JoinTable({
         name: 'adt_family_parent',
@@ -22,5 +22,5 @@ export class ADTFamily extends Family implements AuditingEntityDefaultColumns {
             referencedColumnName: 'parentId',
         },
     })
-    parents: ADTParent[];
+    parents: ParentADT[];
 }

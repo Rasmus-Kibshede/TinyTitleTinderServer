@@ -1,22 +1,22 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Parent } from '../Parent';
 import { OneToOne, JoinColumn, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
-import { ADTUser } from './UserADT';
-import { ADTName } from './NameADT';
-import { ADTFamily } from './FamilyADT';
-import { ADTLocation } from './LocationADT';
+import { UserADT } from './UserADT';
+import { NameADT } from './NameADT';
+import { FamilyADT } from './FamilyADT';
+import { LocationADT } from './LocationADT';
 
 @AuditingEntity(Parent, { name: 'adt_parent' })
-export class ADTParent extends Parent implements AuditingEntityDefaultColumns {
+export class ParentADT extends Parent implements AuditingEntityDefaultColumns {
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    @OneToOne(() => ADTUser)
+    @OneToOne(() => UserADT)
     @JoinColumn()
-    user: ADTUser;
+    user: UserADT;
 
-    @ManyToMany(() => ADTName, (name) => name.parents, { nullable: true })
+    @ManyToMany(() => NameADT, (name) => name.parents, { nullable: true })
     @JoinColumn()
     @JoinTable({
         name: 'adt_parent_name_suggest',
@@ -29,12 +29,12 @@ export class ADTParent extends Parent implements AuditingEntityDefaultColumns {
             referencedColumnName: 'nameSuggestId',
         },
     })
-    names: ADTName[];
+    names: NameADT[];
 
-    @ManyToMany(() => ADTFamily, (family) => family.parents)
-    families: ADTFamily[];
+    @ManyToMany(() => FamilyADT, (family) => family.parents)
+    families: FamilyADT[];
 
-    @ManyToOne(() => ADTLocation, (location) => location.parents)
-    location: ADTLocation;
+    @ManyToOne(() => LocationADT, (location) => location.parents)
+    location: LocationADT;
 
 }

@@ -1,16 +1,16 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Name } from '../Name';
 import { ManyToMany, JoinTable, Column } from 'typeorm';
-import { ADTOrigin } from './OriginADT';
-import { ADTMeaning } from './MeaningADT';
+import { OriginADT } from './OriginADT';
+import { MeaningADT } from './MeaningADT';
 
 @AuditingEntity(Name, { name: 'adt_name' })
-export class ADTName extends Name implements AuditingEntityDefaultColumns {
+export class NameADT extends Name implements AuditingEntityDefaultColumns {
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    @ManyToMany(() => ADTOrigin, (origin) => origin.names, { nullable: true })
+    @ManyToMany(() => OriginADT, (origin) => origin.names, { nullable: true })
     @JoinTable({
         name: 'adt_name_suggest_origin',
         joinColumn: {
@@ -22,9 +22,9 @@ export class ADTName extends Name implements AuditingEntityDefaultColumns {
             referencedColumnName: 'originId',
         },
     })
-    origins: ADTOrigin[] | null;
+    origins: OriginADT[] | null;
 
-    @ManyToMany(() => ADTMeaning, (meaning) => meaning.names, { nullable: true })
+    @ManyToMany(() => MeaningADT, (meaning) => meaning.names, { nullable: true })
     @JoinTable({
         name: 'adt_name_suggest_meaning',
         joinColumn: {
@@ -36,7 +36,7 @@ export class ADTName extends Name implements AuditingEntityDefaultColumns {
             referencedColumnName: 'meaningId',
         },
     })
-    meanings: ADTMeaning[] | null;
+    meanings: MeaningADT[] | null;
 
     @Column('varchar', { length: 255, name: 'modified_by', nullable: true })
     modifiedBy: string;

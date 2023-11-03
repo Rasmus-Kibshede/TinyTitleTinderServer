@@ -1,16 +1,16 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Origin } from '../Origin';
 import { ManyToMany, JoinColumn } from 'typeorm';
-import { ADTName } from './NameADT';
+import { NameADT } from './NameADT';
 
 @AuditingEntity(Origin, { name: 'adt_origin' })
-export class ADTOrigin extends Origin implements AuditingEntityDefaultColumns {
+export class OriginADT extends Origin implements AuditingEntityDefaultColumns {
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    @ManyToMany(() => ADTName, (name) => name.origins, { nullable: true })
+    @ManyToMany(() => NameADT, (name) => name.origins, { nullable: true })
     @JoinColumn()
-    names: ADTName[];
+    names: NameADT[];
 
 }
