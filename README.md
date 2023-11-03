@@ -7,77 +7,16 @@ The app defines following CRUD APIs.
 ### User
 
 <summary>The app defines following CRUD EndPoints.</summary>
-| Method | Url                   | Description              
-|--------|-----------------------|-------------------------|
-| POST   | /users                | Create a user           |
-| GET    | /users/:id            | Get a user by ID        |
-| GET    | /users                | Get all users           |
-| PUT    | /users                | Edit a user by Id       |
-| PUT    | /users/:id            | Delete a user by Id     |
+| Method | Url                   | Description             | Sample Valid Request Body                                       |
+|--------|-----------------------|-------------------------|-----------------------------------------------------------------|
+| POST   | /users                | Create a user           | {"email": "Post@man.com", "password": "CreatedWithPostman1234"} |
+| GET    | /users/:id            | Get a user by ID        |                                                                 |
+| GET    | /users                | Get all users           |                                                                 |
+| PUT    | /users/:id            | Edit a user by Id       | {"email": "new@email.com} or {"password":"newpassword1234}      |
+| DELETE | /users/:id            | Delete a user by Id     |                                                                 |
 
-| Method | Url                   | Description             | 
-|--------|-----------------------|-------------------------|
-| POST   | /parents                | Create a parent       | 
-| GET    | /parents/:id            | Get a parent by ID    | 
-| GET    | /parents                | Get all parents       |  
-| PUT    | /parents                | Edit a parent by Id   | 
-| PUT    | /parents/:id            | Delete a parent by Id | 
 
-| Method | Url                   | Description             | 
-|--------|-----------------------|-------------------------|
-| POST   | /families             | Create a family         | 
-| GET    | /families/:id         | Get a family by ID      | 
-| GET    | /families             | Get all families        |  
-| PUT    | /families             | Edit a family by Id     | 
-| PUT    | /families/:id         | Delete a family by Id   | 
 
-| Method | Url                   | Description             | 
-|--------|-----------------------|-------------------------|
-| POST   | /addresses            | Create a address        | 
-| GET    | /addresses/:id        | Get a address by ID     | 
-| GET    | /addresses            | Get all addresses       |  
-| PUT    | /addresses            | Edit a address by Id    | 
-| PUT    | /addresses/:id        | Delete a address by Id  |
-
-| Method | Url                   | Description             | 
-|--------|-----------------------|-------------------------|
-| POST   | /roles                | Create a role           | 
-| GET    | /roles/:id            | Get a role by ID        | 
-| GET    | /roles                | Get all roles           |  
-| PUT    | /roles                | Edit a role by Id       | 
-| PUT    | /roles/:id            | Delete a role by Id     |
-
-| Method | Url                   | Description             | 
-|--------|-----------------------|-------------------------|
-| POST   | /names                | Create a name           | 
-| GET    | /names/:id            | Get a name by ID        | 
-| GET    | /names                | Get all names           |  
-| PUT    | /names                | Edit a name by Id       | 
-| PUT    | /names/:id            | Delete a name by Id     |
-
-| Method | Url                   | Description             | 
-|--------|-----------------------|-------------------------|
-| POST   | /locations            | Create a location       | 
-| GET    | /locations/:id        | Get a location by ID    | 
-| GET    | /locations            | Get all locations       |  
-| PUT    | /locations            | Edit a location by Id   | 
-| PUT    | /locations/:id        | Delete a location by Id |
-
-| Method | Url                   | Description             | 
-|--------|-----------------------|-------------------------|
-| POST   | /origins              | Create a origin         | 
-| GET    | /origins/:id          | Get a origin by ID      | 
-| GET    | /origins              | Get all origins         |  
-| PUT    | /origins              | Edit a origin by Id     | 
-| PUT    | /origins/:id          | Delete a origin by Id   |
-
-| Method | Url                   | Description             | 
-|--------|-----------------------|-------------------------|
-| POST   | /meanings             | Create a meaning        | 
-| GET    | /meanings/:id         | Get a meaning by ID     | 
-| GET    | /meanings             | Get all meanings        |  
-| PUT    | /meanings             | Edit a meaning by Id    | 
-| PUT    | /meanings/:id         | Delete a meaning by Id  |
 
 # Install guide
 - To install the project run the follwing in the terminal: 

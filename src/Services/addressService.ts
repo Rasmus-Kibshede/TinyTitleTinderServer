@@ -1,52 +1,44 @@
 import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
+import { BaseError } from '../Utils/BaseError';
 
-/*
 type Result<T, E extends BaseError = BaseError> = { success: true, result: T } | { success: false, error: E }
 
 //skal sættes på som returtype i vores arrow functions. Hvis ikke, så er det vist nok vi bare retunere objektet. 
-Result<ApiResponse>
 
 //Dette skal sættes på i hver metode
-try {
-    const result = await fetch('https://api.local')
 
-    // for the sake of this snippet we don't do it
-    // but we should validate `result` matches the expected format
-
-    return { success: true, result}
-  } catch (err) {
-    const error = ensureError(err)
-    
-    return { success: false, error }
-  }
 
 //Denne metode skal bruges til at wrappe alle errors eller potientielle Errors. Så vi er sikker på at alt der kommer op i 
 //controller laget er en error som vi kan håndtere 
 function ensureError(value: unknown): Error {
     if (value instanceof Error) return value;
-  
+
     let stringified = '[Unable to stringify the thrown value]';
     try {
-      stringified = JSON.stringify(value);
-    } catch {}
-  //denne er til hvis ikke vi skal bruge en baseError. 
-    const error = new Error(`This value was thrown as is, not through an Error: ${stringified}`);
+        stringified = JSON.stringify(value);
+    } catch { /* empty */ }
 
-    //Benytter sig af klassen BaseError i util mappen.
-    throw new BaseError('Could not log request', { cause: error, context: { requestId } })
+    const error = new Error(`This value was thrown as is, not through an Error: ${stringified}`);
     return error;
-  };*/
+}
+
 
 export const createAddress = async (addressRequestDTO: AddressRequestDTO) => {
+    
     try {
         const save = await addressRepo.save(addressRequestDTO);
-        return convertToDTO(save);
-        
-    } catch (error) {
-        return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+       const dto = convertToDTO(save);
+        return { success: true, dto};
+    } catch (err) {
+        const error = ensureError(err);
+       // return { success: false, error };
+        throw new BaseError('Could not log request', { cause: error, context: { dto.addressId, dto.address } });
     }
+
+
+
 };
 
 export const getAddresses = async () => {

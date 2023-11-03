@@ -1,4 +1,4 @@
-/*type Jsonable = string | number | boolean | null | undefined | readonly Jsonable[] | { readonly [key: string]: Jsonable } | { toJSON(): Jsonable }
+type Jsonable = string | number | boolean | null | undefined | readonly Jsonable[] | { readonly [key: string]: Jsonable } | { toJSON(): Jsonable }
 
 export class BaseError extends Error {
   public readonly context?: Jsonable;
@@ -11,4 +11,4 @@ export class BaseError extends Error {
 
     this.context = context;
   }
-}*/
+}
