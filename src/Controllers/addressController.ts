@@ -11,12 +11,6 @@ export const createAddress = async (req: Request, res: Response) => {
     };
 
     const response = await addressService.createAddress(addressRequestDTO);
-    addressResponse(response ? response : { err: response }, res, 201);
-};
-
-export const getAllAddresses = async (req: Request, res: Response) => {
-    const response = await addressService.getAddresses();
-    
     if (!response) {
         res.status(404).send({ err: response });
     } else {
@@ -24,9 +18,18 @@ export const getAllAddresses = async (req: Request, res: Response) => {
     }
 };
 
+export const getAllAddresses = async (req: Request, res: Response) => {
+    const response = await addressService.getAddresses();
+
+    //temp solution
+    res.status(response.success ? 200 : Number(response.error?.context)).send(response);
+};
+
 export const getAddressById = async (req: Request, res: Response) => {
     const response = await addressService.getAddressById(Number(req.params.id));
-    addressResponse(response ? response : { err: response }, res, 201);
+    
+    //Temp
+    res.status(Number(response.error?.context)).send(response);
 };
 
 export const updateAddress = async (req: Request, res: Response) => {
@@ -44,7 +47,7 @@ export const updateAddress = async (req: Request, res: Response) => {
 
 export const deleteAdress = async (req: Request, res: Response) => {
     const response = await addressService.deleteAddress(Number(req.params.id));
-    
+
     addressResponse(response ? response : { err: response }, res, 201);
 };
 

@@ -2,53 +2,34 @@ import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 import { BaseError } from '../Utils/BaseError';
+import { Result, ApiResponse, ensureError } from '../Utils/errorHandler';
 
-type Result<T, E extends BaseError = BaseError> = { success: true, result: T } | { success: false, error: E }
-
-//skal sættes på som returtype i vores arrow functions. Hvis ikke, så er det vist nok vi bare retunere objektet. 
-
-//Dette skal sættes på i hver metode
-
-
-//Denne metode skal bruges til at wrappe alle errors eller potientielle Errors. Så vi er sikker på at alt der kommer op i 
-//controller laget er en error som vi kan håndtere 
-function ensureError(value: unknown): Error {
-    if (value instanceof Error) return value;
-
-    let stringified = '[Unable to stringify the thrown value]';
-    try {
-        stringified = JSON.stringify(value);
-    } catch { /* empty */ }
-
-    const error = new Error(`This value was thrown as is, not through an Error: ${stringified}`);
-    return error;
-}
-
-
-export const createAddress = async (addressRequestDTO: AddressRequestDTO) => {
-    
+export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const save = await addressRepo.save(addressRequestDTO);
-       const dto = convertToDTO(save);
-        return { success: true, dto};
+        const dto = convertToDTO(save);
+        return { success: true, result:{data: dto}};
     } catch (err) {
         const error = ensureError(err);
-       // return { success: false, error };
-        throw new BaseError('Could not log request', { cause: error, context: { dto.addressId, dto.address } });
+        return { success: false, error: new BaseError('Could not create address', {
+            error: error, 
+            context: 404
+        })};
     }
-
-
-
 };
 
 export const getAddresses = async () => {
     try {
         const addresses = await addressRepo.findAll();
         const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
-        return addressDTOs;
+        return { success: true, result:{data: addressDTOs}};
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        const error = ensureError(err);
+        return { success: false, error: new BaseError('Could not create address', {
+            error: error, 
+            context: 'placeholder for object'
+        })};
     }
 };
 
@@ -58,12 +39,18 @@ export const getAddressById = async (id: number) => {
         if (!response) {
             return { err: 'Invalid id' };
         }
-        return convertToDTO(response);
+        return { success: true, result:{data: convertToDTO(response)}};
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any addresses!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        const error = ensureError(err);
+        return { success: false, error: new BaseError('Could not get address with that id', {
+            error: error, 
+            //her kan vi indsætte årsagen til error, ved at prikke os ind i error objektet. 
+            //Alternativt kan vi kalde på en metode som har fejlkoder i sig som tjekker hvorfor error er sket og indsætter korrekt fejlkode. 
+            context: 404
+        })};
     }
-};
+    };
 
 export const updateAddress = async (addressDTO: AddressRequestDTO) => {
     try {
