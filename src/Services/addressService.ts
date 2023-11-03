@@ -20,7 +20,7 @@ export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promi
     }
 };
 
-export const getAddresses = async () => {
+export const getAddresses = async (): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const addresses = await addressRepo.findAll();
         const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
@@ -37,11 +37,14 @@ export const getAddresses = async () => {
     }
 };
 
-export const getAddressById = async (id: number) => {
+export const getAddressById = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await addressRepo.findOneByID(id);
         if (!response) {
-            return { err: 'Invalid id' };
+            return { success: false, error: new BaseError('Could not get address', {
+                error: new Error('Couldent find address with that id.'), 
+                statusCode: 404
+            })};
         }
         return { success: true, result:{data: convertToDTO(response)}};
 
@@ -56,10 +59,13 @@ export const getAddressById = async (id: number) => {
     }
     };
 
-export const updateAddress = async (addressDTO: AddressRequestDTO) => {
+export const updateAddress = async (addressDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         if (!addressDTO) {
-            return { err: 'Invalid address DTO!' };
+            return { success: false, error: new BaseError('Could not update address', {
+                error: new Error('insert some manual error here.'), 
+                statusCode: 404
+            })};
         }
         const response = await addressRepo.save(addressDTO);
         return { success: true, result:{data: response}};
@@ -75,15 +81,15 @@ export const updateAddress = async (addressDTO: AddressRequestDTO) => {
     }
 };
 
-export const deleteAddress = async (addressId: number) => {
+export const deleteAddress = async (addressId: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
-        if (!addressId) {
-            return { err: 'Invalid address id!' };
-        }
         const addressDB = await addressRepo.findOneByID(addressId);
 
         if (!addressDB) {
-            return { err: 'Invalid Address' };
+            return { success: false, error: new BaseError('Could not delete address', {
+                error: new Error('No address with that id.'), 
+                statusCode: 404
+            })};
         }
         const response = await addressRepo.remove(addressDB);
         return { success: true, result:{data: convertToDTO(response)}};

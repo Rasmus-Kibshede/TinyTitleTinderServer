@@ -1,14 +1,22 @@
 import { parentRepo as familyRepo } from '../Repositories/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
 import { Family } from '../Entities/Family';
+import { BaseError } from '../Utils/BaseError';
+import { Result, ApiResponse, ensureError } from '../Utils/errorHandler';
 
-export const createFamily = async (familyRequestDTO: FamilyRequestDTO) => {
+export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await familyRepo.save(familyRequestDTO);
         return convertToDTO(response);
 
-    } catch (error) {
-        return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
+        const error = ensureError(err);
+        return { success: false, error: new BaseError('Could not create address', {
+            error: error, 
+            statusCode: 404
+        })};
     }
 };
 
