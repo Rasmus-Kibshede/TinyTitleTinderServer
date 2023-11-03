@@ -1,7 +1,7 @@
-// TODO: Find solution for auditing user entity
+// TODO: Update modifiedBy column to log user who made changes
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { User } from '../User';
-import { ManyToMany, JoinTable } from 'typeorm';
+import { ManyToMany, JoinTable, Column } from 'typeorm';
 import { RoleADT } from './RoleADT';
 
 @AuditingEntity(User, { name: 'adt_user' })
@@ -24,4 +24,6 @@ export class UserADT extends User implements AuditingEntityDefaultColumns {
     })
     roles: RoleADT[] | null;
 
+    @Column('varchar', { length: 255, name: 'modified_by', nullable: true })
+    modifiedBy: string;
 }

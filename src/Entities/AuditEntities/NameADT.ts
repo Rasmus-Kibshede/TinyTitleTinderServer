@@ -1,3 +1,4 @@
+// TODO: Update modifiedBy column to log user who made changes
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Name } from '../Name';
 import { ManyToMany, JoinTable, Column } from 'typeorm';
@@ -42,5 +43,3 @@ export class NameADT extends Name implements AuditingEntityDefaultColumns {
     modifiedBy: string;
 
 }
-
-// TODO: When roles have been properly implemented updated modifiedBy column to
