@@ -13,8 +13,13 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
         const save = await userRepo.save(UserRequestDTO);
 
         return convertToDTO(save);
-    } catch (err) {
-        return err.message === 'Role not found' ? { err: err.message } : { err: 'Something went wrong! - We have a team of highly trained monkeys working on it' };
+    } catch (error) {
+        // Temporary solution before implementing generic validation on unique constraints
+        if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
+            return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Email already exists' };
+        } else {
+            return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        }
     }
 };
 
@@ -52,9 +57,14 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
 
     return convertToDTO(savedUser);
 
-   } catch (error) {
-    return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-   }    
+    } catch (error) {
+    // Temporary solution before implementing generic validation on unique constraints
+    if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
+        return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Email already exists' };
+    } else {
+        return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    }
+}
 };
 
 
