@@ -9,7 +9,7 @@ export class Family {
   @Column('varchar', { length: 255, nullable: false, name: 'family_name' })
   familyName: string;
 
-  @ManyToMany(() => Parent, (parent) => parent.famalies, { nullable: true })
+  @ManyToMany(() => Parent, (parent) => parent.families, { nullable: true })
   @JoinColumn()
   @JoinTable({
     name: 'family_parent',
