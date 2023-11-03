@@ -11,5 +11,5 @@ export const appDataSource = new DataSource({
     entities: ['src/Entities/**/*.ts'],
     subscribers: [AuditingSubscriber],
     synchronize: true,
-    logging: 'all'
+    logging: false
 });
