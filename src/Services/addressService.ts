@@ -6,9 +6,8 @@ import { Result, ApiResponse, ensureError } from '../Utils/errorHandler';
 
 export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
-        const save = await addressRepo.save(addressRequestDTO);
-        const dto = convertToDTO(save);
-        return success(dto);
+        const response = await addressRepo.save(addressRequestDTO);
+        return success(response);
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
