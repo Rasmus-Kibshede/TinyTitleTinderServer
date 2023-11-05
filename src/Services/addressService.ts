@@ -2,7 +2,7 @@ import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, success, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
 export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -52,13 +52,12 @@ export const updateAddress = async (addressDTO: AddressRequestDTO): Promise<Resu
     }
 };
 
-
 export const deleteAddress = async (addressId: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const addressDB = await addressRepo.findOneByID(addressId);
 
         if (!addressDB) {
-           return failed(new Error('No address with that id'), '404');
+            return failed(new Error('No address with that id'), '404');
         }
         const response = await addressRepo.remove(addressDB);
         return success(response);
@@ -79,3 +78,11 @@ export const convertToDTO = (address: Address) => {
     };
     return dto;
 };
+
+function success(response: Address | AddressResponseDTO[]): Result<ApiResponse, BaseError> {
+    if (Array.isArray(response)) {
+        return { success: true, result: { data: response } };
+    } else {
+        return { success: true, result: { data: convertToDTO(response) } };
+    }
+}

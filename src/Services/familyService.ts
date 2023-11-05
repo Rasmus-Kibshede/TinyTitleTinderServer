@@ -2,99 +2,74 @@ import { parentRepo as familyRepo } from '../Repositories/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
 import { Family } from '../Entities/Family';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, ensureError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
 export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await familyRepo.save(familyRequestDTO);
-        return { success: true, result:{data: convertToDTO(response)}};
+        return success(response);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
 };
 
-export const getFamilies = async (): Promise<Result<ApiResponse, BaseError>>  => {
+export const getFamilies = async (): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const families = await familyRepo.findAll();
-        const familyDTOs: FamilyRequestDTO[] = families.map(family => convertToDTO(family));
-        return { success: true, result:{data: familyDTOs}};
+        const familyDTOs: FamilyResponseDTO[] = families.map(family => convertToDTO(family));
+        return success(familyDTOs);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
 };
 
 export const getFamilyById = async (id: number) => {
     try {
         const response = await familyRepo.findOneByID(id);
-        
         if (!response) {
-            return { err: 'Invalid Family' };
+            return failed(new Error('No family with that id'), '404');
         }
-
-        return { success: true, result:{data: convertToDTO(response)}};
+        return success(response);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
 };
 
-export const updateFamily = async (familyDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>>  => {
+export const updateFamily = async (familyDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await familyRepo.save(familyDTO);
-        return { success: true, result:{data: convertToDTO(response)}};
+        return success(response);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
 };
 
-export const deleteFamily = async (parentId: number): Promise<Result<ApiResponse, BaseError>>  => {
+export const deleteFamily = async (parentId: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const familyDB = await familyRepo.findOneByID(parentId);
 
         if (!familyDB) {
-            return { success: false, error: new BaseError('Could not get address', {
-                error: new Error('Couldent find address with that id.'), 
-                statusCode: 404
-            })};
+            return failed(new Error('No family with that id'), '404');
         }
         const response = await familyRepo.remove(familyDB);
-        return { success: true, result:{data: convertToDTO(response)}};
+        return success(response);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
 };
 
@@ -106,3 +81,11 @@ export const convertToDTO = (family: Family) => {
     };
     return dto;
 };
+//TODO Disse 2 kunne godt ligge i ErrorHandler, men de skal tage imod generic objects, så de er dynamiske. 
+function success(response: Family | FamilyResponseDTO[]): Result<ApiResponse, BaseError> {
+    if (Array.isArray(response)) {
+        return { success: true, result: { data: response } };
+    } else {
+        return { success: true, result: { data: convertToDTO(response) } };
+    }
+}

@@ -1,75 +1,67 @@
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
+import { BaseError } from '../Utils/BaseError';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
-export const createName = async (nameRequestDTO: NameRequestDTO) => {
-  try { 
-    const save = await nameRepo.save(nameRequestDTO);
+export const createName = async (nameRequestDTO: NameRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+  try {
+    const response = await nameRepo.save(nameRequestDTO);
 
-    return convertToDTO(save);
-  } catch (error) {
+    return success(response);
+  } catch (err) {
     // Temporary solution before implementing generic validation on unique constraints
-   if ( error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
-      return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Name already exists' };
-    } else {
-      return error.message === 'Couldn\'t find any name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-    }
+    return failed(err, '404');
   }
 };
 
-export const getNameByID = async (id: number) => {
+export const getNameByID = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
   try {
     const response = await nameRepo.findOneByID(id);
 
     if (!response) {
-      return { err: 'No name with that id' };
+      return failed(new Error('No name with that id'), '404');
     }
 
-    return convertToDTO(response);
-  } catch (error) {
-    return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    return success(response);
+  } catch (err) {
+    return failed(err, '404');
   }
 };
 
-export const getNames = async () => {
+export const getNames = async (): Promise<Result<ApiResponse, BaseError>> => {
   try {
     const names = await nameRepo.findAll();
     const nameDTOs: NameResponseDTO[] = names.map((name) => convertToDTO(name));
 
-    return nameDTOs;
-  } catch (error) {
-    return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    return success(nameDTOs);
+  } catch (err) {
+    return failed(err, '404');
   }
 };
 
-export const updateName = async (nameRequestDTO: NameRequestDTO) => {
+export const updateName = async (nameRequestDTO: NameRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
-    return convertToDTO(response);
+    return success(response);
 
-  } catch (error) {
+  } catch (err) {
     // Temporary solution before implementing generic validation on unique constraints
-    if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
-      return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Name already exists' };
-    } else {
-      return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-    }
+    return failed(err, '404');
   }
 };
 
-export const deleteNameByID = async (id: number) => {
+export const deleteNameByID = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
   try {
-    const response = await nameRepo.findOneByID(id);
+    const nameDB = await nameRepo.findOneByID(id);
 
-    if (!response) {
-      return { err: 'Name not found' };
+    if (!nameDB) {
+      return failed(new Error('No name with that id'), '404');
     }
-
-    return (
-      convertToDTO(await nameRepo.remove(response)) || {err: 'Name not deleted',}
-    );
-  } catch (error) {
-    return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    const response = await nameRepo.remove(nameDB);
+    return success(response);
+  } catch (err) {
+    return failed(err, '404');
   }
 };
 
@@ -86,3 +78,11 @@ const convertToDTO = (name: Name) => {
 
   return dto;
 };
+
+function success(response: Name | NameResponseDTO[]): Result<ApiResponse, BaseError> {
+  if (Array.isArray(response)) {
+    return { success: true, result: { data: response } };
+  } else {
+    return { success: true, result: { data: convertToDTO(response) } };
+  }
+}

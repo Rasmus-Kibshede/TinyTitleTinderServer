@@ -1,79 +1,70 @@
 import { MeaningRequestDTO, MeaningResponseDTO } from '../DTO/meaningDTO';
 import { Meaning } from '../Entities/Meaning';
 import { meaningRepo } from '../Repositories/meaningRepository';
+import { BaseError } from '../Utils/BaseError';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
-export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
+export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
-        const save = await meaningRepo.save(meaningRequestDTO);
-        return convertToDTO(save);
+        const response = await meaningRepo.save(meaningRequestDTO);
+        return success(response);
 
-    } catch (error) {
+    } catch (err) {
         // Temporary solution before implementing generic validation on unique constraints
-        if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
-            return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Meaning already exists' };
-        } else {
-            return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-        }
+        return failed(err, '404');
     }
 };
 
-export const getMeanings = async () => {
+export const getMeanings = async (): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const meanings = await meaningRepo.findAll();
         const meaningDTOs: MeaningResponseDTO[] = meanings.map(meaning => convertToDTO(meaning));
-        return meaningDTOs;
+        return success(meaningDTOs);
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any meanings!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err, '404');
     }
 };
 
-export const getMeaningById = async (id: number) => {
+export const getMeaningById = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await meaningRepo.findOneByID(id);
 
         if (!response) {
-            return { err: 'Invalid Meaning' };
+            return failed(new Error('No location with that id'), '404');
         }
 
-        return convertToDTO(response);
+        return success(response);
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find a Meaning with that id!' ? { err: error.message } : { err: 'Something terrible went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err, '404');
     }
 };
 
-export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
+export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
-        if (!meaningRequestDTO) {
-            return { err: 'Invalid Meaning DTO!' };
-        }
         const response = await meaningRepo.save(meaningRequestDTO);
-        return convertToDTO(response);
+        return success(response);
 
-    } catch (error) {
+    } catch (err) {
         // Temporary solution before implementing generic validation on unique constraints
-        if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
-            return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Meaning already exists' };
-        } else {
-            return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-        }
+        return failed(err, '404');
     }
 };
 
-export const deleteMeaning = async (meaningId: number) => {
+export const deleteMeaning = async (meaningId: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const meaningDB = await meaningRepo.findOneByID(meaningId);
 
         if (!meaningDB) {
-            return { err: 'Invalid Meaning' };
+            return failed(new Error('No location with that id'), '404');
         }
 
         const response = await meaningRepo.remove(meaningDB);
-        return convertToDTO(response);
+        return success(response);
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any meaning!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err, '404');
     }
 };
 
@@ -85,3 +76,11 @@ const convertToDTO = (meaning: Meaning) => {
     };
     return dto;
 };
+
+function success(response: Meaning | MeaningResponseDTO[]): Result<ApiResponse, BaseError> {
+    if (Array.isArray(response)) {
+        return { success: true, result: { data: response } };
+    } else {
+        return { success: true, result: { data: convertToDTO(response) } };
+    }
+}
