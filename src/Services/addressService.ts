@@ -2,7 +2,7 @@ import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, ensureError } from '../Utils/errorHandler';
+import { Result, ApiResponse, success, failed } from '../Utils/errorHandler';
 
 export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -20,7 +20,6 @@ export const getAddresses = async (): Promise<Result<ApiResponse, BaseError>> =>
         const addresses = await addressRepo.findAll();
         const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
         return success(addressDTOs);
-
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
@@ -35,7 +34,6 @@ export const getAddressById = async (id: number): Promise<Result<ApiResponse, Ba
             return failed(new Error('No address with that id'), '404');
         }
         return success(response);
-
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
@@ -47,7 +45,6 @@ export const updateAddress = async (addressDTO: AddressRequestDTO): Promise<Resu
     try {
         const response = await addressRepo.save(addressDTO);
         return success(response);
-
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
@@ -65,7 +62,6 @@ export const deleteAddress = async (addressId: number): Promise<Result<ApiRespon
         }
         const response = await addressRepo.remove(addressDB);
         return success(response);
-
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
@@ -83,22 +79,3 @@ export const convertToDTO = (address: Address) => {
     };
     return dto;
 };
-
-function success(response: AddressResponseDTO | AddressResponseDTO[]): Result<ApiResponse, BaseError> {
-    if (Array.isArray(response)) {
-        return { success: true, result: { data: response } };
-    } else {
-        return { success: true, result: { data: response } };
-    }
-}
-
-function failed(err: Error, statusCode: string): Result<ApiResponse, BaseError> {
-    const error = ensureError(err);
-    return {
-        success: false, error: new BaseError('Could not create address', {
-            error: error,
-            statusCode: statusCode
-        })
-    };
-}
-
