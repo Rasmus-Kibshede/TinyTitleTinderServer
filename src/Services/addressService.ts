@@ -8,15 +8,11 @@ export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promi
     try {
         const save = await addressRepo.save(addressRequestDTO);
         const dto = convertToDTO(save);
-        return { success: true, result:{data: dto}};
+        return success(dto);
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
 };
 
@@ -24,16 +20,12 @@ export const getAddresses = async (): Promise<Result<ApiResponse, BaseError>> =>
     try {
         const addresses = await addressRepo.findAll();
         const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
-        return { success: true, result:{data: addressDTOs}};
+        return success(addressDTOs);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
 };
 
@@ -41,67 +33,44 @@ export const getAddressById = async (id: number): Promise<Result<ApiResponse, Ba
     try {
         const response = await addressRepo.findOneByID(id);
         if (!response) {
-            return { success: false, error: new BaseError('Could not get address', {
-                error: new Error('Couldent find address with that id.'), 
-                statusCode: 404
-            })};
+            return failed(new Error('No address with that id'), '404');
         }
-        return { success: true, result:{data: convertToDTO(response)}};
+        return success(response);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
-    };
+};
 
 export const updateAddress = async (addressDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
-        if (!addressDTO) {
-            return { success: false, error: new BaseError('Could not update address', {
-                error: new Error('insert some manual error here.'), 
-                statusCode: 404
-            })};
-        }
         const response = await addressRepo.save(addressDTO);
-        return { success: true, result:{data: response}};
+        return success(response);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        const error = ensureError(err);
-        return { success: false, error: new BaseError('Could not create address', {
-            error: error, 
-            statusCode: 404
-        })};
+        return failed(err, '404');
     }
 };
+
 
 export const deleteAddress = async (addressId: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const addressDB = await addressRepo.findOneByID(addressId);
 
         if (!addressDB) {
-            return { success: false, error: new BaseError('Could not delete address', {
-                error: new Error('No address with that id.'), 
-                statusCode: 404
-            })};
+           return failed(new Error('No address with that id'), '404');
         }
         const response = await addressRepo.remove(addressDB);
-        return { success: true, result:{data: convertToDTO(response)}};
+        return success(response);
 
     } catch (err) {
-       //TODO Add custom message for each endpoint
-       //TODO Add dynamic statuscode from the ErrorType.
-       const error = ensureError(err);
-       return { success: false, error: new BaseError('Could not create address', {
-           error: error, 
-           statusCode: 404
-       })};
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
+        return failed(err, '404');
     }
 };
 
@@ -115,4 +84,22 @@ export const convertToDTO = (address: Address) => {
     };
     return dto;
 };
+
+function success(response: AddressResponseDTO | AddressResponseDTO[]): Result<ApiResponse, BaseError> {
+    if (Array.isArray(response)) {
+        return { success: true, result: { data: response } };
+    } else {
+        return { success: true, result: { data: response } };
+    }
+}
+
+function failed(err: Error, statusCode: string): Result<ApiResponse, BaseError> {
+    const error = ensureError(err);
+    return {
+        success: false, error: new BaseError('Could not create address', {
+            error: error,
+            statusCode: statusCode
+        })
+    };
+}
 

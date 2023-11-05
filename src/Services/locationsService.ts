@@ -1,8 +1,10 @@
 import { locationRepo } from '../Repositories/locationRepository';
 import { Location } from '../Entities/Location';
 import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
+import { BaseError } from '../Utils/BaseError';
+import { Result, ApiResponse, ensureError } from '../Utils/errorHandler';
 
-export const createLocation = async (locationRequestDTO: LocationRequestDTO) => {
+export const createLocation = async (locationRequestDTO: LocationRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const save = await locationRepo.save(locationRequestDTO);
         return convertToDTO(save);
@@ -12,7 +14,7 @@ export const createLocation = async (locationRequestDTO: LocationRequestDTO) => 
     }
 };
 
-export const getLocations = async () => {
+export const getLocations = async (): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const locations = await locationRepo.findAll();
         const locationDTOs: LocationResponseDTO[] = locations.map(location => convertToDTO(location));
@@ -23,7 +25,7 @@ export const getLocations = async () => {
     }
 };
 
-export const getLocationById = async (id: number) => {
+export const getLocationById = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await locationRepo.findOneByID(id);
         if (!response) {
@@ -36,7 +38,7 @@ export const getLocationById = async (id: number) => {
     }
 };
 
-export const updateLocation = async (locationDTO: LocationRequestDTO) => {
+export const updateLocation = async (locationDTO: LocationRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         if (!locationDTO) {
             return { err: 'Invalid location DTO!' };
@@ -49,7 +51,7 @@ export const updateLocation = async (locationDTO: LocationRequestDTO) => {
     }
 };
 
-export const deleteLocation = async (locationId: number) => {
+export const deleteLocation = async (locationId: number): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const locationDB = await locationRepo.findOneByID(locationId);
 

@@ -7,7 +7,7 @@ import { Result, ApiResponse, ensureError } from '../Utils/errorHandler';
 export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await familyRepo.save(familyRequestDTO);
-        return convertToDTO(response);
+        return { success: true, result:{data: convertToDTO(response)}};
 
     } catch (err) {
         //TODO Add custom message for each endpoint
@@ -20,14 +20,20 @@ export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<
     }
 };
 
-export const getFamilies = async () => {
+export const getFamilies = async (): Promise<Result<ApiResponse, BaseError>>  => {
     try {
         const families = await familyRepo.findAll();
         const familyDTOs: FamilyRequestDTO[] = families.map(family => convertToDTO(family));
-        return familyDTOs;
+        return { success: true, result:{data: familyDTOs}};
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any Families!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
+        const error = ensureError(err);
+        return { success: false, error: new BaseError('Could not create address', {
+            error: error, 
+            statusCode: 404
+        })};
     }
 };
 
@@ -39,38 +45,56 @@ export const getFamilyById = async (id: number) => {
             return { err: 'Invalid Family' };
         }
 
-        return convertToDTO(response);
+        return { success: true, result:{data: convertToDTO(response)}};
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find a Family with that id!' ? { err: error.message } : { err: 'Something terrible went wrong!- we are working on it!' };
+    } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
+        const error = ensureError(err);
+        return { success: false, error: new BaseError('Could not create address', {
+            error: error, 
+            statusCode: 404
+        })};
     }
 };
 
-export const updateFamily = async (familyDTO: FamilyRequestDTO) => {
+export const updateFamily = async (familyDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>>  => {
     try {
-        if (!familyDTO) {
-            return { err: 'Invalid Family DTO!' };
-        }
         const response = await familyRepo.save(familyDTO);
-        return convertToDTO(response);
+        return { success: true, result:{data: convertToDTO(response)}};
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any Family!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
+        const error = ensureError(err);
+        return { success: false, error: new BaseError('Could not create address', {
+            error: error, 
+            statusCode: 404
+        })};
     }
 };
 
-export const deleteFamily = async (parentId: number) => {
+export const deleteFamily = async (parentId: number): Promise<Result<ApiResponse, BaseError>>  => {
     try {
         const familyDB = await familyRepo.findOneByID(parentId);
 
         if (!familyDB) {
-            return { err: 'Invalid Family' };
+            return { success: false, error: new BaseError('Could not get address', {
+                error: new Error('Couldent find address with that id.'), 
+                statusCode: 404
+            })};
         }
         const response = await familyRepo.remove(familyDB);
-        return convertToDTO(response);
+        return { success: true, result:{data: convertToDTO(response)}};
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any Family!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        //TODO Add custom message for each endpoint
+        //TODO Add dynamic statuscode from the ErrorType.
+        const error = ensureError(err);
+        return { success: false, error: new BaseError('Could not create address', {
+            error: error, 
+            statusCode: 404
+        })};
     }
 };
 

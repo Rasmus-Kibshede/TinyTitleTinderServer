@@ -14,3 +14,4 @@ export const ensureError = (value: unknown): Error => {
     const error = new Error(`This value was thrown as is, not through an Error: ${stringified}`);
     return error;
 };
+
