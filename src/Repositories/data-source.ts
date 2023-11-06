@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { AuditingSubscriber } from 'typeorm-auditing';
 
 export const appDataSource = new DataSource({
     type: 'mysql',
@@ -8,6 +9,7 @@ export const appDataSource = new DataSource({
     password: process.env.L_PASSWORD,
     port: Number(process.env.L_PORT),
     entities: ['src/Entities/**/*.ts'],
+    subscribers: [AuditingSubscriber],
     synchronize: true,
     logging: false
 });

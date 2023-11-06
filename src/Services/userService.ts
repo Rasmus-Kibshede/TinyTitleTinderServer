@@ -77,7 +77,7 @@ export const deleteUserByID = async (id: number) => {
 
     response.userActive = false;
 
-    return convertToDTO(await userRepo.save(response)) || { err: 'User not deleted' };
+    return convertToDTO(await userRepo.remove(response)) || { err: 'User not deleted' };
 };
 
 
