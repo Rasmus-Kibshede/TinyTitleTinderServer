@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './Role';
 
 @Entity()
@@ -23,6 +23,7 @@ export class User {
     lastLogin: Date | null;
 
     @ManyToMany(() => Role, (role) => role.users, { nullable: true })
+    @JoinColumn()
     @JoinTable({
         name: 'user_role',
         joinColumn: {

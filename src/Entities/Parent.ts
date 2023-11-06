@@ -6,27 +6,27 @@ import { Location } from './Location';
 
 @Entity()
 export class Parent {
-    @PrimaryGeneratedColumn({ name: 'parent_id' })
-    parentId: number;
+  @PrimaryGeneratedColumn({ name: 'parent_id' })
+  parentId: number;
 
-    @Column('int',{name: 'age' })
-    age: number;
-    
-    @Column('varchar',{ length: 255, nullable: false, name: 'gender' })
-    gender: string;
+  @Column('int', { name: 'age' })
+  age: number;
 
-    @Column('varchar',{ length: 255, nullable: false, name: 'first_name' })
-    firstName: string; 
+  @Column('varchar', { length: 255, nullable: false, name: 'gender' })
+  gender: string;
 
-    @Column('varchar',{ length: 255, nullable: false, name: 'last_name' })
-    lastName: string; 
+  @Column('varchar', { length: 255, nullable: false, name: 'first_name' })
+  firstName: string;
 
-    @OneToOne(() => User)
-    @JoinColumn()
-    user: User;
+  @Column('varchar', { length: 255, nullable: false, name: 'last_name' })
+  lastName: string;
 
-    @ManyToMany(() => Name, (name) => name.parents, { nullable: true })
-    @JoinColumn()
+  @OneToOne(() => User)
+  @JoinColumn()
+  user: User;
+
+  @ManyToMany(() => Name, (name) => name.parents, { nullable: true })
+  @JoinColumn()
   @JoinTable({
     name: 'parent_name_suggest',
     joinColumn: {
@@ -41,7 +41,7 @@ export class Parent {
   names: Name[] | null;
 
   @ManyToMany(() => Family, (family) => family.parents)
-    famalies: Family[];
+  families: Family[];
 
     @ManyToOne(() => Location, (location) => location.parents)
     location: Location;

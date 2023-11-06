@@ -32,6 +32,7 @@ export class Name {
   namesakes: string;
 
   @ManyToMany(() => Origin, (origin) => origin.names, { nullable: true })
+  @JoinColumn()
   @JoinTable({
     name: 'name_suggest_origin',
     joinColumn: {
@@ -46,6 +47,7 @@ export class Name {
   origins: Origin[] | null;
 
   @ManyToMany(() => Meaning, (meaning) => meaning.names, { nullable: true })
+  @JoinColumn()
   @JoinTable({
     name: 'name_suggest_meaning',
     joinColumn: {

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Name } from './Name';
 
 @Entity()
@@ -17,5 +17,6 @@ export class Origin {
     description: string;
 
     @ManyToMany(() => Name, (name) => name.origins)
+    @JoinColumn()
     names: Name[];
 }

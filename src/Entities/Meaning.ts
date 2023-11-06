@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Name } from './Name';
 
 @Entity()
@@ -11,5 +11,6 @@ export class Meaning {
     definition: string;
 
     @ManyToMany(() => Name, (name) => name.meanings)
+    @JoinColumn()
     names: Name[];
 }

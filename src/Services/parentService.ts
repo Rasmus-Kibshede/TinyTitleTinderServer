@@ -27,10 +27,10 @@ export const getParents = async () => {
 
 export const getParentById = async (id: number) => {
     try {
-         //TODO get user with role from userRepo
+        //TODO get user with role from userRepo
         //TODO get names with origins and meaning from nameRepo. 
         const response = await parentRepo.findOneByID(id);
-        
+
         if (!response) {
             return failed(new Error('No parent with that id'), '404');
         }
@@ -76,7 +76,7 @@ export const convertToDTO = (parent: Parent) => {
         lastName: parent.lastName,
         user: parent.user,
         names: parent.names,
-        families: parent.famalies,
+        families: parent.families,
         location: parent.location
     };
     return dto;
