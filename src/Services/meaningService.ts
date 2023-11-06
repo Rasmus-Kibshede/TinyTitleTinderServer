@@ -2,7 +2,7 @@ import { MeaningRequestDTO, MeaningResponseDTO } from '../DTO/meaningDTO';
 import { Meaning } from '../Entities/Meaning';
 import { meaningRepo } from '../Repositories/meaningRepository';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
 export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -11,7 +11,7 @@ export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promi
 
     } catch (err) {
         // Temporary solution before implementing generic validation on unique constraints
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -22,7 +22,7 @@ export const getMeanings = async (): Promise<Result<ApiResponse, BaseError>> => 
         return success(meaningDTOs);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -31,13 +31,13 @@ export const getMeaningById = async (id: number): Promise<Result<ApiResponse, Ba
         const response = await meaningRepo.findOneByID(id);
 
         if (!response) {
-            return failed(invalidIdError('meaning'), await generateStatusCode(invalidIdError('meaning').message));
+            return failed('meaning');
         }
 
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -48,7 +48,7 @@ export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promi
 
     } catch (err) {
         // Temporary solution before implementing generic validation on unique constraints
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -57,14 +57,14 @@ export const deleteMeaning = async (meaningId: number): Promise<Result<ApiRespon
         const meaningDB = await meaningRepo.findOneByID(meaningId);
 
         if (!meaningDB) {
-            return failed(invalidIdError('meaning'), await generateStatusCode(invalidIdError('meaning').message));
+            return failed('meaning');
         }
 
         const response = await meaningRepo.remove(meaningDB);
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 

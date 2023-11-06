@@ -1,7 +1,7 @@
 import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
 import { Origin } from '../Entities/Origin';
 import { originRepo } from '../Repositories/originRepository';
-import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
 
 export const createOrigin = async (OriginRequestDTO: OriginRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
@@ -9,7 +9,7 @@ export const createOrigin = async (OriginRequestDTO: OriginRequestDTO): Promise<
         const response = await originRepo.save(OriginRequestDTO);
         return success(response);
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -17,11 +17,11 @@ export const getOriginByID = async (id: number): Promise<Result<ApiResponse, Bas
     try {
         const response = await originRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError('origin'), await generateStatusCode(invalidIdError('origin').message));
+            return failed('origin');
         }
         return success(response);
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -31,7 +31,7 @@ export const getOrigins = async (): Promise<Result<ApiResponse, BaseError>> => {
         const originDTOs: OriginResponseDTO[] = origins.map((origin) => convertToDTO(origin));
         return success(originDTOs);
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -40,7 +40,7 @@ export const updateOrigin = async (originRequestDTO: OriginRequestDTO): Promise<
         const response = await originRepo.save(originRequestDTO);
         return success(response);
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -48,12 +48,12 @@ export const deleteOriginByID = async (id: number): Promise<Result<ApiResponse, 
     try {
         const response = await originRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError('origin'), await generateStatusCode(invalidIdError('origin').message));
+            return failed('origin');
         }
         const remove = await originRepo.remove(response);
         return success(remove);
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 

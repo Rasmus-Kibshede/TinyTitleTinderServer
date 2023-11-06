@@ -2,7 +2,7 @@ import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed} from '../Utils/errorHandler';
 
 export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -11,7 +11,7 @@ export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promi
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -23,7 +23,7 @@ export const getAddresses = async (): Promise<Result<ApiResponse, BaseError>> =>
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -31,13 +31,13 @@ export const getAddressById = async (id: number): Promise<Result<ApiResponse, Ba
     try {
         const response = await addressRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError('address'), await generateStatusCode(invalidIdError('address').message));
+            return failed('address');
         }
         return success(response);
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.    
-        return failed(err, await generateStatusCode(err.code));
+        return failed(err);
     }
 };
 
@@ -48,7 +48,7 @@ export const updateAddress = async (addressDTO: AddressRequestDTO): Promise<Resu
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -57,14 +57,14 @@ export const deleteAddress = async (addressId: number): Promise<Result<ApiRespon
         const addressDB = await addressRepo.findOneByID(addressId);
 
         if (!addressDB) {
-            return failed(invalidIdError('address'), await generateStatusCode(invalidIdError('address').message));
+            return failed('address');
         }
         const response = await addressRepo.remove(addressDB);
         return success(response);
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 

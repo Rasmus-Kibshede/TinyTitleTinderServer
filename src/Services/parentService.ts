@@ -1,7 +1,7 @@
 import { parentRepo } from '../Repositories/parentRepository';
 import { Parent } from '../Entities/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
-import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
 
 export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
@@ -10,7 +10,7 @@ export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -21,7 +21,7 @@ export const getParents = async () => {
         return success(parentDTOs);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -32,13 +32,13 @@ export const getParentById = async (id: number) => {
         const response = await parentRepo.findOneByID(id);
 
         if (!response) {
-            return failed(invalidIdError('parent'), await generateStatusCode(invalidIdError('parent').message));
+            return failed('parent');
         }
 
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -48,7 +48,7 @@ export const updateParent = async (parentDTO: ParentRequestDTO) => {
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -57,13 +57,13 @@ export const deleteParent = async (parentId: number) => {
         const parentDB = await parentRepo.findOneByID(parentId);
 
         if (!parentDB) {
-            return failed(invalidIdError('parent'), await generateStatusCode(invalidIdError('parent').message));
+            return failed('parent');
         }
         const response = await parentRepo.remove(parentDB);
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 

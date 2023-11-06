@@ -10,6 +10,6 @@ try{
 } catch (err) {
     //TODO Add custom message for each endpoint
     //TODO Add dynamic statuscode from the ErrorType.
-    return failed(err, '404');
+    return failed(err);
 }
 };

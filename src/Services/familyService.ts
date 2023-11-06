@@ -2,7 +2,7 @@ import { parentRepo as familyRepo } from '../Repositories/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
 import { Family } from '../Entities/Family';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
 export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -12,7 +12,7 @@ export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -25,7 +25,7 @@ export const getFamilies = async (): Promise<Result<ApiResponse, BaseError>> => 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -33,14 +33,14 @@ export const getFamilyById = async (id: number) => {
     try {
         const response = await familyRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError('family'), await generateStatusCode(invalidIdError('family').message));
+            return failed('family');
         }
         return success(response);
 
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -52,7 +52,7 @@ export const updateFamily = async (familyDTO: FamilyRequestDTO): Promise<Result<
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -61,7 +61,7 @@ export const deleteFamily = async (parentId: number): Promise<Result<ApiResponse
         const familyDB = await familyRepo.findOneByID(parentId);
 
         if (!familyDB) {
-            return failed(invalidIdError('family'), await generateStatusCode(invalidIdError('family').message));
+            return failed('family');
         }
         const response = await familyRepo.remove(familyDB);
         return success(response);
@@ -69,7 +69,7 @@ export const deleteFamily = async (parentId: number): Promise<Result<ApiResponse
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        return failed(err);
     }
 };
 

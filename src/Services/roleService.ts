@@ -1,7 +1,7 @@
 import { roleRepo } from '../Repositories/roleRepository';
 import { Role } from '../Entities/Role';
 import { RoleRequestDTO, RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
-import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
 
 export const createRole = async (roleRequestDTO: RoleTitle) => {
@@ -10,7 +10,7 @@ export const createRole = async (roleRequestDTO: RoleTitle) => {
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -18,13 +18,13 @@ export const getRoleById = async (id: number) => {
     try {
         const response = await roleRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError('role'), await generateStatusCode(invalidIdError('role').message));
+            return failed('role');
         }
 
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -35,7 +35,7 @@ export const getRoles = async () => {
         return success(roleDTOs);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -45,7 +45,7 @@ export const updateRole = async (roleDTO: RoleTitle) => {
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -54,14 +54,14 @@ export const deleteRoleByID = async (roleId: number) => {
         const response = await roleRepo.findOneById(roleId);
 
         if (!response) {
-            return failed(invalidIdError('role'), await generateStatusCode(invalidIdError('role').message));
+            return failed('role');
         }
 
         const deleted = await roleRepo.remove(response);
         return success(deleted);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 

@@ -2,7 +2,7 @@ import { locationRepo } from '../Repositories/locationRepository';
 import { Location } from '../Entities/Location';
 import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
 export const createLocation = async (locationRequestDTO: LocationRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -10,7 +10,7 @@ export const createLocation = async (locationRequestDTO: LocationRequestDTO): Pr
         return success(response);
         
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -21,7 +21,7 @@ export const getLocations = async (): Promise<Result<ApiResponse, BaseError>> =>
         return success(locationDTOs);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -29,12 +29,12 @@ export const getLocationById = async (id: number): Promise<Result<ApiResponse, B
     try {
         const response = await locationRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError('location'), await generateStatusCode(invalidIdError('location').message));
+            return failed('location');
         }
         return success(response);
 
     } catch (err) {
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -44,7 +44,7 @@ export const updateLocation = async (locationDTO: LocationRequestDTO): Promise<R
         return success(response);
 
     } catch (err) {    
-        return failed(err, '404');
+        return failed(err);
     }
 };
 
@@ -53,13 +53,13 @@ export const deleteLocation = async (locationId: number): Promise<Result<ApiResp
         const locationDB = await locationRepo.findOneByID(locationId);
 
         if (!locationDB) {
-            return failed(invalidIdError('location'), await generateStatusCode(invalidIdError('location').message));
+            return failed('location');
         }
         const response = await locationRepo.remove(locationDB);
         return success(response);
 
     } catch (err) {    
-        return failed(err, '404');
+        return failed(err);
     }
 };
 

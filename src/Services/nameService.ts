@@ -2,7 +2,7 @@ import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
 export const createName = async (nameRequestDTO: NameRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
   try {
@@ -11,7 +11,7 @@ export const createName = async (nameRequestDTO: NameRequestDTO): Promise<Result
     return success(response);
   } catch (err) {
     // Temporary solution before implementing generic validation on unique constraints
-    return failed(err, '404');
+    return failed(err);
   }
 };
 
@@ -20,12 +20,12 @@ export const getNameByID = async (id: number): Promise<Result<ApiResponse, BaseE
     const response = await nameRepo.findOneByID(id);
 
     if (!response) {
-      return failed(invalidIdError('name'), await generateStatusCode(invalidIdError('name').message));
+      return failed('name');
     }
 
     return success(response);
   } catch (err) {
-    return failed(err, '404');
+    return failed(err);
   }
 };
 
@@ -36,7 +36,7 @@ export const getNames = async (): Promise<Result<ApiResponse, BaseError>> => {
 
     return success(nameDTOs);
   } catch (err) {
-    return failed(err, '404');
+    return failed(err);
   }
 };
 
@@ -47,7 +47,7 @@ export const updateName = async (nameRequestDTO: NameRequestDTO): Promise<Result
 
   } catch (err) {
     // Temporary solution before implementing generic validation on unique constraints
-    return failed(err, '404');
+    return failed(err);
   }
 };
 
@@ -56,12 +56,12 @@ export const deleteNameByID = async (id: number): Promise<Result<ApiResponse, Ba
     const nameDB = await nameRepo.findOneByID(id);
 
     if (!nameDB) {
-      return failed(invalidIdError('name'), await generateStatusCode(invalidIdError('name').message));
+      return failed('name');
     }
     const response = await nameRepo.remove(nameDB);
     return success(response);
   } catch (err) {
-    return failed(err, '404');
+    return failed(err);
   }
 };
 
