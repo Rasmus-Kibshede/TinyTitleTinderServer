@@ -57,8 +57,11 @@ export const generateStatusCode = async (err: string) => {
             statusCode: '404'
         }
     ];
-    if(err.startsWith('No')){
-        err = err.split('with that id')[1];
+    // if(err.startsWith('No')){
+    //     err = err.split('with that id')[1];
+    // }
+    if(err.includes('with that id')){
+        return '404';
     }
 
     const message = errors.find(msg => {
