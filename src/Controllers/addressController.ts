@@ -9,7 +9,6 @@ export const createAddress = async (req: Request, res: Response) => {
         address: req.body.address,
         location: req.body.location
     };
-
     const response = await addressService.createAddress(addressRequestDTO);
     res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result : response.error.message);
 };
