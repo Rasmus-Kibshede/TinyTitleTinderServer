@@ -1,10 +1,8 @@
 import { roleRepo } from '../Repositories/roleRepository';
 import { Role } from '../Entities/Role';
 import { RoleRequestDTO, RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
-import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
-
-const invalidIdError = new Error('No role with that id');
 
 export const createRole = async (roleRequestDTO: RoleTitle) => {
     try {
@@ -20,7 +18,7 @@ export const getRoleById = async (id: number) => {
     try {
         const response = await roleRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
+            return failed(invalidIdError('role'), await generateStatusCode(invalidIdError('role').message));
         }
 
         return success(response);
@@ -56,7 +54,7 @@ export const deleteRoleByID = async (roleId: number) => {
         const response = await roleRepo.findOneById(roleId);
 
         if (!response) {
-            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
+            return failed(invalidIdError('role'), await generateStatusCode(invalidIdError('role').message));
         }
 
         const deleted = await roleRepo.remove(response);

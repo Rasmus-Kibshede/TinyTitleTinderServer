@@ -2,9 +2,7 @@ import { parentRepo as familyRepo } from '../Repositories/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
 import { Family } from '../Entities/Family';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
-
-const invalidIdError = new Error('No family with that id');
+import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
 
 export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -35,7 +33,7 @@ export const getFamilyById = async (id: number) => {
     try {
         const response = await familyRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
+            return failed(invalidIdError('family'), await generateStatusCode(invalidIdError('family').message));
         }
         return success(response);
 
@@ -63,7 +61,7 @@ export const deleteFamily = async (parentId: number): Promise<Result<ApiResponse
         const familyDB = await familyRepo.findOneByID(parentId);
 
         if (!familyDB) {
-            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
+            return failed(invalidIdError('family'), await generateStatusCode(invalidIdError('family').message));
         }
         const response = await familyRepo.remove(familyDB);
         return success(response);

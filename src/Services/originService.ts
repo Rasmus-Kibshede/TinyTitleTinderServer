@@ -1,10 +1,8 @@
 import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
 import { Origin } from '../Entities/Origin';
 import { originRepo } from '../Repositories/originRepository';
-import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, generateStatusCode, invalidIdError } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
-
-const invalidIdError = new Error('No origin with that id');
 
 export const createOrigin = async (OriginRequestDTO: OriginRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -19,7 +17,7 @@ export const getOriginByID = async (id: number): Promise<Result<ApiResponse, Bas
     try {
         const response = await originRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
+            return failed(invalidIdError('origin'), await generateStatusCode(invalidIdError('origin').message));
         }
         return success(response);
     } catch (err) {
@@ -50,7 +48,7 @@ export const deleteOriginByID = async (id: number): Promise<Result<ApiResponse, 
     try {
         const response = await originRepo.findOneByID(id);
         if (!response) {
-            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
+            return failed(invalidIdError('origin'), await generateStatusCode(invalidIdError('origin').message));
         }
         const remove = await originRepo.remove(response);
         return success(remove);

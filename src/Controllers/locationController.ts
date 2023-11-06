@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import * as locationService from '../Services/locationsService';
+import * as locationService from '../Services/locationService';
 import { LocationRequestDTO } from '../DTO/locationDTO';
 
 export const createLocation = async (req: Request, res: Response) => {
