@@ -27,9 +27,7 @@ export function failed(err: Error, statusCode: string): Result<ApiResponse, Base
 }
 
 export const generateStatusCode = async (err: string) => {
-    if(err.startsWith('No')){
-
-    }
+    
     const errors = [
         {
             message: '',
@@ -59,6 +57,10 @@ export const generateStatusCode = async (err: string) => {
             statusCode: '404'
         }
     ];
+    if(err.startsWith('No')){
+        err = err.split('with that id')[1];
+    }
+
     const message = errors.find(msg => {
         return msg.message === err;
     });
