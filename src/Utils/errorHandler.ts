@@ -68,3 +68,6 @@ export const generateStatusCode = async (err: string) => {
     return message.statusCode;
 };
 
+export const invalidIdError = (entityName: string) => {
+    return new Error(`No ${entityName} with that id`);
+};
