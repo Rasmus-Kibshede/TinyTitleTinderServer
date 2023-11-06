@@ -2,7 +2,9 @@ import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
+
+const invalidIdError = new Error('No name with that id');
 
 export const createName = async (nameRequestDTO: NameRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
   try {
@@ -20,7 +22,7 @@ export const getNameByID = async (id: number): Promise<Result<ApiResponse, BaseE
     const response = await nameRepo.findOneByID(id);
 
     if (!response) {
-      return failed(new Error('No name with that id'), '404');
+      return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
     }
 
     return success(response);
@@ -56,7 +58,7 @@ export const deleteNameByID = async (id: number): Promise<Result<ApiResponse, Ba
     const nameDB = await nameRepo.findOneByID(id);
 
     if (!nameDB) {
-      return failed(new Error('No name with that id'), '404');
+      return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
     }
     const response = await nameRepo.remove(nameDB);
     return success(response);

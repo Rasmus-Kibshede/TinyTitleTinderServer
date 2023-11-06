@@ -2,7 +2,9 @@ import { MeaningRequestDTO, MeaningResponseDTO } from '../DTO/meaningDTO';
 import { Meaning } from '../Entities/Meaning';
 import { meaningRepo } from '../Repositories/meaningRepository';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
+
+const invalidIdError = new Error('No meaning with that id');
 
 export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -31,7 +33,7 @@ export const getMeaningById = async (id: number): Promise<Result<ApiResponse, Ba
         const response = await meaningRepo.findOneByID(id);
 
         if (!response) {
-            return failed(new Error('No location with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
 
         return success(response);
@@ -57,7 +59,7 @@ export const deleteMeaning = async (meaningId: number): Promise<Result<ApiRespon
         const meaningDB = await meaningRepo.findOneByID(meaningId);
 
         if (!meaningDB) {
-            return failed(new Error('No location with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
 
         const response = await meaningRepo.remove(meaningDB);

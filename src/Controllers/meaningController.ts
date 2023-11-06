@@ -36,6 +36,5 @@ export const updateMeaning = async (req: Request, res: Response) => {
 
 export const deleteMeaningByID = async (req: Request, res: Response) => {
 	const response = await meaningService.deleteMeaning(Number(req.params.id));
-
 	res.status(response.success ? 204 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };

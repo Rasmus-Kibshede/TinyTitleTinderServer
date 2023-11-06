@@ -3,14 +3,16 @@ import { User } from '../Entities/User';
 import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
+
+const invalidIdError = new Error('No user with that id');
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
         const role = await getRoleById(3) as unknown as Role;
 if(!role){
-    return failed(new Error('No user with that id'), '404');
+    return failed(new Error('No role with that id'), await generateStatusCode(invalidIdError.message));
 }
         UserRequestDTO.roles = [];
         UserRequestDTO.roles.push(role);
@@ -27,7 +29,7 @@ export const getUserByID = async (id: number) => {
     try {
         const response = await userRepo.findOneByID(id);
         if (!response) {
-            return failed(new Error('No user with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
         return success(response);
     } catch (err) {
@@ -54,7 +56,7 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
 
     const savedUser = await userRepo.save(userDB);
     if (!savedUser) {
-        return failed(new Error('No user with that id'), '404');
+        return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
     }   
 
     return success(savedUser);
@@ -71,7 +73,7 @@ export const deleteUserByID = async (id: number) => {
         const response = await userRepo.findOneByID(id);
 
         if (!response || !response.userActive) {
-            return failed(new Error('No user with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
     
         response.userActive = false;

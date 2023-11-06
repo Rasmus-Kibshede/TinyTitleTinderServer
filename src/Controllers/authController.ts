@@ -22,6 +22,5 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const checkAuth = async (req: Request, res: Response) => {
-
     res.send({ auth: req.body.tokenlogin });
 };

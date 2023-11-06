@@ -16,7 +16,6 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const getUserByID = async (req: Request, res: Response) => {
 	const response = await userService.getUserByID(Number(req.params.id));
-
 	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
@@ -27,19 +26,16 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 //TODO Denne kan ikke tage imod rolle uden at opdatere email, crasher appen.
 export const updateUser = async (req: Request, res: Response) => {
-
 	const userRequestDTO: UserRequestDTO = {
 		email: req.body.newEmail,
 		password: req.body.password,
 		roles: req.body.roles
 	};
-
 	const response = await userService.updateUser(userRequestDTO, req.body.email);
 	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const deleteUserByID = async (req: Request, res: Response) => {
 	const response = await userService.deleteUserByID(Number(req.params.id));
-
 	res.status(response.success ? 204 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };

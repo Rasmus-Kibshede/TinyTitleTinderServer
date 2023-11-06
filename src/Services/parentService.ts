@@ -1,8 +1,10 @@
 import { parentRepo } from '../Repositories/parentRepository';
 import { Parent } from '../Entities/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
+
+const invalidIdError = new Error('No parent with that id');
 
 export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
     try {
@@ -32,7 +34,7 @@ export const getParentById = async (id: number) => {
         const response = await parentRepo.findOneByID(id);
 
         if (!response) {
-            return failed(new Error('No parent with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
 
         return success(response);
@@ -57,7 +59,7 @@ export const deleteParent = async (parentId: number) => {
         const parentDB = await parentRepo.findOneByID(parentId);
 
         if (!parentDB) {
-            return failed(new Error('No parent with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
         const response = await parentRepo.remove(parentDB);
         return success(response);

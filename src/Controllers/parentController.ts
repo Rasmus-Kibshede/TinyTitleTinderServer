@@ -26,7 +26,6 @@ export const createParent = async (req: Request, res: Response) => {
 
 export const getAllParents = async (req: Request, res: Response) => {
     const response = await parentService.getParents();
-
     res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
@@ -44,7 +43,6 @@ export const updateParent = async (req: Request, res: Response) => {
         lastName: req.body.lastName,
         user: req.body.user
     };
-
     const response = await parentService.updateParent(parentRequestDTO);
     res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };

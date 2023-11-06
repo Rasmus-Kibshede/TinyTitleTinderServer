@@ -2,7 +2,9 @@ import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
+
+const invalidIdError = new Error('No address with that id');
 
 export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -31,13 +33,13 @@ export const getAddressById = async (id: number): Promise<Result<ApiResponse, Ba
     try {
         const response = await addressRepo.findOneByID(id);
         if (!response) {
-            return failed(new Error('No address with that id'), '400');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
         return success(response);
     } catch (err) {
         //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
-        return failed(err, '404');
+        //TODO Add dynamic statuscode from the ErrorType.    
+        return failed(err, await generateStatusCode(err.code));
     }
 };
 
@@ -57,7 +59,7 @@ export const deleteAddress = async (addressId: number): Promise<Result<ApiRespon
         const addressDB = await addressRepo.findOneByID(addressId);
 
         if (!addressDB) {
-            return failed(new Error('No address with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
         const response = await addressRepo.remove(addressDB);
         return success(response);

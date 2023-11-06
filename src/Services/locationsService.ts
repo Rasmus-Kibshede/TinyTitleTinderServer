@@ -2,7 +2,9 @@ import { locationRepo } from '../Repositories/locationRepository';
 import { Location } from '../Entities/Location';
 import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, generateStatusCode } from '../Utils/errorHandler';
+
+const invalidIdError = new Error('No location with that id');
 
 export const createLocation = async (locationRequestDTO: LocationRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
@@ -29,7 +31,7 @@ export const getLocationById = async (id: number): Promise<Result<ApiResponse, B
     try {
         const response = await locationRepo.findOneByID(id);
         if (!response) {
-            return failed(new Error('No location with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
         return success(response);
 
@@ -53,7 +55,7 @@ export const deleteLocation = async (locationId: number): Promise<Result<ApiResp
         const locationDB = await locationRepo.findOneByID(locationId);
 
         if (!locationDB) {
-            return failed(new Error('No location with that id'), '404');
+            return failed(invalidIdError, await generateStatusCode(invalidIdError.message));
         }
         const response = await locationRepo.remove(locationDB);
         return success(response);

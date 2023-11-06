@@ -17,7 +17,6 @@ export const getRoleByID = async (req: Request, res: Response) => {
 
 export const getAllRoles = async (req: Request, res: Response) => {
 	const response = await roleService.getRoles();
-
 	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
@@ -29,7 +28,6 @@ export const updateRole = async (req: Request, res: Response) => {
 	};
 
 	const response = await roleService.updateRole(roleRequestDTO);
-	
 	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
