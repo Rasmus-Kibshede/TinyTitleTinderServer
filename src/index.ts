@@ -21,7 +21,18 @@ const app = express();
 app.use(express.json());
 
 //Typeorm setup
-import { appDataSource } from './Repositories/data-source';
+import { appDataSource, appDataSourceMongo } from './Repositories/data-source';
+appDataSourceMongo.initialize().then(() => {
+	const PORT = process.env.PORT || 3006;
+
+	app.listen(PORT, () => {
+		// eslint-disable-next-line no-console
+		console.log(`App mongo: http://localhost:${PORT}/`);
+	});
+}).catch((error) => {
+	console.log(error);
+});
+
 appDataSource.initialize().then(() => {
 	// eslint-disable-next-line no-console
 	console.log('Database connection established');
