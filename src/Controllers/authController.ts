@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as authService from '../Services/authService';
-import { userLogin } from '../DTO/userDTO';
+import { UserResponseDTO, userLogin } from '../DTO/userDTO';
 import { authSignin } from '../Utils/jwtUtil';
 
 export const login = async (req: Request, res: Response) => {
@@ -11,7 +11,11 @@ export const login = async (req: Request, res: Response) => {
         };
 
         const response = await authService.login(userLogin);
-        authSignin(response, res);
+        if (!response.success) {
+            throw new Error('temp');
+        }
+
+        authSignin(response.result.data as UserResponseDTO, res);
     } catch (err) {
         res.status(400).send(err.message);
     }

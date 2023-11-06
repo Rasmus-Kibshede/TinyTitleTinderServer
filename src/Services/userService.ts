@@ -9,6 +9,9 @@ import { BaseError } from '../Utils/BaseError';
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
         const role = await getRoleById(3) as unknown as Role;
+if(!role){
+    return failed(new Error('No user with that id'), '404');
+}
         UserRequestDTO.roles = [];
         UserRequestDTO.roles.push(role);
 
@@ -16,7 +19,6 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
 
         return success(response);
     } catch (err) {
-        // Temporary solution before implementing generic validation on unique constraints
         return failed(err, '404');
     }
 };

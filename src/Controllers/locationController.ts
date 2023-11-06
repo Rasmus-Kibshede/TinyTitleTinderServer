@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as locationService from '../Services/locationsService';
-import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
+import { LocationRequestDTO } from '../DTO/locationDTO';
 
 export const createLocation = async (req: Request, res: Response) => {
     const locationRequestDTO: LocationRequestDTO = {
@@ -9,21 +9,17 @@ export const createLocation = async (req: Request, res: Response) => {
     };
 
     const response = await locationService.createLocation(locationRequestDTO);
-    locationResponse(response ? response : { err: response }, res, 200);
+    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const getAllLocations = async (req: Request, res: Response) => {
     const response = await locationService.getLocations();
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(201).send(response);
-    }
+    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const getLocationById = async (req: Request, res: Response) => {
     const response = await locationService.getLocationById(Number(req.params.id));
-    locationResponse(response ? response : { err: response }, res, 200);
+    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const updateLocation = async (req: Request, res: Response) => {
@@ -34,19 +30,11 @@ export const updateLocation = async (req: Request, res: Response) => {
     };
     
     const response = await locationService.updateLocation(locationRequestDTO);
-    locationResponse(response ? response : { err: response }, res, 201);
+    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 //TODO Look at constraint, can't delete location if address is connected. 
 export const deleteLocation = async (req: Request, res: Response) => {
     const response = await locationService.deleteLocation(Number(req.params.id));
-    locationResponse(response ? response : { err: response }, res, 201);
-};
-
-const locationResponse = (response: LocationResponseDTO | { err: string }, res: Response, statusCode: number) => {
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(statusCode).send(response);
-    }
+    res.status(response.success ? 204 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };

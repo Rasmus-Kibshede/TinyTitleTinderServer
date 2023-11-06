@@ -45,8 +45,4 @@ export class Parent {
 
     @ManyToOne(() => Location, (location) => location.parents)
     location: Location;
-
-    //TODO skal have invite på
-    //@ManyToMany()
-    //invite: Invite[];
 }

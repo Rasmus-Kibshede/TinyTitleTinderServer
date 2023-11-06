@@ -18,9 +18,44 @@ export const ensureError = (value: unknown): Error => {
 export function failed(err: Error, statusCode: string): Result<ApiResponse, BaseError> {
     const error = ensureError(err);
     return {
-        success: false, error: new BaseError('Could not create address', {
+        success: false, error: new BaseError(error.message, {
             error: error,
             statusCode: statusCode
         })
     };
 }
+
+export const errors = async (err: string) => {
+    const errors = [
+        {
+            message: 'ER_DUP_ENTRY',
+            statusCode: 400
+        },
+        {
+            message: 'ER_DUP_ENTRY',
+            statusCode: 401
+        },
+        {
+            message: 'ER_DUP_ENTRY',
+            statusCode: 403
+        },{
+            message: 'ER_BAD_FIELD_ERROR',
+            statusCode: 404
+        }, 
+        {
+            message: 'ER_DUP_ENTRY',
+            statusCode: 409
+        },
+        {
+            message: 'ER_DUP_ENTRY',
+            statusCode: 500
+        },
+    ];
+
+const errTest = err;
+console.log(errTest);
+
+
+    return errors;
+    };
+    

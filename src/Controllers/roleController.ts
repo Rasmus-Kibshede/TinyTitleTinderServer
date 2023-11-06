@@ -1,28 +1,24 @@
 import { Request, Response } from 'express';
 import * as roleService from '../Services/roleService';
-import { RoleRequestDTO, RoleTitle, RoleResponseDTO } from '../DTO/roleDTO';
+import { RoleRequestDTO, RoleTitle } from '../DTO/roleDTO';
 
 export const createRole = async (req: Request, res: Response) => {
 	const roleRequestDTO: RoleTitle = {
         title: req.body.title
     };
 	const response = await roleService.createRole(roleRequestDTO);
-	roleResponse(response ? response : { err: response }, res, 200);
+	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const getRoleByID = async (req: Request, res: Response) => {
 	const response = await roleService.getRoleById(Number(req.params.id));
-	roleResponse(response ? response : { err: response }, res, 200);
+	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const getAllRoles = async (req: Request, res: Response) => {
 	const response = await roleService.getRoles();
 
-	if (!response) {
-		res.status(404).send({ err: response });
-	} else {
-		res.status(200).send(response);
-	}
+	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const updateRole = async (req: Request, res: Response) => {
@@ -34,18 +30,11 @@ export const updateRole = async (req: Request, res: Response) => {
 
 	const response = await roleService.updateRole(roleRequestDTO);
 	
-	roleResponse(response ? response : { err: response }, res, 201);
+	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const deleteRoleByID = async (req: Request, res: Response) => {
 	const response = await roleService.deleteRoleByID(Number(req.params.id));
-	roleResponse(response ? response : { err: response }, res, 201);
+	res.status(response.success ? 204 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
-const roleResponse = (response: RoleResponseDTO | { err: string }, res: Response, statusCode: number) => {
-	if (!response) {
-		res.status(404).send({ err: response });
-	} else {
-		res.status(statusCode).send(response);
-	}
-};

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as parentService from '../Services/parentService';
-import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
+import { ParentRequestDTO } from '../DTO/parentDTO';
 
 export const createParent = async (req: Request, res: Response) => {
     let parentRequestDTO: ParentRequestDTO;
@@ -21,22 +21,18 @@ export const createParent = async (req: Request, res: Response) => {
     };
 
     const response = await parentService.createParent(parentRequestDTO);
-    parentResponse(response ? response : { err: response }, res, 201);
+    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const getAllParents = async (req: Request, res: Response) => {
     const response = await parentService.getParents();
 
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(200).send(response);
-    }
+    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const getParentById = async (req: Request, res: Response) => {
     const response = await parentService.getParentById(Number(req.params.id));
-    parentResponse(response ? response : { err: response }, res, 201);
+    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const updateParent = async (req: Request, res: Response) => {
@@ -50,18 +46,10 @@ export const updateParent = async (req: Request, res: Response) => {
     };
 
     const response = await parentService.updateParent(parentRequestDTO);
-    parentResponse(response ? response : { err: response }, res, 201);
+    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };
 
 export const deleteParent = async (req: Request, res: Response) => {
     const response = await parentService.deleteParent(Number(req.params.id));
-    parentResponse(response ? response : { err: response }, res, 201);
-};
-
-const parentResponse = (response: ParentResponseDTO | { err: string }, res: Response, statusCode: number) => {
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(statusCode).send(response);
-    }
+    res.status(response.success ? 204 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
 };

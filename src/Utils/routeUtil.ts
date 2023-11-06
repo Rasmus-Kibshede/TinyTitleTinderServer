@@ -1,6 +1,7 @@
 // Middleware
 import { NextFunction, Request, Response } from 'express';
 import validator from 'validator';
+
 // Middleware
 export const validateParamsId = (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;

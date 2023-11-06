@@ -31,7 +31,7 @@ export const getAddressById = async (id: number): Promise<Result<ApiResponse, Ba
     try {
         const response = await addressRepo.findOneByID(id);
         if (!response) {
-            return failed(new Error('No address with that id'), '404');
+            return failed(new Error('No address with that id'), '400');
         }
         return success(response);
     } catch (err) {
