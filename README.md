@@ -5,7 +5,6 @@
 The app defines following CRUD APIs.
 
 <summary>The app defines following CRUD EndPoints.</summary>
-
 ### User
 | Method | Url                   | Description             | Sample Valid Request Body                                       |
 |--------|-----------------------|-------------------------|-----------------------------------------------------------------|
@@ -14,6 +13,7 @@ The app defines following CRUD APIs.
 | GET    | /users                | Get all users           |                                                                 |
 | PUT    | /users                | Edit a user by Id       | {"email": "new@email.com} or {"password":"newpassword1234}      |
 | DELETE | /users/:id            | Delete a user by Id     |                                                                 |
+
 
 ### Parent
 | Method | Url                   | Description             | 
@@ -86,7 +86,6 @@ The app defines following CRUD APIs.
 | GET    | /meanings             | Get all meanings        |  
 | PUT    | /meanings             | Edit a meaning by Id    | 
 | PUT    | /meanings/:id         | Delete a meaning by Id  |
-
 
 # Install guide
 - To install the project run the follwing in the terminal: 
