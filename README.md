@@ -4,16 +4,16 @@
 
 The app defines following CRUD APIs.
 
-### User
-
 <summary>The app defines following CRUD EndPoints.</summary>
-| Method | Url                   | Description             |
-|--------|-----------------------|-------------------------|
-| POST   | /users                | Create a user           |
-| GET    | /users/:id            | Get a user by ID        |
-| GET    | /users                | Get all users           |
-| PUT    | /users                | Edit a user by Id       |
-| PUT    | /users/:id            | Delete a user by Id     |
+### User
+| Method | Url                   | Description             | Sample Valid Request Body                                       |
+|--------|-----------------------|-------------------------|-----------------------------------------------------------------|
+| POST   | /users                | Create a user           | {"email": "Post@man.com", "password": "CreatedWithPostman1234"} |
+| GET    | /users/:id            | Get a user by ID        |                                                                 |
+| GET    | /users                | Get all users           |                                                                 |
+| PUT    | /users                | Edit a user by Id       | {"email": "new@email.com} or {"password":"newpassword1234}      |
+| DELETE | /users/:id            | Delete a user by Id     |                                                                 |
+
 
 ### Parent
 | Method | Url                   | Description             | 

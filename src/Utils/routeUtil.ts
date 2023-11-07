@@ -1,37 +1,58 @@
-// Middleware
 import { NextFunction, Request, Response } from 'express';
 import validator from 'validator';
+import { failed } from '../Utils/errorHandler';
+import { responseError } from '../Controllers/responseController';
 
 // Middleware
 export const validateParamsId = (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id;
+    try {
+        const id = req.params.id;
 
-    if (!id) {
-        res.status(400).send({ err: 'Invalid ID' });
-    } else if (isNaN(Number(id))) {
-        res.status(406).send({ err: 'Not Acceptable' });
+        if (!id || isNaN(Number(id)) || Number(id) <= 0) {
+            responseError(res, failed(new Error('Invalid ID')));
+        } else {
+            next();
+        }
+    } catch (error) {
+        responseError(res, error);
     }
-
-    next();
 };
 
 export const validateCredintials = (req: Request, res: Response, next: NextFunction) => {
-    const newEmail = req.body.email;
-    const password = req.body.password;
+    try {
+        const newEmail = req.body.email;
+        const password = req.body.password;
 
-    if (validator.isEmail(newEmail) && validator.isStrongPassword(password)) {
-        next();
-    } else {
-        res.status(400).send({ err: 'Invalid credentials' });
+        if (validator.isEmail(newEmail) && validator.isStrongPassword(password)) {
+            next();
+        }
+    } catch (error) {
+        responseError(res, error);
     }
 };
 
 export const validateNewMail = (req: Request, res: Response, next: NextFunction) => {
-    const newEmail = req.body.newEmail;
+    try {
+        const newEmail = req.body.newEmail;
 
-    if (validator.isEmail(newEmail)) {
-        next();
-    } else {
-        res.status(400).send({ err: 'Invalid email' });
+        if (validator.isEmail(newEmail)) {
+            next();
+        }
+    } catch (error) {
+        responseError(res, error);
+    }
+};
+
+export const validateDate = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const nameDays = req.body.nameDays;
+
+        if (validator.isDate(nameDays, { format: 'DD-MM-YYYY' })) {
+            next();
+        } else if (!nameDays) {
+            next();
+        }
+    } catch (error) {
+        responseError(res, error);
     }
 };
