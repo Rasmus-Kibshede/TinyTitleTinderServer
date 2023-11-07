@@ -1,11 +1,11 @@
 import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
 import { NameMDB } from './NameMDB';
 
-@Entity()
+@Entity({ database: 'MongoDB_dbs' })
 export class OriginMDB {
 
     @ObjectIdColumn({ name: 'origin_id' })
-    originId: ObjectId;
+    _id: ObjectId;
 
     @Column('varchar', { length: 255, nullable: false, name: 'region' })
     region: string;

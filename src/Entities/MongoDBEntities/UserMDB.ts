@@ -3,11 +3,11 @@ import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn } from 'type
 import { RoleMDB } from './RoleMDB';
 import { ParentMDB } from './ParentMDB';
 
-@Entity()
+@Entity({ database: 'MongoDB_dbs' })
 export class UserMDB {
 
     @ObjectIdColumn({ name: 'user_id' })
-    userId: ObjectId;
+    _id: ObjectId;
 
     @Column('varchar', { length: 255, nullable: false, name: 'email', unique: true })
     email: string;
@@ -31,5 +31,4 @@ export class UserMDB {
     // eslint-disable-next-line no-unused-vars
     @Column((type) => ParentMDB)
     parent: ParentMDB;
-
 }

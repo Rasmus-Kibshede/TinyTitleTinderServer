@@ -1,21 +1,21 @@
 import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
 import { LocationMDB } from './LocationMDB';
 
-@Entity()
+@Entity({ database: 'MongoDB_dbs' })
 export class AddressMDB {
-    @ObjectIdColumn({ name: 'address_id' })
-    addressId: ObjectId;
 
-    @Column('varchar',{ length: 255, nullable: false, name: 'city' })
+    @ObjectIdColumn({ name: 'address_id' })
+    _id: ObjectId;
+
+    @Column('varchar', { length: 255, nullable: false, name: 'city' })
     city: string;
-    
-    @Column('varchar',{ length: 255, nullable: false, name: 'zipcode' })
+
+    @Column('varchar', { length: 255, nullable: false, name: 'zipcode' })
     zipcode: string;
 
-    @Column('varchar',{ length: 255, nullable: false, name: 'address' })
-    address: string; 
+    @Column('varchar', { length: 255, nullable: false, name: 'address' })
+    address: string;
 
     @Column()
-    location: LocationMDB;
-
+    location: LocationMDB['_id'];
 }

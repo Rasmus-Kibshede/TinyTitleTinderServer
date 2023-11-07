@@ -3,6 +3,7 @@ import 'dotenv/config';
 // Import the express in typescript file
 import express from 'express';
 import 'reflect-metadata';
+import cors from 'cors';
 
 // import routes
 import userRouter from './Routes/userRoute';
@@ -21,13 +22,19 @@ const app = express();
 app.use(express.json());
 
 //Typeorm setup
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { appDataSource, appDataSourceMongo } from './Repositories/data-source';
 appDataSourceMongo.initialize().then(() => {
-	const PORT = process.env.PORT || 3006;
-
-	app.listen(PORT, () => {
-		// eslint-disable-next-line no-console
-		console.log(`App mongo: http://localhost:${PORT}/`);
+	const app = express();
+	app.use(cors({
+		origin: ['http://localhost:3000'],
+		credentials: true // this will allow cookies to be sent accross domains
+	}));
+  
+  
+	app.listen(8080, () => {
+		console.log('Server is running on port 8080');
+  
 	});
 }).catch((error) => {
 	console.log(error);

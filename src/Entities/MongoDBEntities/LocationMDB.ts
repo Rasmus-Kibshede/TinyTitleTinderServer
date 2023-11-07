@@ -2,12 +2,13 @@ import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
 import { AddressMDB } from './AddressMDB';
 import { ParentMDB } from './ParentMDB';
 
-@Entity()
+@Entity({ database: 'MongoDB_dbs' })
 export class LocationMDB {
-    @ObjectIdColumn({ name: 'location_id' })
-    locationId: ObjectId;
 
-    @Column('varchar',{ length: 255, nullable: false, name: 'country' })
+    @ObjectIdColumn({ name: 'location_id' })
+    _id: ObjectId;
+
+    @Column('varchar', { length: 255, nullable: false, name: 'country' })
     country: string;
 
     @Column()
@@ -15,7 +16,4 @@ export class LocationMDB {
 
     @Column()
     parents: ParentMDB[];
-
 }
-
-
