@@ -8,7 +8,7 @@ import { OriginMDB } from './OriginMDB';
 import { ParentMDB } from './ParentMDB';
 import { MeaningMDB } from './MeaningMDB';
 
-@Entity({name: 'name_suggest', database: 'MongoDB_dbs' })
+@Entity({name: 'name_suggest', database: 'test' })
 export class NameMDB {
 
     @ObjectIdColumn({ name: 'name_suggest_id' })

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
+import { UserMDB } from '../Entities/MongoDBEntities/UserMDB';
 import { User } from '../Entities/User';
-import { appDataSource } from './data-source';
+import { appDataSource, appDataSourceMongo } from './data-source';
 
 export const userRepo = appDataSource.getRepository(User).extend({
     findOneByID(id: number) {
@@ -44,3 +45,12 @@ export const userRepo = appDataSource.getRepository(User).extend({
     }
 });
 
+export const userRepoMDB = appDataSourceMongo.getMongoRepository(UserMDB).extend({
+    findOneByID(id: number) {
+        return userRepoMDB.findOne({
+            where: {
+                _id: id
+            },
+        });
+    }
+});

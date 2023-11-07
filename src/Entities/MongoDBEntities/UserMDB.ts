@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn } from 'type
 import { RoleMDB } from './RoleMDB';
 import { ParentMDB } from './ParentMDB';
 
-@Entity({ database: 'MongoDB_dbs' })
+@Entity({ database: 'test' })
 export class UserMDB {
 
     @ObjectIdColumn({ name: 'user_id' })

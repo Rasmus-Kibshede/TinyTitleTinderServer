@@ -24,18 +24,22 @@ app.use(express.json());
 //Typeorm setup
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { appDataSource, appDataSourceMongo } from './Repositories/data-source';
+import userRouterMDB from './Routes/userRouteMDB';
 appDataSourceMongo.initialize().then(() => {
-	const app = express();
 	app.use(cors({
 		origin: ['http://localhost:3000'],
 		credentials: true // this will allow cookies to be sent accross domains
 	}));
   
+	app.use(userRouterMDB);
+
+	const PORT = process.env.M_PORT || 8080;
   
-	app.listen(8080, () => {
-		console.log('Server is running on port 8080');
+	app.listen(PORT, () => {
+		console.log(`MongoDB App: http://localhost:${PORT}/`);
   
 	});
+
 }).catch((error) => {
 	console.log(error);
 });

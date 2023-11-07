@@ -1,7 +1,7 @@
 import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
 import { LocationMDB } from './LocationMDB';
 
-@Entity({ database: 'MongoDB_dbs' })
+@Entity({ database: 'test' })
 export class AddressMDB {
 
     @ObjectIdColumn({ name: 'address_id' })
@@ -17,5 +17,5 @@ export class AddressMDB {
     address: string;
 
     @Column()
-    location: LocationMDB['_id'];
+    location: LocationMDB;
 }

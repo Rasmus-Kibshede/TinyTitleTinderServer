@@ -1,7 +1,7 @@
 import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
 import { NameMDB } from './NameMDB';
 
-@Entity({ database: 'MongoDB_dbs' })
+@Entity({ database: 'test' })
 export class OriginMDB {
 
     @ObjectIdColumn({ name: 'origin_id' })

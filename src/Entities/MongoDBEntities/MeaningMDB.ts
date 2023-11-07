@@ -1,7 +1,7 @@
 import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
 import { NameMDB } from './NameMDB';
 
-@Entity({ database: 'MongoDB_dbs' })
+@Entity({ database: 'test' })
 export class MeaningMDB {
 
     @ObjectIdColumn({ name: 'meaning_id' })
@@ -10,6 +10,6 @@ export class MeaningMDB {
     @Column('varchar', { length: 255, nullable: false, name: 'definition', unique: true })
     definition: string;
 
-    @Column()
+    @Column((NameMDB) => NameMDB)
     names: NameMDB[];
 }

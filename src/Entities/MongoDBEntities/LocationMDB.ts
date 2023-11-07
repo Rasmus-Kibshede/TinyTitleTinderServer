@@ -2,7 +2,7 @@ import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
 import { AddressMDB } from './AddressMDB';
 import { ParentMDB } from './ParentMDB';
 
-@Entity({ database: 'MongoDB_dbs' })
+@Entity({ database: 'test' })
 export class LocationMDB {
 
     @ObjectIdColumn({ name: 'location_id' })
