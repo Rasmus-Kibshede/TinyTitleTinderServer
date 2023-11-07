@@ -1,4 +1,4 @@
-import { type Role } from './roleDTO';
+import { type Role } from '../Entities/Role';
 
 
 // export type UserDTO = UserResponseDTO | UserRequestDTO;
