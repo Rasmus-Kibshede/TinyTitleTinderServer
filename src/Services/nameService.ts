@@ -2,13 +2,13 @@ import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
 
 export const createName = async (nameRequestDTO: NameRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
 
-    return success(response);
+    return success(convertToDTO(response));
   } catch (err) {
     // Temporary solution before implementing generic validation on unique constraints
     return failed(err);
@@ -23,7 +23,7 @@ export const getNameByID = async (id: number): Promise<Result<ApiResponse, BaseE
       return failed('name');
     }
 
-    return success(response);
+    return success(convertToDTO(response));
   } catch (err) {
     return failed(err);
   }
@@ -43,7 +43,7 @@ export const getNames = async (): Promise<Result<ApiResponse, BaseError>> => {
 export const updateName = async (nameRequestDTO: NameRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
-    return success(response);
+    return success(convertToDTO(response));
 
   } catch (err) {
     // Temporary solution before implementing generic validation on unique constraints
@@ -59,7 +59,7 @@ export const deleteNameByID = async (id: number): Promise<Result<ApiResponse, Ba
       return failed('name');
     }
     const response = await nameRepo.remove(nameDB);
-    return success(response);
+    return success(convertToDTO(response));
   } catch (err) {
     return failed(err);
   }
@@ -78,11 +78,3 @@ const convertToDTO = (name: Name) => {
 
   return dto;
 };
-
-function success(response: Name | NameResponseDTO[]): Result<ApiResponse, BaseError> {
-  if (Array.isArray(response)) {
-    return { success: true, result: { data: response } };
-  } else {
-    return { success: true, result: { data: convertToDTO(response) } };
-  }
-}

@@ -16,6 +16,14 @@ export const ensureError = (value: unknown): Error => {
     return error;
 };
 
+export function success(response: NonNullable<unknown>): Result<ApiResponse, BaseError> {
+    if (Array.isArray(response)) {
+        return { success: true, result: { data: response } };
+    } else {
+        return { success: true, result: { data: response } };
+    }
+}
+
 export function failed(arg: string | Error): Result<ApiResponse, BaseError> {
     if (typeof arg === 'string') {
         return customError(arg);

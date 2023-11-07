@@ -2,12 +2,12 @@ import { parentRepo as familyRepo } from '../Repositories/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
 import { Family } from '../Entities/Family';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
 
 export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await familyRepo.save(familyRequestDTO);
-        return success(response);
+        return success(convertToDTO(response));
 
     } catch (err) {
         //TODO Add custom message for each endpoint
@@ -35,7 +35,7 @@ export const getFamilyById = async (id: number) => {
         if (!response) {
             return failed('family');
         }
-        return success(response);
+        return success(convertToDTO(response));
 
     } catch (err) {
         //TODO Add custom message for each endpoint
@@ -47,7 +47,7 @@ export const getFamilyById = async (id: number) => {
 export const updateFamily = async (familyDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await familyRepo.save(familyDTO);
-        return success(response);
+        return success(convertToDTO(response));
 
     } catch (err) {
         //TODO Add custom message for each endpoint
@@ -64,7 +64,7 @@ export const deleteFamily = async (parentId: number): Promise<Result<ApiResponse
             return failed('family');
         }
         const response = await familyRepo.remove(familyDB);
-        return success(response);
+        return success(convertToDTO(response));
 
     } catch (err) {
         //TODO Add custom message for each endpoint
@@ -81,11 +81,3 @@ export const convertToDTO = (family: Family) => {
     };
     return dto;
 };
-//TODO Disse 2 kunne godt ligge i ErrorHandler, men de skal tage imod generic objects, så de er dynamiske. 
-function success(response: Family | FamilyResponseDTO[]): Result<ApiResponse, BaseError> {
-    if (Array.isArray(response)) {
-        return { success: true, result: { data: response } };
-    } else {
-        return { success: true, result: { data: convertToDTO(response) } };
-    }
-}

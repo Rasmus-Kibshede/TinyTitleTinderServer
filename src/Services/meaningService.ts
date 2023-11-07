@@ -2,12 +2,12 @@ import { MeaningRequestDTO, MeaningResponseDTO } from '../DTO/meaningDTO';
 import { Meaning } from '../Entities/Meaning';
 import { meaningRepo } from '../Repositories/meaningRepository';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
 
 export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await meaningRepo.save(meaningRequestDTO);
-        return success(response);
+        return success(convertToDTO(response));
 
     } catch (err) {
         // Temporary solution before implementing generic validation on unique constraints
@@ -34,7 +34,7 @@ export const getMeaningById = async (id: number): Promise<Result<ApiResponse, Ba
             return failed('meaning');
         }
 
-        return success(response);
+        return success(convertToDTO(response));
 
     } catch (err) {
         return failed(err);
@@ -44,7 +44,7 @@ export const getMeaningById = async (id: number): Promise<Result<ApiResponse, Ba
 export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await meaningRepo.save(meaningRequestDTO);
-        return success(response);
+        return success(convertToDTO(response));
 
     } catch (err) {
         // Temporary solution before implementing generic validation on unique constraints
@@ -61,7 +61,7 @@ export const deleteMeaning = async (meaningId: number): Promise<Result<ApiRespon
         }
 
         const response = await meaningRepo.remove(meaningDB);
-        return success(response);
+        return success(convertToDTO(response));
 
     } catch (err) {
         return failed(err);
@@ -76,11 +76,3 @@ const convertToDTO = (meaning: Meaning) => {
     };
     return dto;
 };
-
-function success(response: Meaning | MeaningResponseDTO[]): Result<ApiResponse, BaseError> {
-    if (Array.isArray(response)) {
-        return { success: true, result: { data: response } };
-    } else {
-        return { success: true, result: { data: convertToDTO(response) } };
-    }
-}

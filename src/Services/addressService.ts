@@ -2,12 +2,12 @@ import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed} from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, success} from '../Utils/errorHandler';
 
 export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await addressRepo.save(addressRequestDTO);
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
@@ -33,7 +33,7 @@ export const getAddressById = async (id: number): Promise<Result<ApiResponse, Ba
         if (!response) {
             return failed('address');
         }
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.    
@@ -44,7 +44,7 @@ export const getAddressById = async (id: number): Promise<Result<ApiResponse, Ba
 export const updateAddress = async (addressDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await addressRepo.save(addressDTO);
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
@@ -60,7 +60,7 @@ export const deleteAddress = async (addressId: number): Promise<Result<ApiRespon
             return failed('address');
         }
         const response = await addressRepo.remove(addressDB);
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         //TODO Add custom message for each endpoint
         //TODO Add dynamic statuscode from the ErrorType.
@@ -78,11 +78,3 @@ export const convertToDTO = (address: Address) => {
     };
     return dto;
 };
-
-function success(response: Address | AddressResponseDTO[]): Result<ApiResponse, BaseError> {
-    if (Array.isArray(response)) {
-        return { success: true, result: { data: response } };
-    } else {
-        return { success: true, result: { data: convertToDTO(response) } };
-    }
-}

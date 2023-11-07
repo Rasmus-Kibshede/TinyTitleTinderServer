@@ -3,10 +3,10 @@ import { User } from '../Entities/User';
 import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
 
-export const createUser = async (UserRequestDTO: UserRequestDTO) => {
+export const createUser = async (UserRequestDTO: UserRequestDTO): Promise<Result<ApiResponse, BaseError>>  => {
     try {
         const role = await getRoleById(3) as unknown as Role;
 if(!role){
@@ -17,25 +17,25 @@ if(!role){
 
         const response = await userRepo.save(UserRequestDTO);
 
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         return failed(err);
     }
 };
 
-export const getUserByID = async (id: number) => {
+export const getUserByID = async (id: number): Promise<Result<ApiResponse, BaseError>>  => {
     try {
         const response = await userRepo.findOneByID(id);
         if (!response) {
             return failed('user');
         }
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         return failed(err);
     }
 };
 
-export const getUsers = async () => {
+export const getUsers = async (): Promise<Result<ApiResponse, BaseError>>  => {
     try {
         const users = await userRepo.findAll();
         const userDTOs: UserResponseDTO[] = users.map(user => convertToDTO(user));
@@ -46,7 +46,7 @@ export const getUsers = async () => {
    
 };
 
-export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
+export const updateUser = async (userDTO: UserRequestDTO, email: string): Promise<Result<ApiResponse, BaseError>>  => {
    try {
     const userDB = await userRepo.findOneByEmail(email) as User;
     userDB.email = userDTO.email;
@@ -57,7 +57,7 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
         return failed('user');
     }   
 
-    return success(savedUser);
+    return success(convertToDTO(savedUser));
 
     } catch (err) {
     // Temporary solution before implementing generic validation on unique constraints
@@ -66,7 +66,7 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
 };
 
 
-export const deleteUserByID = async (id: number) => {
+export const deleteUserByID = async (id: number): Promise<Result<ApiResponse, BaseError>>  => {
     try {
         const response = await userRepo.findOneByID(id);
 
@@ -76,7 +76,7 @@ export const deleteUserByID = async (id: number) => {
     
         response.userActive = false;
         const deleted = await userRepo.save(response);
-        return success(deleted);
+        return success(convertToDTO(deleted));
     } catch (err) {
         return failed(err); 
     }
@@ -92,13 +92,3 @@ export const convertToDTO = (user: User) => {
 
     return dto;
 };
-
-function success(response: User | UserResponseDTO[]): Result<ApiResponse, BaseError> {
-    if (Array.isArray(response)) {
-      return { success: true, result: { data: response } };
-    } else {
-      return { success: true, result: { data: convertToDTO(response) } };
-    }
-  }
-
-

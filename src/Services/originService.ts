@@ -1,13 +1,13 @@
 import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
 import { Origin } from '../Entities/Origin';
 import { originRepo } from '../Repositories/originRepository';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
 import { BaseError } from '../Utils/BaseError';
 
 export const createOrigin = async (OriginRequestDTO: OriginRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await originRepo.save(OriginRequestDTO);
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         return failed(err);
     }
@@ -19,7 +19,7 @@ export const getOriginByID = async (id: number): Promise<Result<ApiResponse, Bas
         if (!response) {
             return failed('origin');
         }
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         return failed(err);
     }
@@ -38,7 +38,7 @@ export const getOrigins = async (): Promise<Result<ApiResponse, BaseError>> => {
 export const updateOrigin = async (originRequestDTO: OriginRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
     try {
         const response = await originRepo.save(originRequestDTO);
-        return success(response);
+        return success(convertToDTO(response));
     } catch (err) {
         return failed(err);
     }
@@ -51,7 +51,7 @@ export const deleteOriginByID = async (id: number): Promise<Result<ApiResponse, 
             return failed('origin');
         }
         const remove = await originRepo.remove(response);
-        return success(remove);
+        return success(convertToDTO(remove));
     } catch (err) {
         return failed(err);
     }
@@ -67,11 +67,3 @@ const convertToDTO = (origin: Origin) => {
     };
     return dto;
 };
-
-function success(response: Origin | OriginResponseDTO[]): Result<ApiResponse, BaseError> {
-    if (Array.isArray(response)) {
-      return { success: true, result: { data: response } };
-    } else {
-      return { success: true, result: { data: convertToDTO(response) } };
-    }
-  }
