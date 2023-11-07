@@ -69,3 +69,4 @@ export const generateStatusCode = (err: string): string => {
     const statusCode = errorMappings[err] || '500';
     return statusCode;
 };
+

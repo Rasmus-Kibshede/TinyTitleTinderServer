@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as parentService from '../Services/parentService';
+import * as responseController from '../Controllers/responseController';
 import { ParentRequestDTO } from '../DTO/parentDTO';
 
 export const createParent = async (req: Request, res: Response) => {
@@ -21,17 +22,17 @@ export const createParent = async (req: Request, res: Response) => {
     };
 
     const response = await parentService.createParent(parentRequestDTO);
-    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+    responseController.response(res, response, 200);
 };
 
 export const getAllParents = async (req: Request, res: Response) => {
     const response = await parentService.getParents();
-    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+    responseController.response(res, response, 200);
 };
 
 export const getParentById = async (req: Request, res: Response) => {
     const response = await parentService.getParentById(Number(req.params.id));
-    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+    responseController.response(res, response, 200);
 };
 
 export const updateParent = async (req: Request, res: Response) => {
@@ -44,10 +45,10 @@ export const updateParent = async (req: Request, res: Response) => {
         user: req.body.user
     };
     const response = await parentService.updateParent(parentRequestDTO);
-    res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+    responseController.response(res, response, 200);
 };
 
 export const deleteParent = async (req: Request, res: Response) => {
     const response = await parentService.deleteParent(Number(req.params.id));
-    res.status(response.success ? 204 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+    responseController.response(res, response, 204);
 };

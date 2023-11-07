@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as roleService from '../Services/roleService';
+import * as responseController from '../Controllers/responseController';
 import { RoleRequestDTO, RoleTitle } from '../DTO/roleDTO';
 
 export const createRole = async (req: Request, res: Response) => {
@@ -7,17 +8,17 @@ export const createRole = async (req: Request, res: Response) => {
         title: req.body.title
     };
 	const response = await roleService.createRole(roleRequestDTO);
-	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+	responseController.response(res, response, 200);
 };
 
 export const getRoleByID = async (req: Request, res: Response) => {
 	const response = await roleService.getRoleById(Number(req.params.id));
-	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+	responseController.response(res, response, 200);
 };
 
 export const getAllRoles = async (req: Request, res: Response) => {
 	const response = await roleService.getRoles();
-	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+	responseController.response(res, response, 200);
 };
 
 export const updateRole = async (req: Request, res: Response) => {
@@ -28,11 +29,11 @@ export const updateRole = async (req: Request, res: Response) => {
 	};
 
 	const response = await roleService.updateRole(roleRequestDTO);
-	res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+	responseController.response(res, response, 200);
 };
 
 export const deleteRoleByID = async (req: Request, res: Response) => {
 	const response = await roleService.deleteRoleByID(Number(req.params.id));
-	res.status(response.success ? 204 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+	responseController.response(res, response, 204);
 };
 

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as nameService from '../Services/nameService';
+import * as responseController from '../Controllers/responseController';
 import { NameRequestDTO } from '../DTO/nameDTO';
 
 export const createName = async (req: Request, res: Response) => {
@@ -13,18 +14,18 @@ export const createName = async (req: Request, res: Response) => {
   };
 
   const response = await nameService.createName(nameRequestDTO);
-  res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+  responseController.response(res, response, 200);
 };
 
 export const getNameByID = async (req: Request, res: Response) => {
   const response = await nameService.getNameByID(Number(req.params.id));
 
-  res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+  responseController.response(res, response, 200);
 };
 
 export const getAllNames = async (req: Request, res: Response) => {
   const response = await nameService.getNames();
-  res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+  responseController.response(res, response, 200);
 };
 
 // TODO: Rafactor to update name by id
@@ -40,10 +41,10 @@ export const updateName = async (req: Request, res: Response) => {
   };
 
   const response = await nameService.updateName(nameRequestDTO);
-  res.status(response.success ? 200 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+  responseController.response(res, response, 200);
 };
 
 export const deleteNameByID = async (req: Request, res: Response) => {
   const response = await nameService.deleteNameByID(Number(req.params.id));
-  res.status(response.success ? 204 : Number(response.error.statusCode)).send(response.success ? response.result.data : response.error.message);
+  responseController.response(res, response, 204);
 };
