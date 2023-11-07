@@ -1,5 +1,6 @@
-import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
+import { OriginRequestDTO } from '../DTO/originDTO';
 import * as originService from '../Services/originService';
+import * as responseController from '../Controllers/responseController';
 import { Request, Response } from 'express';
 
 export const createOrigin = async (req: Request, res: Response) => {
@@ -11,22 +12,17 @@ export const createOrigin = async (req: Request, res: Response) => {
     };
 
     const response = await originService.createOrigin(originRequestDTO);
-    originResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 200);
 };
 
 export const getOriginByID = async (req: Request, res: Response) => {
     const response = await originService.getOriginByID(Number(req.params.id));
-    originResponse(response ? response : { err: response }, res, 200);
+    responseController.response(res, response, 200);
 };
 
 export const getAllOrigins = async (req: Request, res: Response) => {
     const response = await originService.getOrigins();
-    
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(200).send(response);
-    }
+    responseController.response(res, response, 200);
 };
 
 export const updateOrigin = async (req: Request, res: Response) => {
@@ -38,20 +34,10 @@ export const updateOrigin = async (req: Request, res: Response) => {
         names: req.body.names
     };
     const response = await originService.updateOrigin(originRequestDTO);
-
-    originResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 200);
 };
 
 export const deleteOrigin = async (req: Request, res: Response) => {
     const response = await originService.deleteOriginByID(Number(req.params.id));
-    
-    originResponse(response ? response : { err: response }, res, 200);
-};
-
-const originResponse = (response: OriginResponseDTO | { err: string }, res: Response, statusCode: number) => {
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(statusCode).send(response);
-    }
+    responseController.response(res, response, 204);
 };

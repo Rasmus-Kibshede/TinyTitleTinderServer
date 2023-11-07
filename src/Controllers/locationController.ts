@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import * as locationService from '../Services/locationsService';
-import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
+import * as locationService from '../Services/locationService';
+import * as responseController from '../Controllers/responseController';
+import { LocationRequestDTO } from '../DTO/locationDTO';
 
 export const createLocation = async (req: Request, res: Response) => {
     const locationRequestDTO: LocationRequestDTO = {
@@ -9,21 +10,17 @@ export const createLocation = async (req: Request, res: Response) => {
     };
 
     const response = await locationService.createLocation(locationRequestDTO);
-    locationResponse(response ? response : { err: response }, res, 200);
+    responseController.response(res, response, 200);
 };
 
 export const getAllLocations = async (req: Request, res: Response) => {
     const response = await locationService.getLocations();
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(201).send(response);
-    }
+    responseController.response(res, response, 200);
 };
 
 export const getLocationById = async (req: Request, res: Response) => {
     const response = await locationService.getLocationById(Number(req.params.id));
-    locationResponse(response ? response : { err: response }, res, 200);
+    responseController.response(res, response, 200);
 };
 
 export const updateLocation = async (req: Request, res: Response) => {
@@ -34,19 +31,11 @@ export const updateLocation = async (req: Request, res: Response) => {
     };
     
     const response = await locationService.updateLocation(locationRequestDTO);
-    locationResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 200);
 };
 
 //TODO Look at constraint, can't delete location if address is connected. 
 export const deleteLocation = async (req: Request, res: Response) => {
     const response = await locationService.deleteLocation(Number(req.params.id));
-    locationResponse(response ? response : { err: response }, res, 201);
-};
-
-const locationResponse = (response: LocationResponseDTO | { err: string }, res: Response, statusCode: number) => {
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(statusCode).send(response);
-    }
+    responseController.response(res, response, 204);
 };

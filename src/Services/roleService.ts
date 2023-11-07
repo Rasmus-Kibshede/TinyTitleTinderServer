@@ -1,25 +1,29 @@
 import { roleRepo } from '../Repositories/roleRepository';
 import { Role } from '../Entities/Role';
 import { RoleRequestDTO, RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
-
+import { failed, success } from '../Utils/errorHandler';
 
 export const createRole = async (roleRequestDTO: RoleTitle) => {
     try {
         const response = await roleRepo.save(roleRequestDTO);
-        return convertToDTO(response);
+        return success(convertToDTO(response));
 
-    } catch (error) {
-        return error.message === 'Something went wrong, Role not saved!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const getRoleById = async (id: number) => {
     try {
         const response = await roleRepo.findOneByID(id);
-        return convertToDTO(response!);
+        if (!response) {
+            return failed('role');
+        }
 
-    } catch (error) {    
-        return error.message === 'Couldn\'t find any Role with that id!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return success(convertToDTO(response));
+
+    } catch (err) {
+        return failed(err);
     }
 };
 
@@ -27,20 +31,20 @@ export const getRoles = async () => {
     try {
         const response = await roleRepo.findAll();
         const roleDTOs: RoleRequestDTO[] = response.map(role => convertToDTO(role));
-        return roleDTOs;
+        return success(roleDTOs);
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any Roles!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const updateRole = async (roleDTO: RoleTitle) => {
-    try {        
+    try {
         const response = await roleRepo.save(roleDTO);
-        return convertToDTO(response);
+        return success(convertToDTO(response));
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any Role to update!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
@@ -49,14 +53,14 @@ export const deleteRoleByID = async (roleId: number) => {
         const response = await roleRepo.findOneById(roleId);
 
         if (!response) {
-            return { err: 'Role not found' };
+            return failed('role');
         }
 
         const deleted = await roleRepo.remove(response);
-        return convertToDTO(deleted);
+        return success(convertToDTO(deleted));
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any Role!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 

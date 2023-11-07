@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as addressService from '../Services/addressService';
-import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
+import { AddressRequestDTO } from '../DTO/addressDTO';
+import * as responseController from '../Controllers/responseController';
 
 export const createAddress = async (req: Request, res: Response) => {
     const addressRequestDTO: AddressRequestDTO = {
@@ -9,24 +10,19 @@ export const createAddress = async (req: Request, res: Response) => {
         address: req.body.address,
         location: req.body.location
     };
-
     const response = await addressService.createAddress(addressRequestDTO);
-    addressResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 200);
 };
 
 export const getAllAddresses = async (req: Request, res: Response) => {
     const response = await addressService.getAddresses();
-    
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(200).send(response);
-    }
+    responseController.response(res, response, 200);
+
 };
 
 export const getAddressById = async (req: Request, res: Response) => {
     const response = await addressService.getAddressById(Number(req.params.id));
-    addressResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 200);
 };
 
 export const updateAddress = async (req: Request, res: Response) => {
@@ -38,20 +34,14 @@ export const updateAddress = async (req: Request, res: Response) => {
         location: req.body.location
     };
     const response = await addressService.updateAddress(addressRequestDTO);
+    responseController.response(res, response, 200);
 
-    addressResponse(response ? response : { err: response }, res, 201);
+
 };
 
 export const deleteAdress = async (req: Request, res: Response) => {
     const response = await addressService.deleteAddress(Number(req.params.id));
-    
-    addressResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 204);
 };
 
-const addressResponse = (response: AddressResponseDTO | { err: string }, res: Response, statusCode: number) => {
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(statusCode).send(response);
-    }
-};
+

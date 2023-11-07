@@ -13,7 +13,7 @@ export class Origin {
     @Column('varchar', { length: 255, nullable: false, name: 'religion' })
     religion: string;
 
-    @Column('varchar', { length: 255, nullable: false, name: 'description' })
+    @Column('text', { nullable: false, name: 'description' })
     description: string;
 
     @ManyToMany(() => Name, (name) => name.origins)

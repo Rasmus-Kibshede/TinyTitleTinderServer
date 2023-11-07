@@ -1,27 +1,26 @@
 import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
 import { Origin } from '../Entities/Origin';
 import { originRepo } from '../Repositories/originRepository';
+import { failed, success } from '../Utils/errorHandler';
 
 export const createOrigin = async (OriginRequestDTO: OriginRequestDTO) => {
     try {
-        const save = await originRepo.save(OriginRequestDTO);
-        return convertToDTO(save);
-    } catch (error) {
-        return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        const response = await originRepo.save(OriginRequestDTO);
+        return success(convertToDTO(response));
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const getOriginByID = async (id: number) => {
     try {
         const response = await originRepo.findOneByID(id);
-
         if (!response) {
-            return { err: 'Invalid ID' };
+            return failed('origin');
         }
-
-        return convertToDTO(response);
-    } catch (error) {
-        return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return success(convertToDTO(response));
+    } catch (err) {
+        return failed(err);
     }
 };
 
@@ -29,40 +28,31 @@ export const getOrigins = async () => {
     try {
         const origins = await originRepo.findAll();
         const originDTOs: OriginResponseDTO[] = origins.map((origin) => convertToDTO(origin));
-
-        return originDTOs;
-    } catch (error) {
-        return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return success(originDTOs);
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const updateOrigin = async (originRequestDTO: OriginRequestDTO) => {
     try {
-        if (!originRequestDTO) {
-            return { err: 'Invalid originDTO' };
-        }
-
         const response = await originRepo.save(originRequestDTO);
-
-        return convertToDTO(response);
-    } catch (error) {
-        return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return success(convertToDTO(response));
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const deleteOriginByID = async (id: number) => {
     try {
         const response = await originRepo.findOneByID(id);
-
         if (!response) {
-            return { err: 'Invalid Origin' };
+            return failed('origin');
         }
-
         const remove = await originRepo.remove(response);
-
-        return convertToDTO(remove);
-    } catch (error) {
-        return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return success(convertToDTO(remove));
+    } catch (err) {
+        return failed(err);
     }
 };
 

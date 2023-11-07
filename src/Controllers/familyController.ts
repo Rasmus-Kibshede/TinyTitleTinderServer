@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as familyService from '../Services/familyService';
-import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
+import * as responseController from '../Controllers/responseController';
+import { FamilyRequestDTO } from '../DTO/familyDTO';
 
 export const createFamily = async (req: Request, res: Response) => {
     const familyRequestDTO: FamilyRequestDTO = {
@@ -10,7 +11,7 @@ export const createFamily = async (req: Request, res: Response) => {
     };
 
     const response = await familyService.createFamily(familyRequestDTO);
-    familyResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 200);
 };
 
 export const getAllFamilies = async (req: Request, res: Response) => {
@@ -25,7 +26,7 @@ export const getAllFamilies = async (req: Request, res: Response) => {
 
 export const getFamilyById = async (req: Request, res: Response) => {
     const response = await familyService.getFamilyById(Number(req.params.id));
-    familyResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 200);
 };
 
 export const updateFamily = async (req: Request, res: Response) => {
@@ -36,18 +37,10 @@ export const updateFamily = async (req: Request, res: Response) => {
     };
 
     const response = await familyService.updateFamily(familyRequestDTO);
-    familyResponse(response ? response : { err: response }, res, 201);
+    responseController.response(res, response, 200);
 };
 
 export const deleteFamily = async (req: Request, res: Response) => {
     const response = await familyService.deleteFamily(Number(req.params.id));
-    familyResponse(response ? response : { err: response }, res, 201);
-};
-
-const familyResponse = (response: FamilyResponseDTO | { err: string }, res: Response, statusCode: number) => {
-    if (!response) {
-        res.status(404).send({ err: response });
-    } else {
-        res.status(statusCode).send(response);
-    }
+    responseController.response(res, response, 204);
 };

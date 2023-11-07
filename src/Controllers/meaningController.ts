@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as meaningService from '../Services/meaningService';
-import { MeaningRequestDTO, MeaningResponseDTO } from '../DTO/meaningDTO';
+import * as responseController from '../Controllers/responseController';
+import { MeaningRequestDTO } from '../DTO/meaningDTO';
 
 export const createMeaning = async (req: Request, res: Response) => {
 	const meaningRequestDTO: MeaningRequestDTO = {
@@ -8,22 +9,18 @@ export const createMeaning = async (req: Request, res: Response) => {
         names: req.body.names
 	};
 	const response = await meaningService.createMeaning(meaningRequestDTO);
-	meaningResponse(response ? response : { err: response }, res, 200);
+	responseController.response(res, response, 200);
 };
 
 export const getMeaningByID = async (req: Request, res: Response) => {
 	const response = await meaningService.getMeaningById(Number(req.params.id));
 
-	meaningResponse(response ? response : { err: response }, res, 200);
+	responseController.response(res, response, 200);
 };
 
 export const getAllMeanings = async (req: Request, res: Response) => {
 	const response = await meaningService.getMeanings();
-	if (!response) {
-		res.status(404).send({ err: response });
-	} else {
-		res.status(200).send(response);
-	}
+	responseController.response(res, response, 200);
 };
 
 export const updateMeaning = async (req: Request, res: Response) => {
@@ -35,19 +32,10 @@ export const updateMeaning = async (req: Request, res: Response) => {
 	};
 
 	const response = await meaningService.updateMeaning(meaningRequestDTO);
-	meaningResponse(response ? response : { err: response }, res, 201);
+	responseController.response(res, response, 200);
 };
 
 export const deleteMeaningByID = async (req: Request, res: Response) => {
 	const response = await meaningService.deleteMeaning(Number(req.params.id));
-
-	meaningResponse(response ? response : { err: response }, res, 201);
-};
-
-const meaningResponse = (response: MeaningResponseDTO | { err: string }, res: Response, statusCode: number) => {
-	if (!response) {
-		res.status(404).send({ err: response });
-	} else {
-		res.status(statusCode).send(response);
-	}
+	responseController.response(res, response, 204);
 };
