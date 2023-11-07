@@ -16,7 +16,7 @@ export const ensureError = (value: unknown): Error => {
     return error;
 };
 
-export const success = (response: NonNullable<unknown>): Result<ApiResponse, BaseError> =>{
+export const success = (response: NonNullable<unknown>): Result<ApiResponse, BaseError> => {
     if (Array.isArray(response)) {
         return { success: true, result: { data: response } };
     } else {
@@ -25,28 +25,35 @@ export const success = (response: NonNullable<unknown>): Result<ApiResponse, Bas
 };
 
 export const failed = (arg: string | Error): Result<ApiResponse, BaseError> => {
-    if (typeof arg === 'string') {
-        return customError(arg);
-    } else {    
+    if (arg instanceof Error) {
         return autoError(arg);
+    } else {
+        return customError(arg);
     }
+
 };
 
 export const invalidIdError = (entityName: string) => {
-
-    return new Error(`No ${entityName} with that id`);
+        return new Error(`No ${entityName} with that id`);
 };
 
 export const autoError = (arg: Error): Result<ApiResponse, BaseError> => {
     const error = ensureError(arg);
-    let statusCode: string = generateStatusCode(error.message);
-    if ('code' in error){
-        statusCode = generateStatusCode(String(error.code));  
-    }
+    let statusCode: string;
+    //Denne her bliver kaldt i både if og else. så lige nu retunere den bare den der sidst er blevet brugt. 
+    if ('code' in error) {
+        statusCode = generateStatusCode(String(error.code));        
+        return {
+            success: false, error: new BaseError(error.message, {
+                error: error,
+                statusCode: statusCode
+            })
+        };
+    } 
     return {
         success: false, error: new BaseError(error.message, {
             error: error,
-            statusCode: statusCode
+            statusCode: generateStatusCode(error.message)
         })
     };
 };
@@ -62,13 +69,19 @@ export const customError = (arg: string): Result<ApiResponse, BaseError> => {
 };
 
 export const generateStatusCode = (err: string): string => {
-    //Find flere errors 
+    //Find flere errors     
     const errorMappings: Record<string, string> = {
+        'Invalid credentials': '400',
+        'Invalid datel': '400',
+        'Invalid Email': '400',
+        'Not Acceptable': '406',
+        'Invalid ID': '400',
         'with that id': '404',
         'ER_BAD_FIELD_ERROR': '404',
         'ER_DUP_ENTRY': '409',
     };
     const statusCode = errorMappings[err] || '500';
+    console.log(statusCode);
     return statusCode;
 };
 
