@@ -39,9 +39,11 @@ export const invalidIdError = (entityName: string) => {
 
 export const autoError = (arg: Error): Result<ApiResponse, BaseError> => {
     const error = ensureError(arg);
-    let statusCode: string = generateStatusCode(error.message);
-    if ('code' in error){
+    let statusCode: string;
+    if ('code' in error){        
         statusCode = generateStatusCode(String(error.code));  
+    } else {
+        statusCode = generateStatusCode(error.message);
     }
     return {
         success: false, error: new BaseError(error.message, {

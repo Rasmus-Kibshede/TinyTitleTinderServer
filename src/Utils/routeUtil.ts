@@ -9,7 +9,7 @@ export const validateParamsId = (req: Request, res: Response, next: NextFunction
     if (!id) {
         failed(new Error('Invalid ID'));
     } else if (isNaN(Number(id))) {
-        failed(new Error('Not Acceptable'));
+        failed('Not Acceptable');
     }
     next();
 };
