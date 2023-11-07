@@ -16,28 +16,28 @@ export const ensureError = (value: unknown): Error => {
     return error;
 };
 
-export function success(response: NonNullable<unknown>): Result<ApiResponse, BaseError> {
+export const success = (response: NonNullable<unknown>): Result<ApiResponse, BaseError> =>{
     if (Array.isArray(response)) {
         return { success: true, result: { data: response } };
     } else {
         return { success: true, result: { data: response } };
     }
-}
+};
 
-export function failed(arg: string | Error): Result<ApiResponse, BaseError> {
+export const failed = (arg: string | Error): Result<ApiResponse, BaseError> => {
     if (typeof arg === 'string') {
         return customError(arg);
     } else {    
         return autoError(arg);
     }
-}
+};
 
 export const invalidIdError = (entityName: string) => {
 
     return new Error(`No ${entityName} with that id`);
 };
 
-function autoError(arg: Error): Result<ApiResponse, BaseError> {
+export const autoError = (arg: Error): Result<ApiResponse, BaseError> => {
     const error = ensureError(arg);
     let statusCode: string = generateStatusCode(error.message);
     if ('code' in error){
@@ -49,9 +49,9 @@ function autoError(arg: Error): Result<ApiResponse, BaseError> {
             statusCode: statusCode
         })
     };
-}
+};
 
-function customError(arg: string): Result<ApiResponse, BaseError> {
+export const customError = (arg: string): Result<ApiResponse, BaseError> => {
     const error = invalidIdError(arg);
     return {
         success: false, error: new BaseError(error.message, {
@@ -59,7 +59,7 @@ function customError(arg: string): Result<ApiResponse, BaseError> {
             statusCode: generateStatusCode('with that id')
         })
     };
-}
+};
 
 export const generateStatusCode = (err: string): string => {
     //Find flere errors 
