@@ -1,10 +1,9 @@
 import { parentRepo } from '../Repositories/parentRepository';
 import { Parent } from '../Entities/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
-import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
-import { BaseError } from '../Utils/BaseError';
+import { failed, success } from '../Utils/errorHandler';
 
-export const createParent = async (parentRequestDTO: ParentRequestDTO): Promise<Result<ApiResponse, BaseError>>  => {
+export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
     try {
         const response = await parentRepo.save(parentRequestDTO);
         return success(convertToDTO(response));
@@ -14,7 +13,7 @@ export const createParent = async (parentRequestDTO: ParentRequestDTO): Promise<
     }
 };
 
-export const getParents = async (): Promise<Result<ApiResponse, BaseError>>  => {
+export const getParents = async () => {
     try {
         const parents = await parentRepo.findAll();
         const parentDTOs: ParentResponseDTO[] = parents.map(parent => convertToDTO(parent));
@@ -25,7 +24,7 @@ export const getParents = async (): Promise<Result<ApiResponse, BaseError>>  => 
     }
 };
 
-export const getParentById = async (id: number): Promise<Result<ApiResponse, BaseError>>  => {
+export const getParentById = async (id: number) => {
     try {
         //TODO get user with role from userRepo
         //TODO get names with origins and meaning from nameRepo. 
@@ -42,7 +41,7 @@ export const getParentById = async (id: number): Promise<Result<ApiResponse, Bas
     }
 };
 
-export const updateParent = async (parentDTO: ParentRequestDTO): Promise<Result<ApiResponse, BaseError>>  => {
+export const updateParent = async (parentDTO: ParentRequestDTO) => {
     try {
         const response = await parentRepo.save(parentDTO);
         return success(convertToDTO(response));
@@ -52,7 +51,7 @@ export const updateParent = async (parentDTO: ParentRequestDTO): Promise<Result<
     }
 };
 
-export const deleteParent = async (parentId: number): Promise<Result<ApiResponse, BaseError>>  => {
+export const deleteParent = async (parentId: number) => {
     try {
         const parentDB = await parentRepo.findOneByID(parentId);
 

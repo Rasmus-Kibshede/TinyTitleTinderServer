@@ -1,10 +1,9 @@
 import { MeaningRequestDTO, MeaningResponseDTO } from '../DTO/meaningDTO';
 import { Meaning } from '../Entities/Meaning';
 import { meaningRepo } from '../Repositories/meaningRepository';
-import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
+import { failed, success } from '../Utils/errorHandler';
 
-export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
     try {
         const response = await meaningRepo.save(meaningRequestDTO);
         return success(convertToDTO(response));
@@ -15,7 +14,7 @@ export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promi
     }
 };
 
-export const getMeanings = async (): Promise<Result<ApiResponse, BaseError>> => {
+export const getMeanings = async () => {
     try {
         const meanings = await meaningRepo.findAll();
         const meaningDTOs: MeaningResponseDTO[] = meanings.map(meaning => convertToDTO(meaning));
@@ -26,7 +25,7 @@ export const getMeanings = async (): Promise<Result<ApiResponse, BaseError>> => 
     }
 };
 
-export const getMeaningById = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
+export const getMeaningById = async (id: number) => {
     try {
         const response = await meaningRepo.findOneByID(id);
 
@@ -41,7 +40,7 @@ export const getMeaningById = async (id: number): Promise<Result<ApiResponse, Ba
     }
 };
 
-export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
     try {
         const response = await meaningRepo.save(meaningRequestDTO);
         return success(convertToDTO(response));
@@ -52,7 +51,7 @@ export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO): Promi
     }
 };
 
-export const deleteMeaning = async (meaningId: number): Promise<Result<ApiResponse, BaseError>> => {
+export const deleteMeaning = async (meaningId: number) => {
     try {
         const meaningDB = await meaningRepo.findOneByID(meaningId);
 

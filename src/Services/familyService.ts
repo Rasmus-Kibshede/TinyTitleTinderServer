@@ -1,10 +1,9 @@
 import { parentRepo as familyRepo } from '../Repositories/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
 import { Family } from '../Entities/Family';
-import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
+import { failed, success } from '../Utils/errorHandler';
 
-export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const createFamily = async (familyRequestDTO: FamilyRequestDTO) => {
     try {
         const response = await familyRepo.save(familyRequestDTO);
         return success(convertToDTO(response));
@@ -16,7 +15,7 @@ export const createFamily = async (familyRequestDTO: FamilyRequestDTO): Promise<
     }
 };
 
-export const getFamilies = async (): Promise<Result<ApiResponse, BaseError>> => {
+export const getFamilies = async () => {
     try {
         const families = await familyRepo.findAll();
         const familyDTOs: FamilyResponseDTO[] = families.map(family => convertToDTO(family));
@@ -44,7 +43,7 @@ export const getFamilyById = async (id: number) => {
     }
 };
 
-export const updateFamily = async (familyDTO: FamilyRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const updateFamily = async (familyDTO: FamilyRequestDTO) => {
     try {
         const response = await familyRepo.save(familyDTO);
         return success(convertToDTO(response));
@@ -56,7 +55,7 @@ export const updateFamily = async (familyDTO: FamilyRequestDTO): Promise<Result<
     }
 };
 
-export const deleteFamily = async (parentId: number): Promise<Result<ApiResponse, BaseError>> => {
+export const deleteFamily = async (parentId: number) => {
     try {
         const familyDB = await familyRepo.findOneByID(parentId);
 

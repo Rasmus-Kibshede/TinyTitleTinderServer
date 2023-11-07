@@ -1,10 +1,9 @@
 import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
 import { Origin } from '../Entities/Origin';
 import { originRepo } from '../Repositories/originRepository';
-import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
-import { BaseError } from '../Utils/BaseError';
+import { failed, success } from '../Utils/errorHandler';
 
-export const createOrigin = async (OriginRequestDTO: OriginRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const createOrigin = async (OriginRequestDTO: OriginRequestDTO) => {
     try {
         const response = await originRepo.save(OriginRequestDTO);
         return success(convertToDTO(response));
@@ -13,7 +12,7 @@ export const createOrigin = async (OriginRequestDTO: OriginRequestDTO): Promise<
     }
 };
 
-export const getOriginByID = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
+export const getOriginByID = async (id: number) => {
     try {
         const response = await originRepo.findOneByID(id);
         if (!response) {
@@ -25,7 +24,7 @@ export const getOriginByID = async (id: number): Promise<Result<ApiResponse, Bas
     }
 };
 
-export const getOrigins = async (): Promise<Result<ApiResponse, BaseError>> => {
+export const getOrigins = async () => {
     try {
         const origins = await originRepo.findAll();
         const originDTOs: OriginResponseDTO[] = origins.map((origin) => convertToDTO(origin));
@@ -35,7 +34,7 @@ export const getOrigins = async (): Promise<Result<ApiResponse, BaseError>> => {
     }
 };
 
-export const updateOrigin = async (originRequestDTO: OriginRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const updateOrigin = async (originRequestDTO: OriginRequestDTO) => {
     try {
         const response = await originRepo.save(originRequestDTO);
         return success(convertToDTO(response));
@@ -44,7 +43,7 @@ export const updateOrigin = async (originRequestDTO: OriginRequestDTO): Promise<
     }
 };
 
-export const deleteOriginByID = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
+export const deleteOriginByID = async (id: number) => {
     try {
         const response = await originRepo.findOneByID(id);
         if (!response) {

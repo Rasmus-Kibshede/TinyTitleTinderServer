@@ -1,10 +1,9 @@
 import { addressRepo } from '../Repositories/addressRepository';
 import { Address } from '../Entities/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
-import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, success} from '../Utils/errorHandler';
+import { failed, success } from '../Utils/errorHandler';
 
-export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const createAddress = async (addressRequestDTO: AddressRequestDTO) => {
     try {
         const response = await addressRepo.save(addressRequestDTO);
         return success(convertToDTO(response));
@@ -15,7 +14,7 @@ export const createAddress = async (addressRequestDTO: AddressRequestDTO): Promi
     }
 };
 
-export const getAddresses = async (): Promise<Result<ApiResponse, BaseError>> => {
+export const getAddresses = async () => {
     try {
         const addresses = await addressRepo.findAll();
         const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
@@ -27,7 +26,7 @@ export const getAddresses = async (): Promise<Result<ApiResponse, BaseError>> =>
     }
 };
 
-export const getAddressById = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
+export const getAddressById = async (id: number) => {
     try {
         const response = await addressRepo.findOneByID(id);
         if (!response) {
@@ -41,7 +40,7 @@ export const getAddressById = async (id: number): Promise<Result<ApiResponse, Ba
     }
 };
 
-export const updateAddress = async (addressDTO: AddressRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const updateAddress = async (addressDTO: AddressRequestDTO) => {
     try {
         const response = await addressRepo.save(addressDTO);
         return success(convertToDTO(response));
@@ -52,7 +51,7 @@ export const updateAddress = async (addressDTO: AddressRequestDTO): Promise<Resu
     }
 };
 
-export const deleteAddress = async (addressId: number): Promise<Result<ApiResponse, BaseError>> => {
+export const deleteAddress = async (addressId: number) => {
     try {
         const addressDB = await addressRepo.findOneByID(addressId);
 

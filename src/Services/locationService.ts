@@ -1,20 +1,19 @@
 import { locationRepo } from '../Repositories/locationRepository';
 import { Location } from '../Entities/Location';
 import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
-import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
+import { failed, success } from '../Utils/errorHandler';
 
-export const createLocation = async (locationRequestDTO: LocationRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const createLocation = async (locationRequestDTO: LocationRequestDTO) => {
     try {
         const response = await locationRepo.save(locationRequestDTO);
         return success(convertToDTO(response));
-        
+
     } catch (err) {
         return failed(err);
     }
 };
 
-export const getLocations = async (): Promise<Result<ApiResponse, BaseError>> => {
+export const getLocations = async () => {
     try {
         const locations = await locationRepo.findAll();
         const locationDTOs: LocationResponseDTO[] = locations.map(location => convertToDTO(location));
@@ -25,7 +24,7 @@ export const getLocations = async (): Promise<Result<ApiResponse, BaseError>> =>
     }
 };
 
-export const getLocationById = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
+export const getLocationById = async (id: number) => {
     try {
         const response = await locationRepo.findOneByID(id);
         if (!response) {
@@ -38,17 +37,17 @@ export const getLocationById = async (id: number): Promise<Result<ApiResponse, B
     }
 };
 
-export const updateLocation = async (locationDTO: LocationRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const updateLocation = async (locationDTO: LocationRequestDTO) => {
     try {
         const response = await locationRepo.save(locationDTO);
         return success(convertToDTO(response));
 
-    } catch (err) {    
+    } catch (err) {
         return failed(err);
     }
 };
 
-export const deleteLocation = async (locationId: number): Promise<Result<ApiResponse, BaseError>> => {
+export const deleteLocation = async (locationId: number) => {
     try {
         const locationDB = await locationRepo.findOneByID(locationId);
 
@@ -58,7 +57,7 @@ export const deleteLocation = async (locationId: number): Promise<Result<ApiResp
         const response = await locationRepo.remove(locationDB);
         return success(convertToDTO(response));
 
-    } catch (err) {    
+    } catch (err) {
         return failed(err);
     }
 };

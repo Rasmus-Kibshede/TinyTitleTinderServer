@@ -1,10 +1,9 @@
 import { roleRepo } from '../Repositories/roleRepository';
 import { Role } from '../Entities/Role';
 import { RoleRequestDTO, RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
-import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
-import { BaseError } from '../Utils/BaseError';
+import { failed, success } from '../Utils/errorHandler';
 
-export const createRole = async (roleRequestDTO: RoleTitle): Promise<Result<ApiResponse, BaseError>>  => {
+export const createRole = async (roleRequestDTO: RoleTitle) => {
     try {
         const response = await roleRepo.save(roleRequestDTO);
         return success(convertToDTO(response));
@@ -14,7 +13,7 @@ export const createRole = async (roleRequestDTO: RoleTitle): Promise<Result<ApiR
     }
 };
 
-export const getRoleById = async (id: number): Promise<Result<ApiResponse, BaseError>>  => {
+export const getRoleById = async (id: number) => {
     try {
         const response = await roleRepo.findOneByID(id);
         if (!response) {
@@ -28,7 +27,7 @@ export const getRoleById = async (id: number): Promise<Result<ApiResponse, BaseE
     }
 };
 
-export const getRoles = async (): Promise<Result<ApiResponse, BaseError>>  => {
+export const getRoles = async () => {
     try {
         const response = await roleRepo.findAll();
         const roleDTOs: RoleRequestDTO[] = response.map(role => convertToDTO(role));
@@ -39,7 +38,7 @@ export const getRoles = async (): Promise<Result<ApiResponse, BaseError>>  => {
     }
 };
 
-export const updateRole = async (roleDTO: RoleTitle): Promise<Result<ApiResponse, BaseError>>  => {
+export const updateRole = async (roleDTO: RoleTitle) => {
     try {
         const response = await roleRepo.save(roleDTO);
         return success(convertToDTO(response));
@@ -49,7 +48,7 @@ export const updateRole = async (roleDTO: RoleTitle): Promise<Result<ApiResponse
     }
 };
 
-export const deleteRoleByID = async (roleId: number): Promise<Result<ApiResponse, BaseError>>  => {
+export const deleteRoleByID = async (roleId: number) => {
     try {
         const response = await roleRepo.findOneById(roleId);
 

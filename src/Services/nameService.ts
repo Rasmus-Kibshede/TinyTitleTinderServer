@@ -1,10 +1,9 @@
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
-import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
+import { failed, success } from '../Utils/errorHandler';
 
-export const createName = async (nameRequestDTO: NameRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
 
@@ -15,7 +14,7 @@ export const createName = async (nameRequestDTO: NameRequestDTO): Promise<Result
   }
 };
 
-export const getNameByID = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
+export const getNameByID = async (id: number) => {
   try {
     const response = await nameRepo.findOneByID(id);
 
@@ -29,7 +28,7 @@ export const getNameByID = async (id: number): Promise<Result<ApiResponse, BaseE
   }
 };
 
-export const getNames = async (): Promise<Result<ApiResponse, BaseError>> => {
+export const getNames = async () => {
   try {
     const names = await nameRepo.findAll();
     const nameDTOs: NameResponseDTO[] = names.map((name) => convertToDTO(name));
@@ -40,7 +39,7 @@ export const getNames = async (): Promise<Result<ApiResponse, BaseError>> => {
   }
 };
 
-export const updateName = async (nameRequestDTO: NameRequestDTO): Promise<Result<ApiResponse, BaseError>> => {
+export const updateName = async (nameRequestDTO: NameRequestDTO) => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
     return success(convertToDTO(response));
@@ -51,7 +50,7 @@ export const updateName = async (nameRequestDTO: NameRequestDTO): Promise<Result
   }
 };
 
-export const deleteNameByID = async (id: number): Promise<Result<ApiResponse, BaseError>> => {
+export const deleteNameByID = async (id: number) => {
   try {
     const nameDB = await nameRepo.findOneByID(id);
 
