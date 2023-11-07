@@ -9,8 +9,6 @@ export const createFamily = async (familyRequestDTO: FamilyRequestDTO) => {
         return success(convertToDTO(response));
 
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };
@@ -22,27 +20,19 @@ export const getFamilies = async () => {
         return success(familyDTOs);
 
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };
 
 export const getFamilyById = async (id: number) => {
-    try {
-        console.log('In service layer');
-        
+    try {    
         const response = await familyRepo.findOneByID(id);
-        console.log('In service layer');
-        
         if (!response) {
             return failed('family');
         }
         return success(convertToDTO(response));
 
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };
@@ -53,8 +43,6 @@ export const updateFamily = async (familyDTO: FamilyRequestDTO) => {
         return success(convertToDTO(response));
 
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };
@@ -70,8 +58,6 @@ export const deleteFamily = async (parentId: number) => {
         return success(convertToDTO(response));
 
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };
