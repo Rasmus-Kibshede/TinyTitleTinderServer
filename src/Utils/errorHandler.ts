@@ -64,6 +64,11 @@ export const customError = (arg: string): Result<ApiResponse, BaseError> => {
 export const generateStatusCode = (err: string): string => {
     //Find flere errors 
     const errorMappings: Record<string, string> = {
+        'Invalid credentials': '400',
+        'Invalid datel': '400',
+        'Invalid Email': '400',
+        'Not Acceptable': '406',
+        'Invalid ID': '400',
         'with that id': '404',
         'ER_BAD_FIELD_ERROR': '404',
         'ER_DUP_ENTRY': '409',

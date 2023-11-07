@@ -1,17 +1,16 @@
 // Middleware
 import { NextFunction, Request, Response } from 'express';
 import validator from 'validator';
+import { failed } from '../Utils/errorHandler';
 
 // Middleware
 export const validateParamsId = (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
-
     if (!id) {
-        res.status(400).send({ err: 'Invalid ID' });
+        failed(new Error('Invalid ID'));
     } else if (isNaN(Number(id))) {
-        res.status(406).send({ err: 'Not Acceptable' });
+        failed(new Error('Not Acceptable'));
     }
-
     next();
 };
 
@@ -22,7 +21,7 @@ export const validateCredintials = (req: Request, res: Response, next: NextFunct
     if (validator.isEmail(newEmail) && validator.isStrongPassword(password)) {
         next();
     } else {
-        res.status(400).send({ err: 'Invalid credentials' });
+        failed(new Error('Invalid credentials'));
     }
 };
 
@@ -32,7 +31,7 @@ export const validateNewMail = (req: Request, res: Response, next: NextFunction)
     if (validator.isEmail(newEmail)) {
         next();
     } else {
-        res.status(400).send({ err: 'Invalid email' });
+        failed(new Error('Invalid Email'));
     }
 };
 
@@ -44,6 +43,6 @@ export const validateDate = (req: Request, res: Response, next: NextFunction) =>
     } else if (!nameDays) {
         next();
     } else {
-        res.status(400).send({ err: 'Invalid date' });
+        failed(new Error('Invalid datel'));
     }
 };
