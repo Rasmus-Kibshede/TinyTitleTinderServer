@@ -27,7 +27,7 @@ export function success(response: NonNullable<unknown>): Result<ApiResponse, Bas
 export function failed(arg: string | Error): Result<ApiResponse, BaseError> {
     if (typeof arg === 'string') {
         return customError(arg);
-    } else {
+    } else {    
         return autoError(arg);
     }
 }
@@ -37,8 +37,11 @@ export const invalidIdError = (entityName: string) => {
 };
 
 function autoError(arg: Error): Result<ApiResponse, BaseError> {
-    const statusCode = generateStatusCode(arg.message);
     const error = ensureError(arg);
+    let statusCode: string = generateStatusCode(error.message);
+    if ('code' in error){
+        statusCode = generateStatusCode(String(error.code));  
+    }
     return {
         success: false, error: new BaseError(error.message, {
             error: error,
