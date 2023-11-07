@@ -18,6 +18,4 @@ export class AddressMDB {
     @Column()
     location: LocationMDB;
 
-    // @ManyToOne(() => LocationMDB, (location) => location.addresses)
-    // location: LocationMDB;
 }

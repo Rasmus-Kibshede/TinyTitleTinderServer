@@ -37,39 +37,5 @@ import {
 
     @Column(() => ParentMDB)
     parents: ParentMDB[];
-  
-    // @ManyToMany(() => OriginMDB, (origin) => origin.names, { nullable: true })
-    // @JoinColumn()
-    // @JoinTable({
-    //   name: 'name_suggest_origin',
-    //   joinColumn: {
-    //     name: 'fk_name_suggest_id',
-    //     referencedColumnName: 'nameSuggestId',
-    //   },
-    //   inverseJoinColumn: {
-    //     name: 'fk_origin_id',
-    //     referencedColumnName: 'originId',
-    //   },
-    // })
-    // origins: OriginMDB[] | null;
-  
-    // @ManyToMany(() => MeaningMDB, (meaning) => meaning.names, { nullable: true })
-    // @JoinColumn()
-    // @JoinTable({
-    //   name: 'name_suggest_meaning',
-    //   joinColumn: {
-    //     name: 'fk_name_suggest_id',
-    //     referencedColumnName: 'nameSuggestId',
-    //   },
-    //   inverseJoinColumn: {
-    //     name: 'fk_meaning_id',
-    //     referencedColumnName: 'meaningId',
-    //   },
-    // })
-    // meanings: MeaningMDB[] | null;
-  
-    // @ManyToMany(() => ParentMDB, (parent) => parent.names)
-    // @JoinColumn()
-    // parents: ParentMDB[];
   }
   

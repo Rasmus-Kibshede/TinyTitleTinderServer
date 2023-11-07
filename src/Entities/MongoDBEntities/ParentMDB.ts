@@ -33,30 +33,4 @@ export class ParentMDB {
 
   @Column(() => LocationMDB)
   location: LocationMDB;
-
-//   @OneToOne(() => UserMDB)
-//   @JoinColumn()
-//   user: UserMDB;
-
-//   @ManyToMany(() => NameMDB, (name) => name.parents, { nullable: true })
-//   @JoinColumn()
-//   @JoinTable({
-//     name: 'parent_name_suggest',
-//     joinColumn: {
-//       name: 'fk_parent_id',
-//       referencedColumnName: 'parentId',
-//     },
-//     inverseJoinColumn: {
-//       name: 'fk_name_suggest_id',
-//       referencedColumnName: 'nameSuggestId',
-//     },
-//   })
-//   names: NameMDB[] | null;
-
-//   @ManyToMany(() => FamilyMDB, (family) => family.parents)
-//   families: FamilyMDB[];
-
-//   @ManyToOne(() => LocationMDB, (location) => location.parents)
-//   location: LocationMDB;
-
 }

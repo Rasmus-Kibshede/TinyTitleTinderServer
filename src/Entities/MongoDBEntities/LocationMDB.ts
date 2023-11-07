@@ -16,11 +16,6 @@ export class LocationMDB {
     @Column()
     parents: ParentMDB[];
 
-    // @OneToMany(() => AddressMDB, (address) => address.location)
-    // addresses: AddressMDB[];
-
-    // @OneToMany(() => ParentMDB, (parents) => parents.location)
-    // parents: ParentMDB[];
 }
 
 

@@ -13,7 +13,4 @@ export class MeaningMDB {
     @Column()
     names: NameMDB[];
 
-    // @ManyToMany(() => NameMDB, (name) => name.meanings)
-    // @JoinColumn()
-    // names: NameMDB[];
 }

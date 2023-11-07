@@ -11,19 +11,4 @@ export class FamilyMDB {
 
   @Column()
   parents: ParentMDB[] | null;
-
-//   @ManyToMany(() => ParentMDB, (parent) => parent.families, { nullable: true })
-//   @JoinColumn()
-//   @JoinTable({
-//     name: 'family_parent',
-//     joinColumn: {
-//       name: 'fk_family_id',
-//       referencedColumnName: 'familyId',
-//     },
-//     inverseJoinColumn: {
-//       name: 'fk_parent_id',
-//       referencedColumnName: 'parentId',
-//     },
-//   })
-//   parents: ParentMDB[] | null;
 }

@@ -18,8 +18,4 @@ export class OriginMDB {
 
     @Column(() => NameMDB)
     names: NameMDB[];
-
-    // @ManyToMany(() => NameMDB, (name) => name.origins)
-    // @JoinColumn()
-    // names: NameMDB[];
 }

@@ -8,6 +8,5 @@ export class RoleMDB {
 
     @Column('varchar', { length: 255, nullable: false, name: 'title' })
     title: string;
-
     
 }
