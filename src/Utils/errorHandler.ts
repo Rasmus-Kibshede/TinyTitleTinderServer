@@ -33,6 +33,7 @@ export function failed(arg: string | Error): Result<ApiResponse, BaseError> {
 }
 
 export const invalidIdError = (entityName: string) => {
+
     return new Error(`No ${entityName} with that id`);
 };
 
@@ -55,7 +56,7 @@ function customError(arg: string): Result<ApiResponse, BaseError> {
     return {
         success: false, error: new BaseError(error.message, {
             error: error,
-            statusCode: generateStatusCode(error.message)
+            statusCode: generateStatusCode('with that id')
         })
     };
 }
@@ -63,12 +64,10 @@ function customError(arg: string): Result<ApiResponse, BaseError> {
 export const generateStatusCode = (err: string): string => {
     //Find flere errors 
     const errorMappings: Record<string, string> = {
+        'with that id': '404',
         'ER_BAD_FIELD_ERROR': '404',
         'ER_DUP_ENTRY': '409',
     };
-    if(err.includes('with that id')){
-        return '404';
-    }
     const statusCode = errorMappings[err] || '500';
     return statusCode;
 };
