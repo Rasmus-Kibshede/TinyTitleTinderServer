@@ -2,16 +2,23 @@
 import { NextFunction, Request, Response } from 'express';
 import validator from 'validator';
 import { failed } from '../Utils/errorHandler';
+import { responseError} from '../Controllers/responseController';
 
 // Middleware
+
+
 export const validateParamsId = (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id;
-    if (!id) {
-        failed(new Error('Invalid ID'));
-    } else if (isNaN(Number(id))) {
-        failed('Not Acceptable');
+    try {
+        const id = req.params.id;
+    
+    if (!id || isNaN(Number(id)) || Number(id) <= 0) {
+        responseError(res, failed(new Error('Invalid ID')));
+    } else {
+        next();
     }
-    next();
+    } catch (error) {
+        responseError(res, error);
+    }  
 };
 
 export const validateCredintials = (req: Request, res: Response, next: NextFunction) => {
@@ -21,7 +28,7 @@ export const validateCredintials = (req: Request, res: Response, next: NextFunct
     if (validator.isEmail(newEmail) && validator.isStrongPassword(password)) {
         next();
     } else {
-        failed(new Error('Invalid credentials'));
+        responseError(res, failed(new Error('Invalid credentials')));
     }
 };
 
@@ -31,18 +38,18 @@ export const validateNewMail = (req: Request, res: Response, next: NextFunction)
     if (validator.isEmail(newEmail)) {
         next();
     } else {
-        failed(new Error('Invalid Email'));
+        responseError(res, failed(new Error('Invalid Email')));
     }
 };
 
 export const validateDate = (req: Request, res: Response, next: NextFunction) => {
     const nameDays = req.body.nameDays;
 
-    if (validator.isDate(nameDays, { format: 'DD-MM-YYYY' })){
+    if (validator.isDate(nameDays, { format: 'DD-MM-YYYY' })) {
         next();
     } else if (!nameDays) {
         next();
     } else {
-        failed(new Error('Invalid datel'));
+        responseError(res, failed(new Error('Invalid date')));
     }
 };

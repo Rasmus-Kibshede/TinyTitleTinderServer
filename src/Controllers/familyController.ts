@@ -26,6 +26,8 @@ export const getAllFamilies = async (req: Request, res: Response) => {
 
 export const getFamilyById = async (req: Request, res: Response) => {
     const response = await familyService.getFamilyById(Number(req.params.id));
+    console.log('in getFamilyByID');
+    
     responseController.response(res, response, 200);
 };
 

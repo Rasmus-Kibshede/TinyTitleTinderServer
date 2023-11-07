@@ -30,7 +30,11 @@ export const getFamilies = async () => {
 
 export const getFamilyById = async (id: number) => {
     try {
+        console.log('In service layer');
+        
         const response = await familyRepo.findOneByID(id);
+        console.log('In service layer');
+        
         if (!response) {
             return failed('family');
         }
