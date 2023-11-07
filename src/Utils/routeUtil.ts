@@ -1,12 +1,9 @@
-// Middleware
 import { NextFunction, Request, Response } from 'express';
 import validator from 'validator';
 import { failed } from '../Utils/errorHandler';
 import { responseError } from '../Controllers/responseController';
 
 // Middleware
-
-
 export const validateParamsId = (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id;
@@ -32,8 +29,6 @@ export const validateCredintials = (req: Request, res: Response, next: NextFunct
     } catch (error) {
         responseError(res, error);
     }
-
-
 };
 
 export const validateNewMail = (req: Request, res: Response, next: NextFunction) => {
