@@ -14,7 +14,6 @@ export const createMeaning = async (req: Request, res: Response) => {
 
 export const getMeaningByID = async (req: Request, res: Response) => {
 	const response = await meaningService.getMeaningById(Number(req.params.id));
-
 	responseController.response(res, response, 200);
 };
 

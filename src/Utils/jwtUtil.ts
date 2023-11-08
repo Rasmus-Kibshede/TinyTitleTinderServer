@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { UserResponseDTO } from '../DTO/userDTO';
+//import * as responseController from '../Controllers/responseController';
 
+//Skal denne bruge det nye Error/response system system? i så fald skal jeg lige have en gennemgang af koden. 
 export const authorize = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization!.split(' ')[1];
 
@@ -18,7 +20,6 @@ export const authorize = (req: Request, res: Response, next: NextFunction) => {
         } catch (err) {
             res.status(500).send({ err: `Invalid token: ${err.message}` });
         }
-
     }
 };
 

@@ -15,7 +15,7 @@ export interface UserRequestDTO {
 	roles: Role[] | null;
 }
 
-export interface userLogin {
+export interface UserLogin {
 	email: string;
 	password: string;
 }

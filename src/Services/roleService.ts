@@ -51,7 +51,6 @@ export const updateRole = async (roleDTO: RoleTitle) => {
 export const deleteRoleByID = async (roleId: number) => {
     try {
         const response = await roleRepo.findOneById(roleId);
-
         if (!response) {
             return failed('role');
         }

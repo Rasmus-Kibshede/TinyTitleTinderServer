@@ -18,9 +18,9 @@ export const getAllFamilies = async (req: Request, res: Response) => {
     const response = await familyService.getFamilies();
 
     if (!response) {
-        res.status(404).send({ err: response });
+        responseController.responseError(res, response);
     } else {
-        res.status(200).send(response);
+        responseController.response(res, response, 200);
     }
 };
 
