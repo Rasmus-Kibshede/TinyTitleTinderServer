@@ -9,7 +9,6 @@ export const createName = async (nameRequestDTO: NameRequestDTO) => {
 
     return success(convertToDTO(response));
   } catch (err) {
-    // Temporary solution before implementing generic validation on unique constraints
     return failed(err);
   }
 };
@@ -45,7 +44,6 @@ export const updateName = async (nameRequestDTO: NameRequestDTO) => {
     return success(convertToDTO(response));
 
   } catch (err) {
-    // Temporary solution before implementing generic validation on unique constraints
     return failed(err);
   }
 };

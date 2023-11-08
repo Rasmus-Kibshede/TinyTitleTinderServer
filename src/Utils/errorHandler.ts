@@ -30,7 +30,6 @@ export const failed = (arg: string | Error): Result<ApiResponse, BaseError> => {
     } else {
         return customError(arg);
     }
-
 };
 
 export const invalidIdError = (entityName: string) => {
@@ -40,7 +39,7 @@ export const invalidIdError = (entityName: string) => {
 export const autoError = (arg: Error): Result<ApiResponse, BaseError> => {
     const error = ensureError(arg);
     let statusCode: string;
-    //Denne her bliver kaldt i både if og else. så lige nu retunere den bare den der sidst er blevet brugt. 
+
     if ('code' in error) {
         statusCode = generateStatusCode(String(error.code));        
         return {
@@ -69,7 +68,6 @@ export const customError = (arg: string): Result<ApiResponse, BaseError> => {
 };
 
 export const generateStatusCode = (err: string): string => {
-    //Find flere errors     
     const errorMappings: Record<string, string> = {
         'Invalid credentials': '400',
         'Invalid datel': '400',
@@ -81,7 +79,6 @@ export const generateStatusCode = (err: string): string => {
         'ER_DUP_ENTRY': '409',
     };
     const statusCode = errorMappings[err] || '500';
-    console.log(statusCode);
     return statusCode;
 };
 

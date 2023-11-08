@@ -55,11 +55,9 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
         if (!savedUser) {
             return failed('user');
         }
-
         return success(convertToDTO(savedUser));
 
     } catch (err) {
-        // Temporary solution before implementing generic validation on unique constraints
         return failed(err);
     }
 };
@@ -68,14 +66,14 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
 export const deleteUserByID = async (id: number) => {
     try {
         const response = await userRepo.findOneByID(id);
-
         if (!response || !response.userActive) {
             return failed('user');
         }
-
+        
         response.userActive = false;
         const deleted = await userRepo.save(response);
         return success(convertToDTO(deleted));
+
     } catch (err) {
         return failed(err);
     }

@@ -35,8 +35,6 @@ export const updateAddress = async (req: Request, res: Response) => {
     };
     const response = await addressService.updateAddress(addressRequestDTO);
     responseController.response(res, response, 200);
-
-
 };
 
 export const deleteAdress = async (req: Request, res: Response) => {

@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import * as authService from '../Services/authService';
-import { UserResponseDTO, userLogin } from '../DTO/userDTO';
+import { UserResponseDTO, UserLogin } from '../DTO/userDTO';
 import { authSignin } from '../Utils/jwtUtil';
+import * as responseController from '../Controllers/responseController';
 
 export const login = async (req: Request, res: Response) => {
     try {
-        const userLogin: userLogin = {
+        const userLogin: UserLogin = {
             email: req.body.email,
             password: req.body.password
         };
@@ -18,6 +19,7 @@ export const login = async (req: Request, res: Response) => {
         authSignin(response.result.data as UserResponseDTO, res);
     } catch (err) {
         res.status(400).send(err.message);
+        responseController.response(res, err, 400);
     }
 };
 

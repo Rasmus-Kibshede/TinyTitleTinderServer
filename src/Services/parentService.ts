@@ -26,10 +26,7 @@ export const getParents = async () => {
 
 export const getParentById = async (id: number) => {
     try {
-        //TODO get user with role from userRepo
-        //TODO get names with origins and meaning from nameRepo. 
         const response = await parentRepo.findOneByID(id);
-
         if (!response) {
             return failed('parent');
         }
