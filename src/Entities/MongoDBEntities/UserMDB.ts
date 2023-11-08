@@ -7,7 +7,7 @@ import { ParentMDB } from './ParentMDB';
 export class UserMDB {
 
     @ObjectIdColumn({ name: 'user_id' })
-    _id: ObjectId;
+    userId: ObjectId;
 
     @Column('varchar', { length: 255, nullable: false, name: 'email', unique: true })
     email: string;

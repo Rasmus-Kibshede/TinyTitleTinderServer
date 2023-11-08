@@ -52,5 +52,23 @@ export const userRepoMDB = appDataSourceMongo.getMongoRepository(UserMDB).extend
                 _id: id
             },
         });
+    },
+    findOneByEmail(email: string) {
+        return userRepoMDB.findOne({
+            where: {
+                email: email
+            }, 
+        });
+    },
+    findOneByEmailAndPassword(email: string, password: string) {
+        return userRepoMDB.findOne({
+            where: {
+                email: email,
+                password: password
+            },
+        });
+    },
+    findAll() {
+        return userRepoMDB.find();
     }
 });

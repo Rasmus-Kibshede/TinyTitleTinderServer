@@ -1,14 +1,6 @@
 import { Column, /*Entity, ObjectId, ObjectIdColumn*/ } from 'typeorm';
-// import { UserMDB } from './UserMDB';
-// import { NameMDB } from './NameMDB';
-// import { FamilyMDB } from './FamilyMDB';
-// import { LocationMDB } from './LocationMDB';
 
-// @Entity({ database: 'test' })
 export class ParentMDB {
-
-    // @ObjectIdColumn({ name: 'parent_id' })
-    // _id: ObjectId;
 
     @Column(/*'int', { name: 'age' }*/)
     age: number;
@@ -21,6 +13,13 @@ export class ParentMDB {
 
     @Column(/*'varchar', { length: 255, nullable: false, name: 'last_name' }*/)
     lastName: string;
+
+    constructor(age: number, gender: string, firstName: string, lastName: string) {
+        this.age = age;
+        this.gender = gender;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     // @Column(() => UserMDB)
     // user: UserMDB;
