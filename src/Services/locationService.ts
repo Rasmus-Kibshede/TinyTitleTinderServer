@@ -1,14 +1,15 @@
 import { locationRepo } from '../Repositories/locationRepository';
 import { Location } from '../Entities/Location';
 import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
+import { failed, success } from '../Utils/errorHandler';
 
 export const createLocation = async (locationRequestDTO: LocationRequestDTO) => {
     try {
-        const save = await locationRepo.save(locationRequestDTO);
-        return convertToDTO(save);
-        
-    } catch (error) {
-        return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        const response = await locationRepo.save(locationRequestDTO);
+        return success(convertToDTO(response));
+
+    } catch (err) {
+        return failed(err);
     }
 };
 
@@ -16,10 +17,10 @@ export const getLocations = async () => {
     try {
         const locations = await locationRepo.findAll();
         const locationDTOs: LocationResponseDTO[] = locations.map(location => convertToDTO(location));
-        return locationDTOs;
+        return success(locationDTOs);
 
-    } catch (error) {
-        return error.message === 'Couldent find any locations!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
@@ -27,25 +28,22 @@ export const getLocationById = async (id: number) => {
     try {
         const response = await locationRepo.findOneByID(id);
         if (!response) {
-            return { err: 'Invalid id' };
+            return failed('location');
         }
-        return convertToDTO(response);
+        return success(convertToDTO(response));
 
-    } catch (error) {
-        return error.message === 'Couldent find any locations!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const updateLocation = async (locationDTO: LocationRequestDTO) => {
     try {
-        if (!locationDTO) {
-            return { err: 'Invalid location DTO!' };
-        }
         const response = await locationRepo.save(locationDTO);
-        return convertToDTO(response);
+        return success(convertToDTO(response));
 
-    } catch (error) {    
-        return error.message === 'Couldent find any location!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
@@ -54,13 +52,13 @@ export const deleteLocation = async (locationId: number) => {
         const locationDB = await locationRepo.findOneByID(locationId);
 
         if (!locationDB) {
-            return { err: 'Invalid Location' };
+            return failed('location');
         }
         const response = await locationRepo.remove(locationDB);
-        return convertToDTO(response);
+        return success(convertToDTO(response));
 
-    } catch (error) {    
-        return error.message === 'Couldent find any locations!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
@@ -72,3 +70,4 @@ export const convertToDTO = (location: Location) => {
     };
     return dto;
 };
+

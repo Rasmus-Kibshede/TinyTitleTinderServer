@@ -1,19 +1,15 @@
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
+import { failed, success } from '../Utils/errorHandler';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
-  try { 
-    const save = await nameRepo.save(nameRequestDTO);
+  try {
+    const response = await nameRepo.save(nameRequestDTO);
 
-    return convertToDTO(save);
-  } catch (error) {
-    // Temporary solution before implementing generic validation on unique constraints
-   if ( error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
-      return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Name already exists' };
-    } else {
-      return error.message === 'Couldn\'t find any name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-    }
+    return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
   }
 };
 
@@ -22,12 +18,12 @@ export const getNameByID = async (id: number) => {
     const response = await nameRepo.findOneByID(id);
 
     if (!response) {
-      return { err: 'No name with that id' };
+      return failed('name');
     }
 
-    return convertToDTO(response);
-  } catch (error) {
-    return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
   }
 };
 
@@ -36,40 +32,33 @@ export const getNames = async () => {
     const names = await nameRepo.findAll();
     const nameDTOs: NameResponseDTO[] = names.map((name) => convertToDTO(name));
 
-    return nameDTOs;
-  } catch (error) {
-    return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    return success(nameDTOs);
+  } catch (err) {
+    return failed(err);
   }
 };
 
 export const updateName = async (nameRequestDTO: NameRequestDTO) => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
-    return convertToDTO(response);
+    return success(convertToDTO(response));
 
-  } catch (error) {
-    // Temporary solution before implementing generic validation on unique constraints
-    if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY' ) {
-      return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Name already exists' };
-    } else {
-      return error.message === 'Couldn\'t find any names!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-    }
+  } catch (err) {
+    return failed(err);
   }
 };
 
 export const deleteNameByID = async (id: number) => {
   try {
-    const response = await nameRepo.findOneByID(id);
+    const nameDB = await nameRepo.findOneByID(id);
 
-    if (!response) {
-      return { err: 'Name not found' };
+    if (!nameDB) {
+      return failed('name');
     }
-
-    return (
-      convertToDTO(await nameRepo.remove(response)) || {err: 'Name not deleted',}
-    );
-  } catch (error) {
-    return error.message === 'Couldn\'t find name!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    const response = await nameRepo.remove(nameDB);
+    return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
   }
 };
 

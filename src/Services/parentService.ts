@@ -1,55 +1,50 @@
 import { parentRepo } from '../Repositories/parentRepository';
 import { Parent } from '../Entities/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
+import { failed, success } from '../Utils/errorHandler';
 
 export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
     try {
-        const save = await parentRepo.save(parentRequestDTO);
-        return convertToDTO(save);
+        const response = await parentRepo.save(parentRequestDTO);
+        return success(convertToDTO(response));
 
-    } catch (error) {
-        return error.message === 'Something went wrong!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const getParents = async () => {
     try {
         const parents = await parentRepo.findAll();
-        const parentDTOs: ParentRequestDTO[] = parents.map(parent => convertToDTO(parent));
-        return parentDTOs;
+        const parentDTOs: ParentResponseDTO[] = parents.map(parent => convertToDTO(parent));
+        return success(parentDTOs);
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any parents!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const getParentById = async (id: number) => {
     try {
-        //TODO get user with role from userRepo
-        //TODO get names with origins and meaning from nameRepo. 
         const response = await parentRepo.findOneByID(id);
-
         if (!response) {
-            return { err: 'Invalid id' };
+            return failed('parent');
         }
 
-        return convertToDTO(response);
+        return success(convertToDTO(response));
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find a parent with that id!' ? { err: error.message } : { err: 'Something terrible went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const updateParent = async (parentDTO: ParentRequestDTO) => {
     try {
-        if (!parentDTO) {
-            return { err: 'Invalid parent DTO!' };
-        }
         const response = await parentRepo.save(parentDTO);
-        return convertToDTO(response);
+        return success(convertToDTO(response));
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any parents!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 
@@ -58,13 +53,13 @@ export const deleteParent = async (parentId: number) => {
         const parentDB = await parentRepo.findOneByID(parentId);
 
         if (!parentDB) {
-            return { err: 'Invalid Parent' };
+            return failed('parent');
         }
         const response = await parentRepo.remove(parentDB);
-        return convertToDTO(response);
+        return success(convertToDTO(response));
 
-    } catch (error) {
-        return error.message === 'Couldn\'t find any parent!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+    } catch (err) {
+        return failed(err);
     }
 };
 

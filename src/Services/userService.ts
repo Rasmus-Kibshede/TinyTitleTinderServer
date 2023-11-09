@@ -3,81 +3,80 @@ import { User } from '../Entities/User';
 import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
+import { failed, success } from '../Utils/errorHandler';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
-        const role = await getRoleById(3) as Role;
+        const role = await getRoleById(3) as unknown as Role;
+        if (!role) {
+            return failed('role');
+        }
         UserRequestDTO.roles = [];
         UserRequestDTO.roles.push(role);
 
-        const save = await userRepo.save(UserRequestDTO);
+        const response = await userRepo.save(UserRequestDTO);
 
-        return convertToDTO(save);
-    } catch (error) {
-        // Temporary solution before implementing generic validation on unique constraints
-        if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
-            return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Email already exists' };
-        } else {
-            return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-        }
+        return success(convertToDTO(response));
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const getUserByID = async (id: number) => {
-    const response = await userRepo.findOneByID(id);
-
-    if (!response) {
-        return { err: 'User not found' };
+    try {
+        const response = await userRepo.findOneByID(id);
+        if (!response) {
+            return failed('user');
+        }
+        return success(convertToDTO(response));
+    } catch (err) {
+        return failed(err);
     }
-
-    return convertToDTO(response);
 };
 
 export const getUsers = async () => {
-    const users = await userRepo.findAll();
-    const userDTOs: UserResponseDTO[] = users.map(user => convertToDTO(user));
-    return userDTOs;
+    try {
+        const users = await userRepo.findAll();
+        const userDTOs: UserResponseDTO[] = users.map(user => convertToDTO(user));
+        return success(userDTOs);
+    } catch (err) {
+        return failed(err);
+    }
+
 };
 
 export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
-   try {
-    const userDB = await userRepo.findOneByEmail(email) as User;
+    try {
+        const userDB = await userRepo.findOneByEmail(email) as User;
+        userDB.email = userDTO.email;
+        userDB.password = userDTO.password;
 
-    if (!userDB) {
-        return { err: 'User not found' };
+        const savedUser = await userRepo.save(userDB);
+        if (!savedUser) {
+            return failed('user');
+        }
+        return success(convertToDTO(savedUser));
+
+    } catch (err) {
+        return failed(err);
     }
-
-    userDB.email = userDTO.email;
-    userDB.password = userDTO.password;
-
-    const savedUser = await userRepo.save(userDB);
-    if (!savedUser) {
-        return { err: 'User could not be saved' };
-    }   
-
-    return convertToDTO(savedUser);
-
-    } catch (error) {
-    // Temporary solution before implementing generic validation on unique constraints
-    if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
-        return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Email already exists' };
-    } else {
-        return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-    }
-}
 };
 
 
 export const deleteUserByID = async (id: number) => {
-    const response = await userRepo.findOneByID(id);
+    try {
+        const response = await userRepo.findOneByID(id);
+        if (!response || !response.userActive) {
+            return failed('user');
+        }
+        
+        response.userActive = false;
+        const deleted = await userRepo.save(response);
+        return success(convertToDTO(deleted));
 
-    if (!response || !response.userActive) {
-        return { err: 'User not found' };
+    } catch (err) {
+        return failed(err);
     }
-
-    response.userActive = false;
-
-    return convertToDTO(await userRepo.remove(response)) || { err: 'User not deleted' };
 };
 
 
@@ -90,5 +89,3 @@ export const convertToDTO = (user: User) => {
 
     return dto;
 };
-
-

@@ -1,12 +1,13 @@
-import { userLogin } from '../DTO/userDTO';
+import { UserLogin } from '../DTO/userDTO';
 import { userRepo } from '../Repositories/userRepository';
-import { convertToDTO } from './userService';
+import { BaseError } from '../Utils/BaseError';
+import { Result, ApiResponse, failed } from '../Utils/errorHandler';
 
-export const login = async (userLogin: userLogin) => {
-
+export const login = async (userLogin: UserLogin): Promise<Result<ApiResponse, BaseError>> =>  {
+try{
     const response = await userRepo.findOneByEmailAndPassword(userLogin.email, userLogin.password);
-
-    if (!response) throw new Error('User not found');
-
-    return convertToDTO(response);
+    return { success: true, result:{data: response!}};
+} catch (err) {
+    return failed(err);
+}
 };
