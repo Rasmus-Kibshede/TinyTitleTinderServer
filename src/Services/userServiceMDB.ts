@@ -3,10 +3,11 @@ import { UserMDB } from '../Entities/MongoDBEntities/UserMDB';
 import { userRepoMDB } from '../Repositories/userRepository';
 import { UserRequestDTOMDB, UserResponseDTOMDB } from '../DTO/userDTOMDB';
 import { failed, success } from '../Utils/errorHandler';
+import { getRoleById } from './roleServiceMDB';
 
 export const createUser = async (UserRequestDTOMDB: UserRequestDTOMDB) => {
     try {
-        const role = await userRepoMDB.findAll as unknown as RoleMDB;
+        const role = await getRoleById('654d3f52466199c5ba2b1276') as unknown as RoleMDB;
         UserRequestDTOMDB.roles = [];
         UserRequestDTOMDB.roles.push(role);
 

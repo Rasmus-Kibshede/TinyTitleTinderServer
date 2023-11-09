@@ -13,7 +13,7 @@ export const createRole = async (req: Request, res: Response) => {
 };
 
 export const getRoleByID = async (req: Request, res: Response) => {
-	const id = new ObjectId(req.params.id);
+	const id = req.params.id;
 	const response = await roleServiceMDB.getRoleById(id);
 	responseController.response(res, response, 200);
 };
@@ -34,7 +34,7 @@ export const updateRole = async (req: Request, res: Response) => {
 };
 
 export const deleteRoleByID = async (req: Request, res: Response) => {
-	const id = new ObjectId(req.params.id);
+	const id = req.params.id;
 	const response = await roleServiceMDB.deleteRoleByID(id);
 	responseController.response(res, response, 204);
 };

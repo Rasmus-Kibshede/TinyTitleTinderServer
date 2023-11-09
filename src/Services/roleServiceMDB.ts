@@ -14,13 +14,14 @@ export const createRole = async (roleRequestDTO: RoleRequestDTOMDB) => {
     }
 };
 
-export const getRoleById = async (id: ObjectId) => {
+export const getRoleById = async (id: string) => {
     try {
-        const response = await roleRepoMDB.findOneByID(id);
+        const objectId = new ObjectId(id);
+        const response = await roleRepoMDB.findOneByID(objectId);
+
         if (!response) {
             return failed('role');
         }
-
         return success(convertToDTO(response));
 
     } catch (err) {
@@ -54,9 +55,10 @@ export const updateRole = async (roleId: ObjectId, roleRequestDTO: RoleRequestDT
     }
 };
 
-export const deleteRoleByID = async (roleId: ObjectId) => {
+export const deleteRoleByID = async (id: string) => {
     try {
-        const response = await roleRepoMDB.findOneByID(roleId);
+        const objectId = new ObjectId(id);
+        const response = await roleRepoMDB.findOneByID(objectId);
         if (!response) {
             return failed('role');
         }
