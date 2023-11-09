@@ -2,7 +2,6 @@ import { DataSource } from 'typeorm';
 import { AuditingSubscriber } from 'typeorm-auditing';
 import { UserMDB } from '../Entities/MongoDBEntities/UserMDB';
 import { RoleMDB } from '../Entities/MongoDBEntities/RoleMDB';
-import { ParentMDB } from '../Entities/MongoDBEntities/ParentMDB';
 
 export const appDataSource = new DataSource({
     type: 'mysql',
@@ -25,6 +24,6 @@ export const appDataSourceMongo = new DataSource({
     synchronize: true,
     useUnifiedTopology: true,
     ssl: true,
-    entities: [UserMDB, RoleMDB, ParentMDB],
+    entities: [UserMDB, RoleMDB],
     logging: false
 });

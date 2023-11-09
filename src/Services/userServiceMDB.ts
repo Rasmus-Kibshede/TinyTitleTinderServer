@@ -2,68 +2,71 @@ import { RoleMDB } from '../Entities/MongoDBEntities/RoleMDB';
 import { UserMDB } from '../Entities/MongoDBEntities/UserMDB';
 import { userRepoMDB } from '../Repositories/userRepository';
 import { UserRequestDTOMDB, UserResponseDTOMDB } from '../DTO/userDTOMDB';
+import { failed, success } from '../Utils/errorHandler';
 
 export const createUser = async (UserRequestDTOMDB: UserRequestDTOMDB) => {
     try {
-        const role = new RoleMDB('user');
+        const role = await userRepoMDB.findAll as unknown as RoleMDB;
         UserRequestDTOMDB.roles = [];
         UserRequestDTOMDB.roles.push(role);
 
         const save = await userRepoMDB.save(UserRequestDTOMDB);
 
-        return convertToDTO(save);
-    } catch (error) {
-        return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
+        return success(convertToDTO(save));
+    } catch (err) {
+        return failed(err);
     }
 };
 
 export const getUserByEmail = async (email: string) => {
-    const response = await userRepoMDB.findOneByEmail(email);
-
-    if (!response) {
-        return { err: 'User not found' };
+    try {
+        const response = await userRepoMDB.findOneByEmail(email);
+        if (!response) {
+            return failed('user');
+        }
+        return success(convertToDTO(response));
+    } catch (err) {
+        return failed(err);
     }
-
-    return convertToDTO(response);
 };
 
 export const getUsers = async () => {
-    const users = await userRepoMDB.findAll();
-    const userDTOs: UserResponseDTOMDB[] = users.map(user => convertToDTO(user));
-    return userDTOs;
+    try {
+        const users = await userRepoMDB.findAll();
+        const userDTOs: UserResponseDTOMDB[] = users.map(user => convertToDTO(user));
+        return success(userDTOs);
+    } catch(err) {
+        return failed(err);
+    }
 };
 
-export const updateUser = async (userDTO: UserRequestDTOMDB, email: string) => {
+export const updateUser = async (userRequestDTO: UserRequestDTOMDB, email: string) => {
     try {
         const userDB = await userRepoMDB.findOneByEmail(email) as UserMDB;
-
-        if (!userDB) {
-            return { err: 'User not found' };
-        }
-
-        userDB.email = userDTO.email;
-        userDB.password = userDTO.password;
+        userDB.email = userRequestDTO.email;
+        userDB.password = userRequestDTO.password;
 
         const savedUser = await userRepoMDB.save(userDB);
         if (!savedUser) {
-            return { err: 'User could not be saved' };
+            return failed('user');
         }
-
-        return convertToDTO(savedUser);
-
+        return success(convertToDTO(savedUser));
     } catch (error) {
-        // Temporary solution before implementing generic validation on unique constraints
-        if (error instanceof Error && 'code' in error && error.code === 'ER_DUP_ENTRY') {
-            return error.message === 'Something went wrong!- we are working on it!' ? { err: error.message } : { err: 'Email already exists' };
-        } else {
-            return error.message === 'Couldn\'t find any meaning (with life)!' ? { err: error.message } : { err: 'Something went wrong!- we are working on it!' };
-        }
+        return failed(error);
     }
 };
 
 
 export const deleteUserByEmail = async (email: string) => {
-    return await await userRepoMDB.findOneAndDelete(getUserByEmail(email));
+    try {
+        const response = await userRepoMDB.findOneAndDelete(getUserByEmail(email));
+        if (!response) {
+            return failed('user');
+        }
+        return success(response);
+    } catch (err) {
+        return failed(err);
+    }
 };
 
 export const convertToDTO = (user: UserMDB) => {

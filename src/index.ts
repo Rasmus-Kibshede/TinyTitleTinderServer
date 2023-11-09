@@ -3,7 +3,6 @@ import 'dotenv/config';
 // Import the express in typescript file
 import express from 'express';
 import 'reflect-metadata';
-import cors from 'cors';
 
 // import routes
 import userRouter from './Routes/userRoute';
@@ -25,22 +24,25 @@ app.use(express.json());
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { appDataSource, appDataSourceMongo } from './Repositories/data-source';
 import userRouterMDB from './Routes/userRouteMDB';
+import roleRouterMDB from './Routes/roleRouteMDB';
+
 appDataSourceMongo.initialize().then(() => {
-	app.use(cors({
-		origin: ['http://localhost:3000'],
-		credentials: true // this will allow cookies to be sent accross domains
-	}));
+	// eslint-disable-next-line no-console
+	console.log('Mongo connection established');
   
 	app.use(userRouterMDB);
+	app.use(roleRouterMDB);
 
 	const PORT = process.env.M_PORT || 8080;
   
 	app.listen(PORT, () => {
+		// eslint-disable-next-line no-console
 		console.log(`MongoDB App: http://localhost:${PORT}/`);
   
 	});
 
 }).catch((error) => {
+	// eslint-disable-next-line no-console
 	console.log(error);
 });
 

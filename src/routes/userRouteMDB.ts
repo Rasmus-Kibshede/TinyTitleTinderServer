@@ -1,12 +1,13 @@
 import { Router } from 'express';
-import { createUser, deleteUserByEmail, getAllUsers, getUserByEmail, updateUser } from '../Controllers/userControllerMDB';
+import * as userControllerMDB from '../Controllers/userControllerMDB';
+import { validateCredintials, validateParamsEmail } from '../Utils/routeUtil';
 
 const userRouterMDB = Router();
 
-userRouterMDB.post('/usersmongo', createUser);
-userRouterMDB.get('/usersmongo', getAllUsers);
-userRouterMDB.get('/usersmongo/:id', getUserByEmail);
-userRouterMDB.put('/usersmongo', updateUser);
-userRouterMDB.put('/usersmongo/:id', deleteUserByEmail);
+userRouterMDB.post('/usersmongo', validateCredintials, userControllerMDB.createUser);
+userRouterMDB.get('/usersmongo', userControllerMDB.getAllUsers);
+userRouterMDB.get('/usersmongo/:email', validateParamsEmail, userControllerMDB.getUserByEmail);
+userRouterMDB.put('/usersmongo', validateCredintials, userControllerMDB.updateUser);
+userRouterMDB.put('/usersmongo/:email', validateParamsEmail, userControllerMDB.deleteUserByEmail);
 
 export default userRouterMDB;

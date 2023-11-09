@@ -3,7 +3,7 @@ import { RoleMDB } from '../Entities/MongoDBEntities/RoleMDB';
 
 export interface UserResponseDTOMDB {
 	email: string;
-	userActive: boolean;
+	userActive: boolean | true;
 	roles: RoleMDB[];
 	parent: ParentMDB;
 }

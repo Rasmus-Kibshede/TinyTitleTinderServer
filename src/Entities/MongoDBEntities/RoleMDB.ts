@@ -1,11 +1,12 @@
-import { Column } from 'typeorm';
+import { ObjectId } from 'mongodb';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
+@Entity()
 export class RoleMDB {
 
-    @Column()
-    title: string;
+    @ObjectIdColumn({ name: 'role_id' })
+    _id: ObjectId;
 
-    constructor(title: string) {
-        this.title = title;
-    }
+    @Column('varchar', { nullable: false, default: 'user', unique: true })
+    title: string = 'user';
 }

@@ -18,6 +18,33 @@ export const validateParamsId = (req: Request, res: Response, next: NextFunction
     }
 };
 
+export const validateParamsObjectId = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const id = req.params.id;
+
+        if (!id || !validator.isMongoId(id)) {
+            responseError(res, failed(new Error('Invalid ID format')));
+        } else {
+            next();
+        }
+    } catch (error) {
+        responseError(res, error);
+    }
+};
+
+export const validateParamsEmail = (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const email = req.params.email;
+        if (!email || !validator.isEmail(email)) {
+            responseError(res, failed(new Error('Invalid email')));
+        } else {
+            next();
+        }
+    } catch (error) {
+        responseError(res, error);
+    }
+};
+
 export const validateCredintials = (req: Request, res: Response, next: NextFunction) => {
     try {
         const newEmail = req.body.email;

@@ -33,7 +33,7 @@ export const failed = (arg: string | Error): Result<ApiResponse, BaseError> => {
 };
 
 export const invalidIdError = (entityName: string) => {
-        return new Error(`No ${entityName} with that id`);
+    return new Error(`No ${entityName} with that id`);
 };
 
 export const autoError = (arg: Error): Result<ApiResponse, BaseError> => {
@@ -82,3 +82,5 @@ export const generateStatusCode = (err: string): string => {
     return statusCode;
 };
 
+// TODO: Add error handler for mongoDB errors
+// E11000 duplicate key error collection: test.role_mdb index: UQ_b3c70d0c75c21d7ed9adfeea828 dup key: { title: \"Super dooper cooper admin\" }
