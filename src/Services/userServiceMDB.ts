@@ -3,17 +3,22 @@ import { UserMDB } from '../Entities/MongoDBEntities/UserMDB';
 import { userRepoMDB } from '../Repositories/userRepository';
 import { UserRequestDTOMDB, UserResponseDTOMDB } from '../DTO/userDTOMDB';
 import { failed, success } from '../Utils/errorHandler';
-import { getRoleById } from './roleServiceMDB';
+import { roleRepoMDB } from '../Repositories/roleRepository';
+import { ObjectId } from 'mongodb';
 
 export const createUser = async (UserRequestDTOMDB: UserRequestDTOMDB) => {
     try {
-        const role = await getRoleById('654d3f52466199c5ba2b1276') as unknown as RoleMDB;
+        const id = new ObjectId('654d3f52466199c5ba2b1276');
+        const role = await roleRepoMDB.findOneByID(id) as unknown as RoleMDB;
+        if (!role) {
+            return failed('role');
+        }
         UserRequestDTOMDB.roles = [];
         UserRequestDTOMDB.roles.push(role);
 
-        const save = await userRepoMDB.save(UserRequestDTOMDB);
+        const response = await userRepoMDB.save(UserRequestDTOMDB);
 
-        return success(convertToDTO(save));
+        return success(convertToDTO(response));
     } catch (err) {
         return failed(err);
     }
