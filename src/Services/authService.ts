@@ -1,9 +1,9 @@
 import { UserLogin } from '../DTO/userDTO';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { userRepo } from '../Repositories/userRepository';
 import { BaseError } from '../Utils/BaseError';
 import { Result, ApiResponse, failed, success } from '../Utils/errorHandler';
-import { ValidateAuth } from '../Utils/jwtUtil';
+import { ValidateAuth, clearToken } from '../Utils/jwtUtil';
 
 export const login = async (
   userLogin: UserLogin
@@ -25,4 +25,8 @@ export const checkAuth = async (req: Request) => {
   } catch (err) {
     return failed(err);
   }
+};
+
+export const logout = async (res: Response) => {
+  return success(clearToken(res));
 };

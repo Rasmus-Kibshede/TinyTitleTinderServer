@@ -9,7 +9,7 @@ export const authorizeMiddleware = (
   next: NextFunction
 ) => {
   try {
-    const decoded = jwt.verify(getBaererToken(req), checkJwtSecret());
+    const decoded = jwt.verify(getToken(req), checkJwtSecret());
     req.body.tokenlogin = decoded;
     next();
   } catch (err) {
@@ -19,7 +19,7 @@ export const authorizeMiddleware = (
 
 export const ValidateAuth = (req: Request) => {
   try {
-    const decoded = jwt.verify(getBaererToken(req), checkJwtSecret());
+    const decoded = jwt.verify(getToken(req), checkJwtSecret());
     return !!decoded;
   } catch (err) {
     throw new Error(`Invalid token: ${err.message}`);
@@ -28,16 +28,34 @@ export const ValidateAuth = (req: Request) => {
 
 export const authSignin = (user: UserResponseDTO, res: Response) => {
   try {
-    const bearerToken = jwt.sign({ tokenlogin: user }, checkJwtSecret(), {
+    const token = jwt.sign({ tokenlogin: user }, checkJwtSecret(), {
       expiresIn: '1d',
     });
 
-    res.header('Authorization', `Bearer ${bearerToken}`);
+    const dayInmilisecunds = 86400000;
+
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      sameSite: 'strict',
+      maxAge: dayInmilisecunds,
+    });
+
+    // res.header('Authorization', `Bearer ${bearerToken}`);
 
     res.status(200).send(user);
   } catch (err) {
     res.status(500).send({ err: err });
   }
+};
+
+export const clearToken = (res: Response) => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res;
+  return true;
 };
 
 const checkJwtSecret = () => {
@@ -46,13 +64,10 @@ const checkJwtSecret = () => {
   return jwtSecret;
 };
 
-const getBaererToken = (req: Request) => {
-  if (
-    req.headers.authorization === undefined ||
-    !req.headers.authorization.includes('Bearer')
-  ) {
+const getToken = (req: Request) => {
+  if (req.cookies.jwt === undefined) {
     throw new Error('No token provided.');
   }
-  const bearerToken = req.headers.authorization!.split(' ')[1];
-  return bearerToken;
+  const token = req.cookies.jwt;
+  return token;
 };

@@ -16,42 +16,44 @@ import locationRoute from './Routes/locationRoute';
 import familyRoute from './Routes/familyRoute';
 import meaningRoute from './Routes/meaningRoute';
 import cors from 'cors'; // Import the cors
+import cookiePaser from 'cookie-parser';
 
 // Initialize the express engine
 const app = express();
 app.use(express.json());
+app.use(cookiePaser());
 
 //Typeorm setup
 import { appDataSource } from './Repositories/data-source';
-appDataSource.initialize().then(() => {
-	// eslint-disable-next-line no-console
-	console.log('Database connection established');
+appDataSource
+  .initialize()
+  .then(() => {
+    // eslint-disable-next-line no-console
+    console.log('Database connection established');
 
-	// Routes
-	app.use(cors());
-	app.use(userRouter);
-	app.use(authRouter);
-	app.use(nameRouter);
-	app.use(addressRoute);
-	app.use(roleRouter);
-	app.use(parentRouter);
-	app.use(originRouter);
-	app.use(locationRoute);
-	app.use(familyRoute);
-	app.use(meaningRoute);
-	
+    // Routes
+    app.use(cors());
+    app.use(userRouter);
+    app.use(authRouter);
+    app.use(nameRouter);
+    app.use(addressRoute);
+    app.use(roleRouter);
+    app.use(parentRouter);
+    app.use(originRouter);
+    app.use(locationRoute);
+    app.use(familyRoute);
+    app.use(meaningRoute);
 
+    // Take a port 8080 for running server.
+    const PORT = process.env.PORT || 3000;
 
-	// Take a port 8080 for running server.
-	const PORT = process.env.PORT || 3000;
-
-	// Server setup
-	app.listen(PORT, () => {
-		// eslint-disable-next-line no-console
-		console.log(`App: http://localhost:${PORT}/`);
-	});
-
-}).catch((error) => {
-	// eslint-disable-next-line no-console
-	console.log(error);
-});
+    // Server setup
+    app.listen(PORT, () => {
+      // eslint-disable-next-line no-console
+      console.log(`App: http://localhost:${PORT}/`);
+    });
+  })
+  .catch((error) => {
+    // eslint-disable-next-line no-console
+    console.log(error);
+  });

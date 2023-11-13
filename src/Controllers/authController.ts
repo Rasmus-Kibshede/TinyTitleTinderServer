@@ -27,3 +27,8 @@ export const checkAuth = async (req: Request, res: Response) => {
   const response = await authService.checkAuth(req);
   responseController.response(res, response, 200);
 };
+
+export const logout = async (req: Request, res: Response) => {
+  const response = await authService.logout(res);
+  responseController.response(res, response, 200);
+};
