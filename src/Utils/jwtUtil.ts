@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { UserResponseDTO } from '../DTO/userDTO';
+import { failed } from '../Utils/errorHandler';
+import { responseError } from '../Controllers/responseController';
 
 //Skal denne bruge det nye Error/response system system? i så fald skal jeg lige have en gennemgang af koden.
 export const authorizeMiddleware = (
@@ -13,7 +15,7 @@ export const authorizeMiddleware = (
     req.body.tokenlogin = decoded;
     next();
   } catch (err) {
-    res.status(500).send({ err: `Invalid token: ${err.message}` });
+    throw new Error(`Invalid token: ${err.message}`);
   }
 };
 
@@ -41,9 +43,7 @@ export const authSignin = (user: UserResponseDTO, res: Response) => {
       maxAge: dayInmilisecunds,
     });
 
-    // res.header('Authorization', `Bearer ${bearerToken}`);
-
-    res.status(200).send(user);
+    return true;
   } catch (err) {
     res.status(500).send({ err: err });
   }
@@ -54,7 +54,6 @@ export const clearToken = (res: Response) => {
     httpOnly: true,
     expires: new Date(0),
   });
-  res;
   return true;
 };
 
@@ -70,4 +69,16 @@ const getToken = (req: Request) => {
   }
   const token = req.cookies.jwt;
   return token;
+};
+
+export const cookieChecker = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.cookies.jwt === undefined) {
+    responseError(res, failed(new Error('No token provided.')));
+  } else {
+    next();
+  }
 };
