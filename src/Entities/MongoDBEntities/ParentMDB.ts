@@ -20,16 +20,4 @@ export class ParentMDB {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-
-    // @Column(() => UserMDB)
-    // user: UserMDB;
-
-    // @Column(() => NameMDB)
-    // names: NameMDB[] | null;
-
-    // @Column(() => FamilyMDB)
-    // families: FamilyMDB[];
-
-    // @Column(() => LocationMDB)
-    // location: LocationMDB;
 }

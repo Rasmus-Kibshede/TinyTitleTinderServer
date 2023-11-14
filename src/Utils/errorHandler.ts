@@ -33,6 +33,9 @@ export const failed = (arg: string | Error): Result<ApiResponse, BaseError> => {
 };
 
 export const invalidIdError = (entityName: string) => {
+    if (entityName === 'user') {
+        return new Error(`No ${entityName} with that email`);
+    }
     return new Error(`No ${entityName} with that id`);
 };
 

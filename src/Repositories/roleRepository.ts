@@ -15,7 +15,7 @@ export const roleRepo = appDataSource.getRepository(Role).extend({
                 users: true
             },
         });
-    }, 
+    },
     findOneByID(id: number) {
         return roleRepo.findOne({
             relations: {

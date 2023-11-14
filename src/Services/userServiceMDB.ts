@@ -8,6 +8,7 @@ import { ObjectId } from 'mongodb';
 
 export const createUser = async (UserRequestDTOMDB: UserRequestDTOMDB) => {
     try {
+        
         const id = new ObjectId('654d3f52466199c5ba2b1276');
         const role = await roleRepoMDB.findOneByID(id) as unknown as RoleMDB;
         if (!role) {
@@ -41,27 +42,29 @@ export const getUsers = async () => {
         const users = await userRepoMDB.findAll();
         const userDTOs: UserResponseDTOMDB[] = users.map(user => convertToDTO(user));
         return success(userDTOs);
-    } catch(err) {
+    } catch (err) {
         return failed(err);
     }
 };
 
 export const updateUser = async (userRequestDTO: UserRequestDTOMDB, email: string) => {
     try {
-        const userDB = await userRepoMDB.findOneByEmail(email) as UserMDB;
-        userDB.email = userRequestDTO.email;
-        userDB.password = userRequestDTO.password;
+        const response = await userRepoMDB.findOneAndUpdate(
+            { email: email },
+            { $set: userRequestDTO },
+            { returnDocument: 'after' }
+        );
 
-        const savedUser = await userRepoMDB.save(userDB);
-        if (!savedUser) {
+        if (!response.value) {
             return failed('user');
         }
-        return success(convertToDTO(savedUser));
+
+        return success(response.value);
+
     } catch (error) {
         return failed(error);
     }
 };
-
 
 export const deleteUserByEmail = async (email: string) => {
     try {

@@ -45,9 +45,9 @@ export const updateRole = async (roleId: ObjectId, roleRequestDTO: RoleRequestDT
         const response = await roleRepoMDB.findOneAndUpdate(
             { _id: roleId },
             { $set: roleRequestDTO },
-            { returnDocument: 'after'}
+            { returnDocument: 'after' }
         );
-        
+
         return success(response.value);
 
     } catch (err) {

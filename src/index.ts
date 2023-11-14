@@ -29,16 +29,16 @@ import roleRouterMDB from './Routes/roleRouteMDB';
 appDataSourceMongo.initialize().then(() => {
 	// eslint-disable-next-line no-console
 	console.log('Mongo connection established');
-  
+
 	app.use(userRouterMDB);
 	app.use(roleRouterMDB);
 
 	const PORT = process.env.M_PORT || 8080;
-  
+
 	app.listen(PORT, () => {
 		// eslint-disable-next-line no-console
 		console.log(`MongoDB App: http://localhost:${PORT}/`);
-  
+
 	});
 
 }).catch((error) => {

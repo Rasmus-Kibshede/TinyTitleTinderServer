@@ -26,7 +26,7 @@ export class UserMDB {
     lastLogin: Date | null = null;
 
     // eslint-disable-next-line no-unused-vars
-    @Column((type) => RoleMDB)
+    @Column(() => RoleMDB)
     roles: RoleMDB[];
 
     // eslint-disable-next-line no-unused-vars
