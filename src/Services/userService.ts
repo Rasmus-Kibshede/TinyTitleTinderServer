@@ -1,6 +1,6 @@
 import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
-import { UserLogin, UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
+import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
 import { failed, success } from '../Utils/errorHandler';
@@ -29,23 +29,6 @@ export const getUserByID = async (id: number) => {
       return failed('user');
     }
     return success(convertToDTO(response));
-  } catch (err) {
-    return failed(err);
-  }
-};
-
-export const getUserByEmailAndPassword = async (userLogin: UserLogin) => {
-  try {
-    const response = await userRepo.findOneByEmailAndPassword(
-      userLogin.email,
-      userLogin.password
-    );
-
-    if (!response) {
-      return failed(new Error('user not found'));
-    }
-
-    return success(response);
   } catch (err) {
     return failed(err);
   }

@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
-import { UserResponseDTO } from '../DTO/userDTO';
 import { failed } from '../Utils/errorHandler';
 import { responseError } from '../Controllers/responseController';
+import { ParentResponseDTO } from '../DTO/parentDTO';
 
 //Skal denne bruge det nye Error/response system system? i så fald skal jeg lige have en gennemgang af koden.
 export const authorizeMiddleware = (
@@ -13,6 +13,8 @@ export const authorizeMiddleware = (
   try {
     const decoded = jwt.verify(getToken(req), checkJwtSecret());
     req.body.tokenlogin = decoded;
+    console.log(decoded);
+    
     next();
   } catch (err) {
     throw new Error(`Invalid token: ${err.message}`);
@@ -28,9 +30,9 @@ export const ValidateAuth = (req: Request) => {
   }
 };
 
-export const authSignin = (user: UserResponseDTO, res: Response) => {
+export const authSignin = (parent: ParentResponseDTO, res: Response) => {
   try {
-    const token = jwt.sign({ tokenlogin: user }, checkJwtSecret(), {
+    const token = jwt.sign({ tokenlogin: parent }, checkJwtSecret(), {
       expiresIn: '1d',
     });
 
@@ -45,7 +47,7 @@ export const authSignin = (user: UserResponseDTO, res: Response) => {
 
     return true;
   } catch (err) {
-    res.status(500).send({ err: err });
+    failed(err);
   }
 };
 

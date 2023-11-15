@@ -10,8 +10,8 @@ firstName: string;
 lastName: string; 
 user?: User;
 names?: Name[] | null;
-families: Family[];
-location: Location;
+families?: Family[];
+location?: Location;
 }
 
 export interface ParentRequestDTO{
