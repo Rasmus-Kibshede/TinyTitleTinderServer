@@ -1,6 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Address } from './Address';
-import { Parent } from './Parent';
 
 @Entity()
 export class Location {
@@ -12,9 +11,6 @@ export class Location {
 
     @OneToMany(() => Address, (address) => address.location)
     addresses: Address[];
-
-    @OneToMany(() => Parent, (parents) => parents.location)
-    parents: Parent[];
 }
 
 

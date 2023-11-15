@@ -9,6 +9,6 @@ export interface LocationResponseDTO{
 
 export interface LocationRequestDTO{
     locationId?: number;
-    country: string;
+    country?: string;
     addresses?: Address[];
 }

@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn, OneToOne } from 'typeorm';
 //import { User } from './User';
 import { Name } from './Name';
 import { Family } from './Family';
-import { Location } from './Location';
+import { Address } from './Address';
 
 @Entity()
 export class Parent {
@@ -39,6 +39,7 @@ export class Parent {
   @ManyToMany(() => Family, (family) => family.parents)
   families: Family[];
 
-    @ManyToOne(() => Location, (location) => location.parents)
-    location: Location;
+  @OneToOne(() => Address)
+  @JoinColumn()
+  address: Address;
 }

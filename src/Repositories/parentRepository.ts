@@ -10,7 +10,7 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
             relations: {
                 names: true,
                 families: true,
-                location: true
+                address: true
             }
         });
     },
@@ -19,7 +19,7 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
             relations: {
                 names: true,
                 families: true,
-                location: true
+                address: true
             },
         });
     }

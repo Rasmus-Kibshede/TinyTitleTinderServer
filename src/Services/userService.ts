@@ -4,7 +4,7 @@ import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
 import { failed, success } from '../Utils/errorHandler';
-import { parentRepo } from '../Repositories/parentRepository';
+
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
@@ -24,13 +24,12 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
 };
 
 export const signUp = async (userRequestDTO: UserRequestDTO) => {
-    try {        
-        const userWithRole = await setRole(userRequestDTO) as UserRequestDTO;
-        const parentResponse = await parentRepo.save(userWithRole.parent!);
-        
-        userWithRole.parent = parentResponse;
-        const userResponse = await userRepo.save(userWithRole as User);    
-        
+    try {      
+   const userResponse = await userRepo.signUp(userRequestDTO);
+   console.log(userRequestDTO.parent?.address.location?.locationId);
+   
+   console.log('THIS IS THE SHIT!',userResponse);
+   
         return success(userResponse);
     } catch (err) {
         return failed(err);
@@ -103,7 +102,7 @@ export const convertToDTO = (user: User) => {
 
     return dto;
 };
-
+/*
 const setRole = async (userRequestDTO: UserRequestDTO) => {
     const responseRole = await getRoleById(3);
     if (!responseRole || !responseRole.success) {
@@ -114,4 +113,4 @@ const setRole = async (userRequestDTO: UserRequestDTO) => {
     userRequestDTO.roles.push(responseRole.result.data as Role);
 
     return userRequestDTO;
-};
+};*/
