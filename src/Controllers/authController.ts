@@ -12,15 +12,29 @@ export const login = async (req: Request, res: Response) => {
     password: req.body.password,
   };
 
-  const response = await parentService.getParentByEmailAndPassword(userLogin);
+  const response = (await parentService.getParentByEmailAndPassword(
+    userLogin
+  )) as ParentResponseDTO;
 
-  const t = await authService.login(response as ParentResponseDTO, res);
+  const token = await authService.login(response as ParentResponseDTO, res);
 
-  if (!t) {
+  const user: ParentResponseDTO = {
+    firstName: response.firstName,
+    lastName: response.lastName,
+    age: response.age,
+    gender: response.gender,
+    parentId: response.parentId,
+    user: {
+      email: response.user!.email,
+      roles: response.user!.roles,
+    },
+  };
+
+  if (!token) {
     responseController.response(res, failed('Parent'), 200);
   }
 
-  responseController.response(res, success(t!), 200);
+  responseController.response(res, success({ user, token }), 200);
 };
 
 export const checkAuth = async (req: Request, res: Response) => {

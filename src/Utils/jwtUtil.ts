@@ -13,7 +13,7 @@ export const authorizeToken = (
   try {
     const decoded = jwt.verify(getToken(req), checkJwtSecret());
     req.body.tokenlogin = decoded;
-    
+
     next();
   } catch (err) {
     throw new Error(`Invalid token: ${err.message}`);
@@ -35,16 +35,18 @@ export const authSignin = (parent: ParentResponseDTO, res: Response) => {
       expiresIn: '1d',
     });
 
-    const dayInmilisecunds = 86400000;
+    res.header('Authorization', `Bearer ${token}`);
 
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: 'strict',
-      maxAge: dayInmilisecunds,
-    });
+    // const dayInmilisecunds = 86400000;
 
-    return true;
+    // res.cookie('jwt', token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV !== 'development',
+    //   sameSite: 'strict',
+    //   maxAge: dayInmilisecunds,
+    // });
+
+    return token;
   } catch (err) {
     failed(err);
   }
@@ -65,21 +67,24 @@ const checkJwtSecret = () => {
 };
 
 const getToken = (req: Request) => {
-  if (req.cookies.jwt === undefined) {
+  if (
+    req.headers.authorization === undefined ||
+    !req.headers.authorization.includes('Bearer')
+  ) {
     throw new Error('No token provided.');
   }
-  const token = req.cookies.jwt;
+  const token = req.headers.authorization!.split(' ')[1];
   return token;
 };
 
-export const cookieChecker = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (req.cookies.jwt === undefined) {
-    responseError(res, failed(new Error('No token provided.')));
-  } else {
-    next();
-  }
-};
+// export const cookieChecker = (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   if (req.cookies.jwt === undefined) {
+//     responseError(res, failed(new Error('No token provided.')));
+//   } else {
+//     next();
+//   }
+// };

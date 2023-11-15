@@ -5,7 +5,7 @@ import { type Role } from '../Entities/Role';
 
 export interface UserResponseDTO {
 	email: string;
-	userActive: boolean;
+	userActive?: boolean;
 	roles: Role[] | null;
 }
 

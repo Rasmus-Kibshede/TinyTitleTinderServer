@@ -1,14 +1,15 @@
 import { Family } from '../Entities/Family';
 import { Name } from '../Entities/Name';
-import { User } from '../Entities/User';
+// import { User } from '../Entities/User';
 import { Location } from '../Entities/Location';
+import { UserRequestDTO, UserResponseDTO } from './userDTO';
 export interface ParentResponseDTO{
 parentId: number;
 age: number;
 gender: string;
 firstName: string; 
 lastName: string; 
-user?: User;
+user?: UserResponseDTO;
 names?: Name[] | null;
 families?: Family[];
 location?: Location;
@@ -20,5 +21,5 @@ age: number;
 gender: string;
 firstName: string; 
 lastName: string; 
-user?: User;
+user?: UserRequestDTO;
 }
