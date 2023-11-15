@@ -5,7 +5,7 @@ import { responseError } from '../Controllers/responseController';
 import { ParentResponseDTO } from '../DTO/parentDTO';
 
 //Skal denne bruge det nye Error/response system system? i så fald skal jeg lige have en gennemgang af koden.
-export const authorizeMiddleware = (
+export const authorizeToken = (
   req: Request,
   res: Response,
   next: NextFunction
