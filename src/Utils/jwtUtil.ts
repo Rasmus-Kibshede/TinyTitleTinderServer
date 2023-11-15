@@ -13,7 +13,6 @@ export const authorizeMiddleware = (
   try {
     const decoded = jwt.verify(getToken(req), checkJwtSecret());
     req.body.tokenlogin = decoded;
-    console.log(decoded);
     
     next();
   } catch (err) {
