@@ -24,18 +24,12 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
 };
 
 export const signUp = async (userRequestDTO: UserRequestDTO) => {
-    try {
-        console.log('userREquestDTO = ',userRequestDTO);
-        
+    try {        
         const userWithRole = await setRole(userRequestDTO) as UserRequestDTO;
         const parentResponse = await parentRepo.save(userWithRole.parent!);
-        console.log('parentResponse database = ',parentResponse);
         
         userWithRole.parent = parentResponse;
-        const userResponse = await userRepo.save(userWithRole as User);
-        
-        console.log('saved user Database = ',userResponse);
-        
+        const userResponse = await userRepo.save(userWithRole as User);    
         
         return success(userResponse);
     } catch (err) {
@@ -63,7 +57,6 @@ export const getUsers = async () => {
     } catch (err) {
         return failed(err);
     }
-
 };
 
 export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
@@ -82,7 +75,6 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
         return failed(err);
     }
 };
-
 
 export const deleteUserByID = async (id: number) => {
     try {
