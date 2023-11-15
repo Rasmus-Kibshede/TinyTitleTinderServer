@@ -70,7 +70,6 @@ export const convertToDTO = (parent: Parent) => {
         gender: parent.gender,
         firstName: parent.firstName,
         lastName: parent.lastName,
-        user: parent.user,
         names: parent.names,
         families: parent.families,
         location: parent.location

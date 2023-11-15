@@ -4,6 +4,7 @@ import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
 import { failed, success } from '../Utils/errorHandler';
+import { parentRepo } from '../Repositories/parentRepository';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
@@ -14,9 +15,29 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
         UserRequestDTO.roles = [];
         UserRequestDTO.roles.push(role);
 
-        const response = await userRepo.save(UserRequestDTO);
+        const response = await userRepo.save(UserRequestDTO as User);
 
         return success(convertToDTO(response));
+    } catch (err) {
+        return failed(err);
+    }
+};
+
+export const signUp = async (userRequestDTO: UserRequestDTO) => {
+    try {
+        console.log('userREquestDTO = ',userRequestDTO);
+        
+        const userWithRole = await setRole(userRequestDTO) as UserRequestDTO;
+        const parentResponse = await parentRepo.save(userWithRole.parent!);
+        console.log('parentResponse database = ',parentResponse);
+        
+        userWithRole.parent = parentResponse;
+        const userResponse = await userRepo.save(userWithRole as User);
+        
+        console.log('saved user Database = ',userResponse);
+        
+        
+        return success(userResponse);
     } catch (err) {
         return failed(err);
     }
@@ -69,7 +90,7 @@ export const deleteUserByID = async (id: number) => {
         if (!response || !response.userActive) {
             return failed('user');
         }
-        
+
         response.userActive = false;
         const deleted = await userRepo.save(response);
         return success(convertToDTO(deleted));
@@ -85,7 +106,20 @@ export const convertToDTO = (user: User) => {
         email: user.email,
         userActive: user.userActive,
         roles: user.roles,
+        parent: user.parent
     };
 
     return dto;
+};
+
+const setRole = async (userRequestDTO: UserRequestDTO) => {
+    const responseRole = await getRoleById(3);
+    if (!responseRole || !responseRole.success) {
+        return failed('role');
+    }
+
+    userRequestDTO.roles = [];
+    userRequestDTO.roles.push(responseRole.result.data as Role);
+
+    return userRequestDTO;
 };

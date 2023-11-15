@@ -1,5 +1,5 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn, ManyToOne } from 'typeorm';
-import { User } from './User';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn, ManyToOne } from 'typeorm';
+//import { User } from './User';
 import { Name } from './Name';
 import { Family } from './Family';
 import { Location } from './Location';
@@ -20,10 +20,6 @@ export class Parent {
 
   @Column('varchar', { length: 255, nullable: false, name: 'last_name' })
   lastName: string;
-
-  @OneToOne(() => User)
-  @JoinColumn()
-  user: User;
 
   @ManyToMany(() => Name, (name) => name.parents, { nullable: true })
   @JoinColumn()
