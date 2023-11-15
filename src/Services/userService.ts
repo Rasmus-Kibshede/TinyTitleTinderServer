@@ -37,7 +37,9 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
             userRequestDTO.parent?.address.zipcode,
             userRequestDTO.parent?.address.address
     ]);
-        return success(userResponse);
+    //retunere lige nu userRequestDTO, man kunne måske hente useren ud her og retunere den i steadet?
+    //Dette kunne gøres som en del af stored Procedure, mvp lavet klar til Thony.
+        return success({userResponse, userRequestDTO});
     } catch (err) {
         return failed(err);
     }
