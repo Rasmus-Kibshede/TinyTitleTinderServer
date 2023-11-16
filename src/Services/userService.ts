@@ -25,9 +25,7 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
 
 export const signUp = async (userRequestDTO: UserRequestDTO) => {
     try { 
-   const userResponse = await userRepo.signUp(userRequestDTO
-    
-    /*[
+   const userResponse = await userRepo.signUp([
     userRequestDTO.email,
             userRequestDTO.password,
             userRequestDTO.parent?.age,
@@ -38,7 +36,7 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
             userRequestDTO.parent?.address.city,
             userRequestDTO.parent?.address.zipcode,
             userRequestDTO.parent?.address.address
-    ]*/);  
+    ]);  
         return success(userResponse);
     } catch (err) {
         return failed(err);
