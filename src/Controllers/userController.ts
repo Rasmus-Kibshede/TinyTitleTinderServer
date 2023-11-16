@@ -56,7 +56,6 @@ export const signUp = async (req: Request, res: Response) => {
 		roles: null,
 		parent: parentRequestDTO
 	};
-	
 	const response = await userService.signUp(userRequestDTO);
 	responseController.response(res, response, 200);
 };
