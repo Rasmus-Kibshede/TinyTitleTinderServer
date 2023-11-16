@@ -1,4 +1,5 @@
 import { Location } from '../Entities/Location';
+import { LocationRequestDTO } from './locationDTO';
 export interface AddressResponseDTO{
     addressId: number;
     city: string; 
@@ -12,5 +13,5 @@ export interface AddressRequestDTO{
     city: string; 
     zipcode: string;
     address: string;
-    location: Location;
+    location?: Location | LocationRequestDTO;
 }

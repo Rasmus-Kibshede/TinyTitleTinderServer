@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
+import { UserRequestDTO } from '../DTO/userDTO';
 import { User } from '../Entities/User';
 import { appDataSource } from './data-source';
 
@@ -41,6 +42,21 @@ export const userRepo = appDataSource.getRepository(User).extend({
                 roles: true
             },
         });
+    },
+    //stored procedure
+    signUp(params: unknown[]) { //userRequestDTO: UserRequestDTO
+        return userRepo.query('call CreateUserWithRoleAndLocation(?,?,?,?,?,?,?,?,?,?)',params /*[
+            userRequestDTO.email,
+            userRequestDTO.password,
+            userRequestDTO.parent?.age,
+            userRequestDTO.parent?.gender,
+            userRequestDTO.parent?.firstName,
+            userRequestDTO.parent?.lastName,
+            userRequestDTO.parent?.address.location?.locationId,
+            userRequestDTO.parent?.address.city,
+            userRequestDTO.parent?.address.zipcode,
+            userRequestDTO.parent?.address.address
+        ]*/);
     }
 });
 
