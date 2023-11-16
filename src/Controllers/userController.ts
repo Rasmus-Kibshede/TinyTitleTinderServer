@@ -19,19 +19,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const signUp = async (req: Request, res: Response) => {
-	/*
-	 "email": "test@mail.com",
-	"password": "1234dsadsagas",
-	"age": 31,
-	"gender": "male",
-	"firstName": "Jens", 
-	"lastName": "Token",
-	"country": "Denmark",
-	"city": "Hillerød",
-	"zipcode": "3400",
-	"address": "langesvej 13"
-	*/
-	
+	//Skal deles op i flere mindre metoder. 
 	const locationRequestDTO: LocationRequestDTO = {
 		locationId: req.body.locationId,
 	};
