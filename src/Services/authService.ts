@@ -4,7 +4,11 @@ import { ValidateAuth, authSignin, clearToken } from '../Utils/jwtUtil';
 import { ParentResponseDTO } from '../DTO/parentDTO';
 
 export const login = async (parent: ParentResponseDTO, res: Response) => {
-  return authSignin(parent, res);
+  try {
+    return authSignin(parent, res);
+  } catch (err) {
+    return failed(err);
+  }
 };
 
 export const checkAuth = async (req: Request) => {
@@ -16,5 +20,9 @@ export const checkAuth = async (req: Request) => {
 };
 
 export const logout = async (res: Response) => {
-  return success(clearToken(res));
+  try {
+    return success(clearToken(res));
+  } catch (err) {
+    return failed(err);
+  }
 };
