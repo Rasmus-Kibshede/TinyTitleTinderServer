@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { failed } from '../Utils/errorHandler';
 import { responseError } from '../Controllers/responseController';
-import { ParentResponseDTO } from '../DTO/parentDTO';
+import { User } from '../Entities/User';
 
 //Skal denne bruge det nye Error/response system system? i så fald skal jeg lige have en gennemgang af koden.
 export const authorizeToken = (
@@ -29,20 +29,20 @@ export const ValidateAuth = (req: Request) => {
   }
 };
 
-export const authSignin = (parent: ParentResponseDTO, res: Response) => {
-    const token = jwt.sign({ tokenlogin: parent }, checkJwtSecret(), {
-      expiresIn: '1d',
-    });
+export const authSignin = (user: User, res: Response) => {
+  const token = jwt.sign({ tokenlogin: user }, checkJwtSecret(), {
+    expiresIn: '1d',
+  });
 
-    const dayInmilisecunds = 86400000;
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: 'strict',
-      maxAge: dayInmilisecunds,
-    });
+  const dayInmilisecunds = 86400000;
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+    sameSite: 'strict',
+    maxAge: dayInmilisecunds,
+  });
 
-    return true;
+  return token;
 };
 
 export const clearToken = (res: Response) => {

@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { failed, success } from '../Utils/errorHandler';
 import { ValidateAuth, authSignin, clearToken } from '../Utils/jwtUtil';
-import { ParentResponseDTO } from '../DTO/parentDTO';
+import { User } from '../Entities/User';
 
-export const login = async (parent: ParentResponseDTO, res: Response) => {
+export const login = async (user: User, res: Response) => {
   try {
-    return authSignin(parent, res);
+    return authSignin(user, res);
   } catch (err) {
     return failed(err);
   }

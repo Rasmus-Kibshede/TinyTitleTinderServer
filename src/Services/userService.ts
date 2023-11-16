@@ -1,9 +1,11 @@
 import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
-import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
+import { UserLogin, UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
 import { failed, success } from '../Utils/errorHandler';
+import * as authService from './authService';
+import { Response } from 'express';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
@@ -14,9 +16,29 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     UserRequestDTO.roles = [];
     UserRequestDTO.roles.push(role);
 
-    const response = await userRepo.save(UserRequestDTO);
+    const response = await userRepo.save(UserRequestDTO as User);
 
     return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
+  }
+};
+
+export const signUp = async (userRequestDTO: UserRequestDTO) => {
+  try {
+    const userResponse = await userRepo.signUp([
+      userRequestDTO.email,
+      userRequestDTO.password,
+      userRequestDTO.parent?.age,
+      userRequestDTO.parent?.gender,
+      userRequestDTO.parent?.firstName,
+      userRequestDTO.parent?.lastName,
+      userRequestDTO.parent?.address.location?.locationId,
+      userRequestDTO.parent?.address.city,
+      userRequestDTO.parent?.address.zipcode,
+      userRequestDTO.parent?.address.address,
+    ]);
+    return success(userResponse);
   } catch (err) {
     return failed(err);
   }
@@ -29,6 +51,41 @@ export const getUserByID = async (id: number) => {
       return failed('user');
     }
     return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
+  }
+};
+
+export const getParentByEmailAndPassword = async (
+  userLogin: UserLogin,
+  res: Response
+) => {
+  try {
+    const response = await userRepo.findOneByEmailAndPassword(
+      userLogin.email,
+      userLogin.password
+    );
+
+    if (!response) {
+      return failed('user');
+    }
+
+    const user: UserResponseDTO = {
+      email: response.email,
+      roles: response.roles,
+      parent: {
+        firstName: response.parent.firstName,
+        lastName: response.parent.lastName,
+        age: response.parent.age,
+        gender: response.parent.gender,
+        parentId: response.parent.parentId,
+        address: response.parent.address,
+      },
+    };
+
+    const token = await authService.login(response, res);
+
+    return success({ user, token });
   } catch (err) {
     return failed(err);
   }
@@ -80,6 +137,7 @@ export const convertToDTO = (user: User) => {
     email: user.email,
     userActive: user.userActive,
     roles: user.roles,
+    parent: user.parent,
   };
 
   return dto;

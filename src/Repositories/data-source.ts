@@ -10,6 +10,6 @@ export const appDataSource = new DataSource({
     port: Number(process.env.L_PORT),
     entities: ['src/Entities/**/*.ts'],
     subscribers: [AuditingSubscriber],
-    synchronize: false,
+    synchronize: true,
     logging: false
 });

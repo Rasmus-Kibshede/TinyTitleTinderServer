@@ -75,3 +75,12 @@ const convertToDTO = (name: Name) => {
 
   return dto;
 };
+
+export const getNamesByParentId = async (parentId: number) => {
+  try {
+   const response = await nameRepo.findNamesByParentId(parentId);
+   return success(response);
+  } catch (err) {
+    return failed(err);
+  }
+};

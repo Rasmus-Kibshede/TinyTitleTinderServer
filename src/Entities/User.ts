@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './Role';
+import { Parent } from './Parent';
 
 @Entity()
 export class User {
@@ -21,6 +22,10 @@ export class User {
 
     @Column('datetime', { nullable: true, name: 'last_login' })
     lastLogin: Date | null;
+
+    @OneToOne(() => Parent)
+    @JoinColumn()
+    parent: Parent;
 
     @ManyToMany(() => Role, (role) => role.users, { nullable: true })
     @JoinColumn()

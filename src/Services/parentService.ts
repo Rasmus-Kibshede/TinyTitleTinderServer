@@ -2,7 +2,6 @@ import { parentRepo } from '../Repositories/parentRepository';
 import { Parent } from '../Entities/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
 import { failed, success } from '../Utils/errorHandler';
-import { UserLogin } from '../DTO/userDTO';
 
 export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
   try {
@@ -38,24 +37,6 @@ export const getParentById = async (id: number) => {
   }
 };
 
-export const getParentByEmailAndPassword = async (userLogin: UserLogin) => {
-  try {
-    const response =
-      await parentRepo.findOneByEmailAndPassword(
-        userLogin.email,
-        userLogin.password
-      );
-
-    if (!response) {
-      return failed('parent');
-    }
-
-    return response;
-  } catch (err) {
-    return failed(err);
-  }
-};
-
 export const updateParent = async (parentDTO: ParentRequestDTO) => {
   try {
     const response = await parentRepo.save(parentDTO);
@@ -86,10 +67,9 @@ export const convertToDTO = (parent: Parent) => {
     gender: parent.gender,
     firstName: parent.firstName,
     lastName: parent.lastName,
-    user: parent.user,
     names: parent.names,
     families: parent.families,
-    location: parent.location,
+    adress: parent.address,
   };
   return dto;
 };
