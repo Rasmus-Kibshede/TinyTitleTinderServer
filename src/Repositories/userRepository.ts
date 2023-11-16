@@ -44,7 +44,7 @@ export const userRepo = appDataSource.getRepository(User).extend({
         });
     },
     //stored procedure
-    signUp(params: unknown[]) { //userRequestDTO: UserRequestDTO
+    signUp(params: unknown[]) {
         return userRepo.query('call CreateUserWithRoleAndLocation(?,?,?,?,?,?,?,?,?,?)',params);
     }
 });
