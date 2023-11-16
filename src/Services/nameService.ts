@@ -38,6 +38,17 @@ export const getNames = async () => {
   }
 };
 
+export const getNamesByParentId = async (parentId: number) => {
+  try {
+    const names = await nameRepo.findNamesByParentId(parentId);    
+    console.log('test = ', names[0] as Name);
+    
+    return success(names[0]);
+  } catch (err) {
+    return failed(err);
+  }
+};
+
 export const updateName = async (nameRequestDTO: NameRequestDTO) => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
@@ -63,24 +74,17 @@ export const deleteNameByID = async (id: number) => {
 };
 
 const convertToDTO = (name: Name) => {
+  console.log(name);
+
   const dto: NameResponseDTO = {
     nameSuggestId: name.nameSuggestId,
     nameSuggestName: name.nameSuggestName,
     gender: name.gender,
+    popularity: Number(name.popularity),
     nameDays: name.nameDays,
     namesakes: name.namesakes,
     origins: name.origins,
     meanings: name.meanings,
   };
-
   return dto;
-};
-
-export const getNamesByParentId = async (parentId: number) => {
-  try {
-   const response = await nameRepo.findNamesByParentId(parentId);
-   return success(response);
-  } catch (err) {
-    return failed(err);
-  }
 };
