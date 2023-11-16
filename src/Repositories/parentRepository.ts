@@ -19,8 +19,8 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
             relations: {
                 names: true,
                 families: true,
-                address: true
-            },
+                address: true,
+            }
         });
     }
 });

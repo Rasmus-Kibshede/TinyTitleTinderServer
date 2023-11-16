@@ -44,19 +44,8 @@ export const userRepo = appDataSource.getRepository(User).extend({
         });
     },
     //stored procedure
-    signUp(params: unknown[]) { //userRequestDTO: UserRequestDTO
-        return userRepo.query('call CreateUserWithRoleAndLocation(?,?,?,?,?,?,?,?,?,?)',params /*[
-            userRequestDTO.email,
-            userRequestDTO.password,
-            userRequestDTO.parent?.age,
-            userRequestDTO.parent?.gender,
-            userRequestDTO.parent?.firstName,
-            userRequestDTO.parent?.lastName,
-            userRequestDTO.parent?.address.location?.locationId,
-            userRequestDTO.parent?.address.city,
-            userRequestDTO.parent?.address.zipcode,
-            userRequestDTO.parent?.address.address
-        ]*/);
+    signUp(params: unknown[]) {
+        return userRepo.query('call CreateUserWithRoleAndLocation(?,?,?,?,?,?,?,?,?,?)', params);
     }
 });
 

@@ -6,7 +6,7 @@ import { validateCredintials } from '../Utils/routeUtil';
 const userRouter = Router();
 
 userRouter.post('/users', validateCredintials, userController.createUser);
-userRouter.post('/users/signup',validateCredintials, userController.signUp);
+userRouter.post('/users/signup', userController.signUp);
 userRouter.get('/users/:id', validateParamsId, userController.getUserByID);
 userRouter.get('/users', userController.getAllUsers);
 userRouter.put('/user', validateCredintials, validateNewMail, userController.updateUser);

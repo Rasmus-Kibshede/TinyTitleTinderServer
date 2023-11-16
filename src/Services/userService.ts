@@ -24,7 +24,7 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
 };
 
 export const signUp = async (userRequestDTO: UserRequestDTO) => {
-    try {      
+    try { 
    const userResponse = await userRepo.signUp([
     userRequestDTO.email,
             userRequestDTO.password,
@@ -36,10 +36,8 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
             userRequestDTO.parent?.address.city,
             userRequestDTO.parent?.address.zipcode,
             userRequestDTO.parent?.address.address
-    ]);
-    //retunere lige nu userRequestDTO, man kunne måske hente useren ud her og retunere den i steadet?
-    //Dette kunne gøres som en del af stored Procedure, mvp lavet klar til Thony.
-        return success({userResponse, userRequestDTO});
+    ]);  
+        return success(userResponse);
     } catch (err) {
         return failed(err);
     }
@@ -111,15 +109,3 @@ export const convertToDTO = (user: User) => {
 
     return dto;
 };
-/*
-const setRole = async (userRequestDTO: UserRequestDTO) => {
-    const responseRole = await getRoleById(3);
-    if (!responseRole || !responseRole.success) {
-        return failed('role');
-    }
-
-    userRequestDTO.roles = [];
-    userRequestDTO.roles.push(responseRole.result.data as Role);
-
-    return userRequestDTO;
-};*/
