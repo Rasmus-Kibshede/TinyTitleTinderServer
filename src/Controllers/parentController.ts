@@ -10,7 +10,8 @@ export const createParent = async (req: Request, res: Response) => {
             age: req.body.age,
             gender: req.body.gender,
             firstName: req.body.firstName,
-            lastName: req.body.lastName
+            lastName: req.body.lastName,
+            address: req.body.address
         };
     }
      parentRequestDTO = {
@@ -18,7 +19,8 @@ export const createParent = async (req: Request, res: Response) => {
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        user: req.body.user
+        user: req.body.user,
+        address: req.body.address
     };
 
     const response = await parentService.createParent(parentRequestDTO);
@@ -42,7 +44,8 @@ export const updateParent = async (req: Request, res: Response) => {
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        user: req.body.user
+        user: req.body.user,
+        address: req.body.address
     };
     const response = await parentService.updateParent(parentRequestDTO);
     responseController.response(res, response, 200);

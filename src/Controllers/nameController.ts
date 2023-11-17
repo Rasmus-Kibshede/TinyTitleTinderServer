@@ -46,3 +46,8 @@ export const deleteNameByID = async (req: Request, res: Response) => {
   const response = await nameService.deleteNameByID(Number(req.params.id));
   responseController.response(res, response, 204);
 };
+
+export const getNamesByParentId = async (req: Request, res: Response) => {
+  const response = await nameService.getNamesByParentId(Number(req.params.id));
+  responseController.responseNested(res, response, 200);
+};

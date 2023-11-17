@@ -42,6 +42,10 @@ export const userRepo = appDataSource.getRepository(User).extend({
                 roles: true
             },
         });
+    },
+    //stored procedure
+    signUp(params: unknown[]) {
+        return userRepo.query('call CreateUserWithRoleAndLocation(?,?,?,?,?,?,?,?,?,?)', params);
     }
 });
 

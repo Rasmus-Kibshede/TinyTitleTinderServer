@@ -1,13 +1,13 @@
-import { Parent } from '../Entities/Parent';
+import { ParentRequestDTO, ParentResponseDTO } from './parentDTO';
 
 export interface FamilyResponseDTO{
 familyId: number;
 familyName: string;
-parents?: Parent[] | null;
+parents?: ParentResponseDTO[] | null;
 }
 
 export interface FamilyRequestDTO{
     familyId?: number;
     familyName: string;
-    parents?: Parent[] | null;
+    parents?: ParentRequestDTO[] | null;
 }

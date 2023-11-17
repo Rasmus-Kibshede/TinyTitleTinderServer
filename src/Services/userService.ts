@@ -5,8 +5,10 @@ import { getRoleById } from './roleService';
 import { Role } from '../Entities/Role';
 import { failed, success } from '../Utils/errorHandler';
 
+
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
+        // TODO: User doesn't get a default role
         const role = await getRoleById(3) as unknown as Role;
         if (!role) {
             return failed('role');
@@ -14,9 +16,29 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
         UserRequestDTO.roles = [];
         UserRequestDTO.roles.push(role);
 
-        const response = await userRepo.save(UserRequestDTO);
+        const response = await userRepo.save(UserRequestDTO as User);
 
         return success(convertToDTO(response));
+    } catch (err) {
+        return failed(err);
+    }
+};
+
+export const signUp = async (userRequestDTO: UserRequestDTO) => {
+    try { 
+   const userResponse = await userRepo.signUp([
+    userRequestDTO.email,
+            userRequestDTO.password,
+            userRequestDTO.parent?.age,
+            userRequestDTO.parent?.gender,
+            userRequestDTO.parent?.firstName,
+            userRequestDTO.parent?.lastName,
+            userRequestDTO.parent?.address.location?.locationId,
+            userRequestDTO.parent?.address.city,
+            userRequestDTO.parent?.address.zipcode,
+            userRequestDTO.parent?.address.address
+    ]);  
+        return success(userResponse);
     } catch (err) {
         return failed(err);
     }
@@ -42,7 +64,6 @@ export const getUsers = async () => {
     } catch (err) {
         return failed(err);
     }
-
 };
 
 export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
@@ -62,14 +83,13 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
     }
 };
 
-
 export const deleteUserByID = async (id: number) => {
     try {
         const response = await userRepo.findOneByID(id);
         if (!response || !response.userActive) {
             return failed('user');
         }
-        
+
         response.userActive = false;
         const deleted = await userRepo.save(response);
         return success(convertToDTO(deleted));
@@ -85,6 +105,7 @@ export const convertToDTO = (user: User) => {
         email: user.email,
         userActive: user.userActive,
         roles: user.roles,
+        parent: user.parent
     };
 
     return dto;

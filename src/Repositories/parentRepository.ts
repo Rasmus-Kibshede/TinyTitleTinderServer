@@ -8,21 +8,19 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
                 parentId: id
             },
             relations: {
-                user: true,
                 names: true,
                 families: true,
-                location: true
+                address: true
             }
         });
     },
     findAll() {
         return parentRepo.find({
             relations: {
-                user: true,
                 names: true,
                 families: true,
-                location: true
-            },
+                address: true,
+            }
         });
     }
 });

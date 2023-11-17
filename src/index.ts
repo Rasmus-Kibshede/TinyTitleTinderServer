@@ -15,6 +15,7 @@ import originRouter from './Routes/originRoute';
 import locationRoute from './Routes/locationRoute';
 import familyRoute from './Routes/familyRoute';
 import meaningRoute from './Routes/meaningRoute';
+import cors from 'cors'; // Import the cors
 
 // Initialize the express engine
 const app = express();
@@ -49,6 +50,7 @@ appDataSource.initialize().then(() => {
 	console.log('Database connection established');
 
 	// Routes
+	app.use(cors());
 	app.use(userRouter);
 	app.use(authRouter);
 	app.use(nameRouter);
