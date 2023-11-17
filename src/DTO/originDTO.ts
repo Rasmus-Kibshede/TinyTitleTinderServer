@@ -1,11 +1,11 @@
-import { Name } from '../Entities/Name';
+import { NameRequestDTO, NameResponseDTO } from './nameDTO';
 
 export interface OriginResponseDTO {
     originId: number;
     region: string; 
     religion: string;
     description: string;
-    names: Name[];
+    names: NameResponseDTO[];
 }
 
 export interface OriginRequestDTO {
@@ -13,5 +13,5 @@ export interface OriginRequestDTO {
     region: string;
     religion: string;
     description: string;
-    names: Name[];
+    names: NameRequestDTO[];
 }

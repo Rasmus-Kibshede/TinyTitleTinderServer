@@ -1,8 +1,8 @@
-import { Address } from '../Entities/Address';
-import { Family } from '../Entities/Family';
-import { Name } from '../Entities/Name';
 import { User } from '../Entities/User';
 import { AddressRequestDTO } from './addressDTO';
+import { FamilyResponseDTO } from './familyDTO';
+import { NameResponseDTO } from './nameDTO';
+import { UserRequestDTO } from './userDTO';
 export interface ParentResponseDTO{
 parentId: number;
 age: number;
@@ -10,8 +10,8 @@ gender: string;
 firstName: string; 
 lastName: string; 
 user?: User;
-names?: Name[] | null;
-families: Family[];
+names?: NameResponseDTO[] | null;
+families: FamilyResponseDTO[];
 }
 
 export interface ParentRequestDTO{
@@ -20,6 +20,6 @@ age: number;
 gender: string;
 firstName: string; 
 lastName: string; 
-user?: User;
-address: Address | AddressRequestDTO
+user?: UserRequestDTO;
+address: AddressRequestDTO
 }

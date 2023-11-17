@@ -8,6 +8,7 @@ import { failed, success } from '../Utils/errorHandler';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
+        // TODO: User doesn't get a default role
         const role = await getRoleById(3) as unknown as Role;
         if (!role) {
             return failed('role');

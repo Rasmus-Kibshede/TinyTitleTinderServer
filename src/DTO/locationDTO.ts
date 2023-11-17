@@ -1,14 +1,14 @@
-import { Address } from '../Entities/Address'; 
+import { AddressRequestDTO, AddressResponseDTO } from './addressDTO';
 
 
 export interface LocationResponseDTO{
     locationId: number;
     country: string; 
-    addresses: Address[];
+    addresses: AddressResponseDTO[];
 }
 
 export interface LocationRequestDTO{
     locationId?: number;
     country?: string;
-    addresses?: Address[];
+    addresses?: AddressRequestDTO[];
 }

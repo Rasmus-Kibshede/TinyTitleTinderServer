@@ -30,6 +30,7 @@ export const signUp = async (req: Request, res: Response) => {
 		address: req.body.address,
 		location: locationRequestDTO
 	};
+	
 	const parentRequestDTO: ParentRequestDTO = {
 		age: req.body.age,
 		gender: req.body.gender,

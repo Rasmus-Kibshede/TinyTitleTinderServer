@@ -1,11 +1,10 @@
-import { Location } from '../Entities/Location';
-import { LocationRequestDTO } from './locationDTO';
+import { LocationRequestDTO, LocationResponseDTO } from './locationDTO';
 export interface AddressResponseDTO{
     addressId: number;
     city: string; 
     zipcode: string;
     address: string;
-    location: Location;
+    location: LocationResponseDTO;
 }
 
 export interface AddressRequestDTO{
@@ -13,5 +12,5 @@ export interface AddressRequestDTO{
     city: string; 
     zipcode: string;
     address: string;
-    location?: Location | LocationRequestDTO;
+    location?: LocationRequestDTO;
 }

@@ -1,14 +1,14 @@
-import { User } from '../Entities/User';
+import { UserRequestDTO, UserResponseDTO } from './userDTO';
 export interface RoleResponseDTO {
 	roleId: number;
 	title: string;
-	users: User[];
+	users: UserResponseDTO[];
 }
 
 export interface RoleRequestDTO {
 	roleId: number;
 	title: string;
-	users: User[];
+	users: UserRequestDTO[];
 }
 
 export interface RoleTitle {
