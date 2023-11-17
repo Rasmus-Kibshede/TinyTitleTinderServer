@@ -1,15 +1,11 @@
-import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
-import { NameMDB } from './NameMDB';
+import { Column } from 'typeorm';
 
-@Entity({ database: 'test' })
 export class MeaningMDB {
-
-    @ObjectIdColumn({ name: 'meaning_id' })
-    _id: ObjectId;
-
-    @Column('varchar', { length: 255, nullable: false, name: 'definition', unique: true })
+  
+    @Column('varchar', { length: 255, nullable: false, name: 'definition' })
     definition: string;
-
-    @Column((NameMDB) => NameMDB)
-    names: NameMDB[];
-}
+  
+    constructor(definition: string) {
+      this.definition = definition;
+    }
+  }

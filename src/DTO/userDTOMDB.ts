@@ -1,21 +1,18 @@
-import { ParentMDB } from '../Entities/MongoDBEntities/ParentMDB';
-import { RoleMDB } from '../Entities/MongoDBEntities/RoleMDB';
+// import { RoleRequestDTO, RoleResponseDTO } from './roleDTO';
 
 export interface UserResponseDTOMDB {
 	email: string;
-	userActive: boolean | true;
-	roles: RoleMDB[];
-	parent: ParentMDB;
+	userActive: boolean;
+	roles: roleTitle[];
 }
 
 export interface UserRequestDTOMDB {
 	email: string;
 	password: string;
-	roles: RoleMDB[];
-	parent: ParentMDB;
+	userActive?: boolean;
+	roles: roleTitle[];
 }
 
-export interface userLogin {
-	email: string;
-	password: string;
+export interface roleTitle {
+	title: string;
 }

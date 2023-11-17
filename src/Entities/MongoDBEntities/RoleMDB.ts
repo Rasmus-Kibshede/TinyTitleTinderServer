@@ -1,12 +1,8 @@
-import { ObjectId } from 'mongodb';
-import { Column, Entity, ObjectIdColumn } from 'typeorm';
+// TODO: Consider if we want to use inner classes for sub documents only embedded in one document. See UserMDB.ts for example.
+// import { Column } from 'typeorm';
 
-@Entity()
-export class RoleMDB {
+// export class RoleMDB {
 
-    @ObjectIdColumn({ name: 'role_id' })
-    _id: ObjectId;
-
-    @Column('varchar', { nullable: false, default: 'user', unique: true })
-    title: string = 'user';
-}
+//     @Column('varchar', { nullable: false, default: 'user', unique: true })
+//     title: string = 'user';
+// }

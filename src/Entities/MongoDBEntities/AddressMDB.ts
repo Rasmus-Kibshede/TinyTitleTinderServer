@@ -1,10 +1,15 @@
-import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
+import {
+    Entity,
+    ObjectIdColumn,
+    ObjectId,
+    Column,
+} from 'typeorm';
 import { LocationMDB } from './LocationMDB';
 
-@Entity({ database: 'test' })
+@Entity({ name: 'address' })
 export class AddressMDB {
-
-    @ObjectIdColumn({ name: 'address_id' })
+    
+    @ObjectIdColumn()
     _id: ObjectId;
 
     @Column('varchar', { length: 255, nullable: false, name: 'city' })
@@ -16,6 +21,6 @@ export class AddressMDB {
     @Column('varchar', { length: 255, nullable: false, name: 'address' })
     address: string;
 
-    @Column()
+    @Column(() => LocationMDB)
     location: LocationMDB;
 }

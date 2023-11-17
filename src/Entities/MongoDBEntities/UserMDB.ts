@@ -1,13 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
-import { RoleMDB } from './RoleMDB';
-import { ParentMDB } from './ParentMDB';
+import {
+    Entity,
+    ObjectIdColumn,
+    ObjectId,
+    Column,
+    CreateDateColumn,
+} from 'typeorm';
 
-//TODO: Fix adding default values for columns
-@Entity()
+@Entity({ name: 'user' })
 export class UserMDB {
-
-    @ObjectIdColumn({ name: 'user_id' })
+    @ObjectIdColumn()
     _id: ObjectId;
 
     @Column('varchar', { length: 255, nullable: false, name: 'email', unique: true })
@@ -16,20 +17,27 @@ export class UserMDB {
     @Column('varchar', { length: 255, nullable: false, name: 'password' })
     password: string;
 
-    @Column('boolean', { nullable: false, name: 'user_active', default: true })
-    userActive: boolean = true;
+    // Working with mongoDB and typeorm, default doesn't actually save the value in the database, but shows when using the entity through a fetch endpoint
+    // https://github.com/typeorm/typeorm/issues/3799 - this is a known issue
+    @Column('boolean', { default: true })
+    userActive = true;
 
     @CreateDateColumn({ nullable: false, name: 'created_at' })
     createdAt: Date;
 
-    @Column('datetime', { nullable: true, name: 'last_login', default: null })
-    lastLogin: Date | null = null;
+    @Column('datetime', { nullable: true, name: 'last_login' })
+    lastLogin: Date;
 
-    // eslint-disable-next-line no-unused-vars
-    @Column(() => RoleMDB)
-    roles: RoleMDB[];
+    @Column(() => UserRolesInner)
+    roles: UserRolesInner[];
+}
 
-    // eslint-disable-next-line no-unused-vars
-    @Column((type) => ParentMDB)
-    parent: ParentMDB;
+export class UserRolesInner {
+
+    @Column()
+    title: string;
+
+    constructor(title: string) {
+        this.title = title;
+    }
 }

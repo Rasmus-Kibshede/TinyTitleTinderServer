@@ -1,41 +1,36 @@
 import {
-  Column,
   Entity,
+  ObjectIdColumn,
   ObjectId,
-  ObjectIdColumn
+  Column,
 } from 'typeorm';
 import { OriginMDB } from './OriginMDB';
-import { ParentMDB } from './ParentMDB';
 import { MeaningMDB } from './MeaningMDB';
 
-@Entity({name: 'name_suggest', database: 'test' })
-export class NameMDB {
+@Entity({ name: 'name_suggest' })
+export class NameSuggestMDB {
+  
+  @ObjectIdColumn()
+  _id: ObjectId;
+  
+  @Column('varchar', { length: 255, nullable: false, name: 'name_suggest_name' })
+  nameSuggestName: string;
 
-    @ObjectIdColumn({ name: 'name_suggest_id' })
-    _id: ObjectId;
+  @Column('string', { length: 255, nullable: false, name: 'gender' })
+  gender: string;
 
-    @Column('varchar', { length: 255, nullable: false, name: 'name_suggest_name', unique: true, })
-    nameSuggestName: string;
+  @Column('int', { name: 'popularity' })
+  popularity: number;
 
-    @Column('varchar', { length: 255, nullable: false, name: 'gender' })
-    gender: string;
+  @Column('varchar', { length: 255, nullable: true, name: 'name_days' })
+  nameDays: string;
 
-    @Column('int', { nullable: true, name: 'popularity' })
-    popularity: number | null;
+  @Column('varchar', { length: 255, nullable: true, name: 'namesakes' })
+  namesakes: string;
 
-    // TODO: future iteration would make nameDays and namesakes their own tables
-    @Column('varchar', { length: 255, nullable: true, name: 'name_days' })
-    nameDays: string;
+  @Column(() => OriginMDB)
+  origins: OriginMDB[];
 
-    @Column('varchar', { length: 255, nullable: true, name: 'namesakes' })
-    namesakes: string;
-
-    @Column(() => OriginMDB)
-    origins: OriginMDB[] | null;
-
-    @Column(() => MeaningMDB)
-    meanings: MeaningMDB[] | null;
-
-    @Column(() => ParentMDB)
-    parents: ParentMDB[];
+  @Column(() => MeaningMDB)
+  meanings: MeaningMDB[];
 }

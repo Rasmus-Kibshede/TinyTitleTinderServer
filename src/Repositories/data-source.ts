@@ -1,7 +1,5 @@
 import { DataSource } from 'typeorm';
 import { AuditingSubscriber } from 'typeorm-auditing';
-import { UserMDB } from '../Entities/MongoDBEntities/UserMDB';
-import { RoleMDB } from '../Entities/MongoDBEntities/RoleMDB';
 
 export const appDataSource = new DataSource({
     type: 'mysql',
@@ -21,9 +19,9 @@ export const appDataSourceMongo = new DataSource({
     type: 'mongodb',
     url: process.env.M_DB_CONN_STRING,
     useNewUrlParser: true,
-    synchronize: true,
     useUnifiedTopology: true,
     ssl: true,
-    entities: [UserMDB, RoleMDB],
+    entities: ['src/Entities/MongoDBEntities/*.ts'],
+    synchronize: true,
     logging: false
 });

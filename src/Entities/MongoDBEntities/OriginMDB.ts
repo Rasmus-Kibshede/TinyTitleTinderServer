@@ -1,11 +1,6 @@
-import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
-import { NameMDB } from './NameMDB';
+import { Column } from 'typeorm';
 
-@Entity({ database: 'test' })
 export class OriginMDB {
-
-    @ObjectIdColumn({ name: 'origin_id' })
-    _id: ObjectId;
 
     @Column('varchar', { length: 255, nullable: false, name: 'region' })
     region: string;
@@ -16,6 +11,9 @@ export class OriginMDB {
     @Column('varchar', { length: 255, nullable: false, name: 'description' })
     description: string;
 
-    @Column(() => NameMDB)
-    names: NameMDB[];
+    constructor(region: string, religion: string, description: string) {
+        this.region = region;
+        this.religion = religion;
+        this.description = description;
+    }
 }

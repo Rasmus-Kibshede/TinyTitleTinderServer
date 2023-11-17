@@ -18,6 +18,7 @@ export const validateParamsId = (req: Request, res: Response, next: NextFunction
     }
 };
 
+// To be used if a given document doesn't contain a unique field that we want to search by instead.
 export const validateParamsObjectId = (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id;
@@ -52,7 +53,7 @@ export const validateCredintials = (req: Request, res: Response, next: NextFunct
 
         if (validator.isEmail(newEmail) && validator.isStrongPassword(password)) {
             next();
-        }
+        } 
     } catch (error) {
         responseError(res, error);
     }

@@ -1,23 +1,34 @@
-import { Column, /*Entity, ObjectId, ObjectIdColumn*/ } from 'typeorm';
+import {
+    Entity,
+    ObjectIdColumn,
+    ObjectId,
+    Column,
+} from 'typeorm';
+import { LocationMDB } from './LocationMDB';
+import { FamilyMDB } from './FamilyMDB';
 
+@Entity({ name: 'parent' })
 export class ParentMDB {
+    
+    @ObjectIdColumn()
+    _id: ObjectId;
 
-    @Column(/*'int', { name: 'age' }*/)
+    @Column('int', { name: 'age' })
     age: number;
 
-    @Column(/*'varchar', { length: 255, nullable: false, name: 'gender' }*/)
+    @Column('varchar', { length: 255, nullable: false, name: 'gender' })
     gender: string;
 
-    @Column(/*'varchar', { length: 255, nullable: false, name: 'first_name' }*/)
+    @Column('varchar', { length: 255, nullable: false, name: 'first_name' })
     firstName: string;
 
-    @Column(/*'varchar', { length: 255, nullable: false, name: 'last_name' }*/)
+    @Column('varchar', { length: 255, nullable: false, name: 'last_name' })
     lastName: string;
 
-    constructor(age: number, gender: string, firstName: string, lastName: string) {
-        this.age = age;
-        this.gender = gender;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+    @Column(() => LocationMDB)
+    location: LocationMDB;
+
+    @Column(() => FamilyMDB)
+    familyParents: FamilyMDB[];
 }
+

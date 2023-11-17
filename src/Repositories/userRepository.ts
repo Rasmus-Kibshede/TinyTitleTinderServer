@@ -49,7 +49,7 @@ export const userRepoMDB = appDataSourceMongo.getMongoRepository(UserMDB).extend
     findOneByID(id: number) {
         return userRepoMDB.findOne({
             where: {
-                _id: id
+                userId: id
             },
         });
     },

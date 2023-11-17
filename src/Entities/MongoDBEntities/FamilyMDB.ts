@@ -1,15 +1,11 @@
-import { Column, Entity, ObjectId, ObjectIdColumn } from 'typeorm';
-import { ParentMDB } from './ParentMDB';
+import { Column } from 'typeorm';
 
-@Entity({ database: 'test' })
 export class FamilyMDB {
 
-    @ObjectIdColumn({ name: 'family_id' })
-    _id: ObjectId;
-
-    @Column('varchar', { length: 255, nullable: false, name: 'family_name' })
+    @Column('varchar', { length: 255, name: 'family_name'})
     familyName: string;
 
-    @Column()
-    parents: ParentMDB[] | null;
+    constructor(familyName: string) {
+        this.familyName = familyName;
+    }
 }

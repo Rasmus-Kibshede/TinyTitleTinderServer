@@ -1,21 +1,15 @@
-import { RoleMDB } from '../Entities/MongoDBEntities/RoleMDB';
-import { UserMDB } from '../Entities/MongoDBEntities/UserMDB';
+import { UserMDB, UserRolesInner } from '../Entities/MongoDBEntities/UserMDB';
 import { userRepoMDB } from '../Repositories/userRepository';
 import { UserRequestDTOMDB, UserResponseDTOMDB } from '../DTO/userDTOMDB';
 import { failed, success } from '../Utils/errorHandler';
-import { roleRepoMDB } from '../Repositories/roleRepository';
-import { ObjectId } from 'mongodb';
 
 export const createUser = async (UserRequestDTOMDB: UserRequestDTOMDB) => {
     try {
-        
-        const id = new ObjectId('654d3f52466199c5ba2b1276');
-        const role = await roleRepoMDB.findOneByID(id) as unknown as RoleMDB;
-        if (!role) {
-            return failed('role');
-        }
+        const userRole = new UserRolesInner('User');
         UserRequestDTOMDB.roles = [];
-        UserRequestDTOMDB.roles.push(role);
+        UserRequestDTOMDB.roles.push(userRole);
+        // Setting user active to default here works, and is being saved to the database
+        UserRequestDTOMDB.userActive = true;
 
         const response = await userRepoMDB.save(UserRequestDTOMDB);
 
@@ -47,19 +41,23 @@ export const getUsers = async () => {
     }
 };
 
-export const updateUser = async (userRequestDTO: UserRequestDTOMDB, email: string) => {
+export const updateUser = async (userRequestDTOMDB: UserRequestDTOMDB, email: string) => {
     try {
-        const response = await userRepoMDB.findOneAndUpdate(
-            { email: email },
-            { $set: userRequestDTO },
-            { returnDocument: 'after' }
-        );
+        // const response = await userRepoMDB.findOneAndUpdate(
+        //     { email: email },
+        //     { $set: userRequestDTOMDB },
+        //     { returnDocument: 'after' }
+        // );
+        
+        const userDB = await userRepoMDB.findOneByEmail(email) as UserRequestDTOMDB;
+        userDB.email = userRequestDTOMDB.email;
+        userDB.password = userRequestDTOMDB.password;
 
-        if (!response.value) {
+        const savedUser = await userRepoMDB.save(userDB);
+        if (!savedUser) {
             return failed('user');
         }
-
-        return success(response.value);
+        return success(convertToDTO(savedUser));
 
     } catch (error) {
         return failed(error);
@@ -83,7 +81,6 @@ export const convertToDTO = (user: UserMDB) => {
         email: user.email,
         userActive: user.userActive,
         roles: user.roles,
-        parent: user.parent
     };
 
     return dto;
