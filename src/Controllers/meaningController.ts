@@ -5,8 +5,7 @@ import { MeaningRequestDTO } from '../DTO/meaningDTO';
 
 export const createMeaning = async (req: Request, res: Response) => {
 	const meaningRequestDTO: MeaningRequestDTO = {
-        definition: req.body.definition,
-        names: req.body.names
+        definition: req.body.definition
 	};
 	const response = await meaningService.createMeaning(meaningRequestDTO);
 	responseController.response(res, response, 200);
@@ -26,8 +25,7 @@ export const updateMeaning = async (req: Request, res: Response) => {
 
 	const meaningRequestDTO: MeaningRequestDTO = {
 		meaningId: req.body.meaningId,
-        definition: req.body.definition,
-        names: req.body.names
+        definition: req.body.definition
 	};
 
 	const response = await meaningService.updateMeaning(meaningRequestDTO);

@@ -65,8 +65,7 @@ export const deleteMeaning = async (meaningId: number) => {
 const convertToDTO = (meaning: Meaning) => {
     const dto: MeaningResponseDTO = {
         meaningId: meaning.meaningId,
-        definition: meaning.definition,
-        names: meaning.names
+        definition: meaning.definition
     };
     return dto;
 };

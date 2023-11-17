@@ -1,5 +1,5 @@
-import { Meaning } from '../Entities/Meaning';
-import { Origin } from '../Entities/Origin';
+import { MeaningRequestDTO, MeaningResponseDTO } from './meaningDTO';
+import { OriginRequestDTO, OriginResponseDTO } from './originDTO';
 
 export interface NameResponseDTO {
   nameSuggestId?: number;
@@ -8,8 +8,8 @@ export interface NameResponseDTO {
   nameDays: string;
   namesakes: string;
   popularity: number;
-  origins: Origin[] | null;
-  meanings?: Meaning[] | null;
+  origins: OriginResponseDTO[] | null;
+  meanings?: MeaningResponseDTO[] | null;
 }
 
 export interface NameRequestDTO {
@@ -18,6 +18,6 @@ export interface NameRequestDTO {
   gender: string;
   nameDays: string;
   namesakes: string;
-  origins: Origin[] | null;
-  meanings?: Meaning[] | null;
+  origins: OriginRequestDTO[] | null;
+  meanings?: MeaningRequestDTO[] | null;
 }
