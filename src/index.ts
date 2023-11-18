@@ -39,7 +39,6 @@ appDataSource.initialize().then(() => {
 	app.use(locationRoute);
 	app.use(familyRoute);
 	app.use(meaningRoute);
-	
 
 
 	// Take a port 8080 for running server.

@@ -62,7 +62,6 @@ const convertToDTO = (origin: Origin) => {
         region: origin.region,
         religion: origin.religion,
         description: origin.description,
-        names: origin.names,
     };
     return dto;
 };
