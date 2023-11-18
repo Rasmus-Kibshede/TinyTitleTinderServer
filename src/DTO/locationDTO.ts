@@ -1,14 +1,9 @@
-import { AddressRequestDTO, AddressResponseDTO } from './addressDTO';
-
-
-export interface LocationResponseDTO{
+export interface LocationResponseDTO {
     locationId: number;
-    country: string; 
-    addresses: AddressResponseDTO[];
+    country: string;
 }
 
-export interface LocationRequestDTO{
+export interface LocationRequestDTO {
     locationId?: number;
     country?: string;
-    addresses?: AddressRequestDTO[];
 }

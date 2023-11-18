@@ -66,8 +66,7 @@ export const deleteRoleByID = async (roleId: number) => {
 export const convertToDTO = (role: Role) => {
     const dto: RoleResponseDTO = {
         roleId: role.roleId,
-        title: role.title,
-        users: role.users
+        title: role.title
     };
 
     return dto;

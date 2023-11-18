@@ -12,5 +12,3 @@ export class Location {
     @OneToMany(() => Address, (address) => address.location)
     addresses: Address[];
 }
-
-

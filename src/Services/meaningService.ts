@@ -66,7 +66,6 @@ const convertToDTO = (meaning: Meaning) => {
     const dto: MeaningResponseDTO = {
         meaningId: meaning.meaningId,
         definition: meaning.definition,
-        names: meaning.names
     };
     return dto;
 };
