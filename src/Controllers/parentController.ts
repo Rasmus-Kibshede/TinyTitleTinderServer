@@ -19,7 +19,6 @@ export const createParent = async (req: Request, res: Response) => {
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        user: req.body.user,
         address: req.body.address
     };
 
@@ -44,7 +43,6 @@ export const updateParent = async (req: Request, res: Response) => {
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        user: req.body.user,
         address: req.body.address
     };
     const response = await parentService.updateParent(parentRequestDTO);
