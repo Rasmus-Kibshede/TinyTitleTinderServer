@@ -23,4 +23,7 @@ export const nameRepo = appDataSource.getRepository(Name).extend({
       }
     });
   },
+  findNamesByParentId(parentId: number) {
+    return nameRepo.query('call GetNamesOriginsMeaningsByParentId(1)', [parentId]);
+  }
 });

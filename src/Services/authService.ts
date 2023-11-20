@@ -1,15 +1,28 @@
-import { userLogin } from '../DTO/userDTO';
-import { userRepo } from '../Repositories/userRepository';
-import { BaseError } from '../Utils/BaseError';
-import { Result, ApiResponse, failed } from '../Utils/errorHandler';
+import { Request, Response } from 'express';
+import { failed, success } from '../Utils/errorHandler';
+import { ValidateAuth, authSignin, clearToken } from '../Utils/jwtUtil';
+import { User } from '../Entities/User';
 
-export const login = async (userLogin: userLogin): Promise<Result<ApiResponse, BaseError>> =>  {
-try{
-    const response = await userRepo.findOneByEmailAndPassword(userLogin.email, userLogin.password);
-    return { success: true, result:{data: response!}};
-} catch (err) {
-    //TODO Add custom message for each endpoint
-    //TODO Add dynamic statuscode from the ErrorType.
+export const login = async (user: User, res: Response) => {
+  try {
+    return authSignin(user, res);
+  } catch (err) {
     return failed(err);
-}
+  }
+};
+
+export const checkAuth = async (req: Request) => {
+  try {
+    return success(ValidateAuth(req));
+  } catch (err) {
+    return failed(err);
+  }
+};
+
+export const logout = async (req: Request) => {
+  try {
+    return success(clearToken(req));
+  } catch (err) {
+    return failed(err);
+  }
 };

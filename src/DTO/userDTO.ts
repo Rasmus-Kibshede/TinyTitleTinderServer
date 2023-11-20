@@ -1,4 +1,5 @@
-import { type Role } from '../Entities/Role';
+import { ParentRequestDTO } from './parentDTO';
+import { RoleRequestDTO, RoleResponseDTO } from './roleDTO';
 
 
 // export type UserDTO = UserResponseDTO | UserRequestDTO;
@@ -6,17 +7,18 @@ import { type Role } from '../Entities/Role';
 export interface UserResponseDTO {
 	email: string;
 	userActive: boolean;
-	roles: Role[] | null;
+	roles: RoleResponseDTO[] | RoleResponseDTO | null;
+	parent?: ParentRequestDTO | null;
 }
 
 export interface UserRequestDTO {
 	email: string;
 	password: string;
-	roles: Role[] | null;
+	roles: RoleRequestDTO[] | RoleRequestDTO | null;
+	parent?: ParentRequestDTO | null;
 }
 
-export interface userLogin {
-	email: string;
-	password: string;
+export interface UserLogin {
+  email: string;
+  password: string;
 }
-

@@ -16,7 +16,6 @@ export const roleRepo = appDataSource.getRepository(Role).extend({
     },findOneByID(id: number) {
         return roleRepo.findOne({
             relations: {
-                users: true
             },
             where: {
                 roleId: id

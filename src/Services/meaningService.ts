@@ -9,7 +9,6 @@ export const createMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
         return success(convertToDTO(response));
 
     } catch (err) {
-        // Temporary solution before implementing generic validation on unique constraints
         return failed(err);
     }
 };
@@ -28,11 +27,9 @@ export const getMeanings = async () => {
 export const getMeaningById = async (id: number) => {
     try {
         const response = await meaningRepo.findOneByID(id);
-
         if (!response) {
             return failed('meaning');
         }
-
         return success(convertToDTO(response));
 
     } catch (err) {
@@ -46,7 +43,6 @@ export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
         return success(convertToDTO(response));
 
     } catch (err) {
-        // Temporary solution before implementing generic validation on unique constraints
         return failed(err);
     }
 };
@@ -54,7 +50,6 @@ export const updateMeaning = async (meaningRequestDTO: MeaningRequestDTO) => {
 export const deleteMeaning = async (meaningId: number) => {
     try {
         const meaningDB = await meaningRepo.findOneByID(meaningId);
-
         if (!meaningDB) {
             return failed('meaning');
         }
@@ -70,8 +65,7 @@ export const deleteMeaning = async (meaningId: number) => {
 const convertToDTO = (meaning: Meaning) => {
     const dto: MeaningResponseDTO = {
         meaningId: meaning.meaningId,
-        definition: meaning.definition,
-        names: meaning.names
+        definition: meaning.definition
     };
     return dto;
 };

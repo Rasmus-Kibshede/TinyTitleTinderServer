@@ -19,7 +19,6 @@ export const createName = async (req: Request, res: Response) => {
 
 export const getNameByID = async (req: Request, res: Response) => {
   const response = await nameService.getNameByID(Number(req.params.id));
-
   responseController.response(res, response, 200);
 };
 
@@ -28,7 +27,11 @@ export const getAllNames = async (req: Request, res: Response) => {
   responseController.response(res, response, 200);
 };
 
-// TODO: Rafactor to update name by id
+export const getNamesByParentId = async (req: Request, res: Response) => {
+  const response = await nameService.getNamesByParentId(Number(req.params.id));
+  responseController.response(res, response, 200);
+};
+
 export const updateName = async (req: Request, res: Response) => {
   const nameRequestDTO: NameRequestDTO = {
     nameSuggestId: req.body.nameId,
@@ -48,3 +51,5 @@ export const deleteNameByID = async (req: Request, res: Response) => {
   const response = await nameService.deleteNameByID(Number(req.params.id));
   responseController.response(res, response, 204);
 };
+
+

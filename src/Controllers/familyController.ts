@@ -7,7 +7,6 @@ export const createFamily = async (req: Request, res: Response) => {
     const familyRequestDTO: FamilyRequestDTO = {
         familyId: req.body.familyId,
         familyName: req.body.familyName,
-        parents: req.body.parents
     };
 
     const response = await familyService.createFamily(familyRequestDTO);
@@ -18,9 +17,9 @@ export const getAllFamilies = async (req: Request, res: Response) => {
     const response = await familyService.getFamilies();
 
     if (!response) {
-        res.status(404).send({ err: response });
+        responseController.responseError(res, response);
     } else {
-        res.status(200).send(response);
+        responseController.response(res, response, 200);
     }
 };
 
@@ -33,7 +32,6 @@ export const updateFamily = async (req: Request, res: Response) => {
     const familyRequestDTO: FamilyRequestDTO = {
         familyId: req.body.familyId,
         familyName: req.body.familyName,
-        parents: req.body.parents
     };
 
     const response = await familyService.updateFamily(familyRequestDTO);
