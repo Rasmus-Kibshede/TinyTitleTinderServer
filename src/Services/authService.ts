@@ -19,9 +19,9 @@ export const checkAuth = async (req: Request) => {
   }
 };
 
-export const logout = async (res: Response) => {
+export const logout = async (req: Request) => {
   try {
-    return success(clearToken(res));
+    return success(clearToken(req));
   } catch (err) {
     return failed(err);
   }

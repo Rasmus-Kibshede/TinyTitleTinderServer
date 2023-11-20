@@ -39,11 +39,8 @@ export const authSignin = (user: User, res: Response) => {
   return token;
 };
 
-export const clearToken = (res: Response) => {
-  res.cookie('jwt', '', {
-    httpOnly: true,
-    expires: new Date(0),
-  });
+export const clearToken = (req: Request) => {
+  delete req.headers.authorization;
   return true;
 };
 
