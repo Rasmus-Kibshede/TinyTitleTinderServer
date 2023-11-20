@@ -15,7 +15,7 @@ import originRouter from './routes/originRoute';
 import locationRoute from './routes/locationRoute';
 import familyRoute from './routes/familyRoute';
 import meaningRoute from './routes/meaningRoute';
-import cors from 'cors'; // Import the cors
+import cors from 'cors';
 import cookiePaser from 'cookie-parser';
 
 // Initialize the express engine
