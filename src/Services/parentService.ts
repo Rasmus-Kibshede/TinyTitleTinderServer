@@ -71,7 +71,7 @@ export const convertToDTO = (parent: Parent) => {
         gender: parent.gender,
         firstName: parent.firstName,
         lastName: parent.lastName,
-        names: parent.names as unknown as NameResponseDTO[],
+        names: parent.names as NameResponseDTO[],
         families: parent.families,
     };
     return dto;
