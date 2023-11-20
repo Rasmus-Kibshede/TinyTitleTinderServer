@@ -81,6 +81,7 @@ export const getParentByEmailAndPassword = async (
         parentId: response.parent.parentId,
         address: response.parent.address,
       },
+      userActive: true,
     };
 
     const token = await authService.login(response, res);
