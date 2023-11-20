@@ -5,16 +5,16 @@ import express from 'express';
 import 'reflect-metadata';
 
 // import routes
-import userRouter from './Routes/userRoute';
-import addressRoute from './Routes/addressRoute';
-import roleRouter from './Routes/roleRoute';
-import parentRouter from './Routes/parentRoute';
-import nameRouter from './Routes/nameRoute';
-import authRouter from './Routes/authRoute';
-import originRouter from './Routes/originRoute';
-import locationRoute from './Routes/locationRoute';
-import familyRoute from './Routes/familyRoute';
-import meaningRoute from './Routes/meaningRoute';
+import userRouter from './routes/userRoute';
+import addressRoute from './routes/addressRoute';
+import roleRouter from './routes/roleRoute';
+import parentRouter from './routes/parentRoute';
+import nameRouter from './routes/nameRoute';
+import authRouter from './routes/authRoute';
+import originRouter from './routes/originRoute';
+import locationRoute from './routes/locationRoute';
+import familyRoute from './routes/familyRoute';
+import meaningRoute from './routes/meaningRoute';
 
 // Initialize the express engine
 const app = express();
