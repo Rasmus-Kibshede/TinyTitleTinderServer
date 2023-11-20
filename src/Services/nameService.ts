@@ -42,7 +42,7 @@ export const getNames = async () => {
 
 export const getNamesByParentId = async (parentId: number) => {
   try {
-    const response = await nameRepo.findNamesByParentId(parentId);
+    const response = await nameRepo.findNamesByParentId(parentId);  
     const originDTOs: OriginResponseDTO[] = response[1].map((origin: OriginStoredProcedure) => convertToOriginDTO(origin));
     const meaningDTOs: MeaningResponseDTO[] = response[2].map((meaning: MeaningStoredProcedure) => convertToMeaningDTO(meaning));
     const nameDTOs: NameResponseDTO[] = response[0].map((name: NameStoredProcedure) => convertToDTOSpecial(name, 
@@ -108,13 +108,13 @@ const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseD
 };
 
 const convertToOriginDTO = (origin: OriginStoredProcedure) => {
-  const originDTO: OriginResponseDTO = {
-    originId: origin.origin_id,
-    region: origin.region,
-    religion: origin.region,
-    description: origin.description,
-    nameId: origin.fk_name_suggest_id
-  };
+const originDTO: OriginResponseDTO = {
+  originId: origin.origin_id,
+  region: origin.region,
+  religion: origin.region,
+  description: origin.description,
+  nameId: origin.fk_name_suggest_id
+};
   return originDTO;
 };
 
