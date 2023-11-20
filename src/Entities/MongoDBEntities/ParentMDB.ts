@@ -29,6 +29,6 @@ export class ParentMDB {
     location: LocationMDB;
 
     @Column(() => FamilyMDB)
-    familyParents: FamilyMDB[];
+    families: FamilyMDB[];
 }
 

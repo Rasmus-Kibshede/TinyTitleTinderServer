@@ -9,7 +9,7 @@ import { MeaningMDB } from './MeaningMDB';
 
 @Entity({ name: 'name_suggest' })
 export class NameSuggestMDB {
-  
+
   @ObjectIdColumn()
   _id: ObjectId;
   

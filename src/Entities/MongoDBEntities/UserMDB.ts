@@ -8,6 +8,7 @@ import {
 
 @Entity({ name: 'user' })
 export class UserMDB {
+    
     @ObjectIdColumn()
     _id: ObjectId;
 
@@ -18,7 +19,7 @@ export class UserMDB {
     password: string;
 
     // Working with mongoDB and typeorm, default doesn't actually save the value in the database, but shows when using the entity through a fetch endpoint
-    // https://github.com/typeorm/typeorm/issues/3799 - this is a known issue
+    // https://github.com/typeorm/typeorm/issues/3799 - this is a known issue - which mean we have to set it manually in the servicelayer
     @Column('boolean', { default: true })
     userActive = true;
 

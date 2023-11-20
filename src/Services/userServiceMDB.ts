@@ -43,6 +43,7 @@ export const getUsers = async () => {
 
 export const updateUser = async (userRequestDTOMDB: UserRequestDTOMDB, email: string) => {
     try {
+        // MongoDB specific operation - TODO: consider using findOneAndUpdate instead
         // const response = await userRepoMDB.findOneAndUpdate(
         //     { email: email },
         //     { $set: userRequestDTOMDB },
