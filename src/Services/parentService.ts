@@ -2,6 +2,7 @@ import { parentRepo } from '../Repositories/parentRepository';
 import { Parent } from '../Entities/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
 import { failed, success } from '../Utils/errorHandler';
+import { NameResponseDTO } from '../DTO/nameDTO';
 
 export const createParent = async (parentRequestDTO: ParentRequestDTO) => {
     try {
@@ -70,7 +71,7 @@ export const convertToDTO = (parent: Parent) => {
         gender: parent.gender,
         firstName: parent.firstName,
         lastName: parent.lastName,
-        names: parent.names,
+        names: parent.names as NameResponseDTO[],
         families: parent.families,
     };
     return dto;
