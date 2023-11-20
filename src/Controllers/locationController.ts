@@ -6,7 +6,6 @@ import { LocationRequestDTO } from '../DTO/locationDTO';
 export const createLocation = async (req: Request, res: Response) => {
     const locationRequestDTO: LocationRequestDTO = {
         country: req.body.country,
-        addresses: req.body.address
     };
 
     const response = await locationService.createLocation(locationRequestDTO);
@@ -27,7 +26,6 @@ export const updateLocation = async (req: Request, res: Response) => {
     const locationRequestDTO: LocationRequestDTO = {
         locationId: req.body.locationId,
         country: req.body.country,
-        addresses: req.body.addresses
     };
     
     const response = await locationService.updateLocation(locationRequestDTO);

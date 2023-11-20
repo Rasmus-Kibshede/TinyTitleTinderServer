@@ -1,11 +1,8 @@
-import { Name } from '../Entities/Name';
-
 export interface OriginResponseDTO {
     originId: number;
     region: string; 
     religion: string;
     description: string;
-    names: Name[];
 }
 
 export interface OriginRequestDTO {
@@ -13,5 +10,4 @@ export interface OriginRequestDTO {
     region: string;
     religion: string;
     description: string;
-    names: Name[];
 }

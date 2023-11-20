@@ -69,7 +69,7 @@ export const convertToDTO = (parent: Parent) => {
     lastName: parent.lastName,
     names: parent.names,
     families: parent.families,
-    adress: parent.address,
+    address: parent.address,
   };
   return dto;
 };

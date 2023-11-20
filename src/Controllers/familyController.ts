@@ -7,7 +7,6 @@ export const createFamily = async (req: Request, res: Response) => {
     const familyRequestDTO: FamilyRequestDTO = {
         familyId: req.body.familyId,
         familyName: req.body.familyName,
-        parents: req.body.parents
     };
 
     const response = await familyService.createFamily(familyRequestDTO);
@@ -33,7 +32,6 @@ export const updateFamily = async (req: Request, res: Response) => {
     const familyRequestDTO: FamilyRequestDTO = {
         familyId: req.body.familyId,
         familyName: req.body.familyName,
-        parents: req.body.parents
     };
 
     const response = await familyService.updateFamily(familyRequestDTO);
