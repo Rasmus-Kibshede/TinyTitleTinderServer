@@ -8,8 +8,6 @@ export const createAddress = async (addressRequestDTO: AddressRequestDTO) => {
         const response = await addressRepo.save(addressRequestDTO);
         return success(convertToDTO(response));
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };
@@ -20,8 +18,6 @@ export const getAddresses = async () => {
         const addressDTOs: AddressResponseDTO[] = addresses.map(address => convertToDTO(address));
         return success(addressDTOs);
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };
@@ -34,8 +30,6 @@ export const getAddressById = async (id: number) => {
         }
         return success(convertToDTO(response));
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.    
         return failed(err);
     }
 };
@@ -45,8 +39,6 @@ export const updateAddress = async (addressDTO: AddressRequestDTO) => {
         const response = await addressRepo.save(addressDTO);
         return success(convertToDTO(response));
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };
@@ -61,8 +53,6 @@ export const deleteAddress = async (addressId: number) => {
         const response = await addressRepo.remove(addressDB);
         return success(convertToDTO(response));
     } catch (err) {
-        //TODO Add custom message for each endpoint
-        //TODO Add dynamic statuscode from the ErrorType.
         return failed(err);
     }
 };

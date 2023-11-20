@@ -5,28 +5,34 @@ import express from 'express';
 import 'reflect-metadata';
 
 // import routes
-import userRouter from './Routes/userRoute';
-import addressRoute from './Routes/addressRoute';
-import roleRouter from './Routes/roleRoute';
-import parentRouter from './Routes/parentRoute';
-import nameRouter from './Routes/nameRoute';
-import authRouter from './Routes/authRoute';
-import originRouter from './Routes/originRoute';
-import locationRoute from './Routes/locationRoute';
-import familyRoute from './Routes/familyRoute';
-import meaningRoute from './Routes/meaningRoute';
+import userRouter from './routes/userRoute';
+import addressRoute from './routes/addressRoute';
+import roleRouter from './routes/roleRoute';
+import parentRouter from './routes/parentRoute';
+import nameRouter from './routes/nameRoute';
+import authRouter from './routes/authRoute';
+import originRouter from './routes/originRoute';
+import locationRoute from './routes/locationRoute';
+import familyRoute from './routes/familyRoute';
+import meaningRoute from './routes/meaningRoute';
+import cors from 'cors';
+import cookiePaser from 'cookie-parser';
 
 // Initialize the express engine
 const app = express();
 app.use(express.json());
+app.use(cookiePaser());
 
 //Typeorm setup
 import { appDataSource } from './Repositories/data-source';
-appDataSource.initialize().then(() => {
-	// eslint-disable-next-line no-console
-	console.log('Database connection established');
+appDataSource
+  .initialize()
+  .then(() => {
+    // eslint-disable-next-line no-console
+    console.log('Database connection established');
 
 	// Routes
+	app.use(cors());
 	app.use(userRouter);
 	app.use(authRouter);
 	app.use(nameRouter);
@@ -39,16 +45,16 @@ appDataSource.initialize().then(() => {
 	app.use(meaningRoute);
 
 
-	// Take a port 8080 for running server.
-	const PORT = process.env.PORT || 3000;
+    // Take a port 8080 for running server.
+    const PORT = process.env.PORT || 3000;
 
-	// Server setup
-	app.listen(PORT, () => {
-		// eslint-disable-next-line no-console
-		console.log(`App: http://localhost:${PORT}/`);
-	});
-
-}).catch((error) => {
-	// eslint-disable-next-line no-console
-	console.log(error);
-});
+    // Server setup
+    app.listen(PORT, () => {
+      // eslint-disable-next-line no-console
+      console.log(`App: http://localhost:${PORT}/`);
+    });
+  })
+  .catch((error) => {
+    // eslint-disable-next-line no-console
+    console.log(error);
+  });

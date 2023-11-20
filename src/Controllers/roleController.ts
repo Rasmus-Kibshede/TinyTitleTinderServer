@@ -25,7 +25,6 @@ export const updateRole = async (req: Request, res: Response) => {
 	const roleRequestDTO: RoleRequestDTO = {
 		roleId: req.body.roleId,
 		title: req.body.title,
-		users: req.body.users
 	};
 
 	const response = await roleService.updateRole(roleRequestDTO);
