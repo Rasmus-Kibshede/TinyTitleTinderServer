@@ -66,7 +66,6 @@ export const convertToDTO = (family: Family) => {
     const dto: FamilyResponseDTO = {
         familyId: family.familyId,
         familyName: family.familyName,
-        parents: family.parents
     };
     return dto;
 };

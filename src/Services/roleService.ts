@@ -1,6 +1,6 @@
 import { roleRepo } from '../Repositories/roleRepository';
 import { Role } from '../Entities/Role';
-import { RoleRequestDTO, RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
+import { RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
 import { failed, success } from '../Utils/errorHandler';
 
 export const createRole = async (roleRequestDTO: RoleTitle) => {
@@ -30,7 +30,7 @@ export const getRoleById = async (id: number) => {
 export const getRoles = async () => {
     try {
         const response = await roleRepo.findAll();
-        const roleDTOs: RoleRequestDTO[] = response.map(role => convertToDTO(role));
+        const roleDTOs: RoleResponseDTO[] = response.map(role => convertToDTO(role));
         return success(roleDTOs);
 
     } catch (err) {
@@ -66,8 +66,7 @@ export const deleteRoleByID = async (roleId: number) => {
 export const convertToDTO = (role: Role) => {
     const dto: RoleResponseDTO = {
         roleId: role.roleId,
-        title: role.title,
-        users: role.users
+        title: role.title
     };
 
     return dto;

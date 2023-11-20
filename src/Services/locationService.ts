@@ -66,7 +66,6 @@ export const convertToDTO = (location: Location) => {
     const dto: LocationResponseDTO = {
         locationId: location.locationId,
         country: location.country,
-        addresses: location.addresses
     };
     return dto;
 };

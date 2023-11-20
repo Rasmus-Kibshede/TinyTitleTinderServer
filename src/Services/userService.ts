@@ -1,14 +1,13 @@
 import { userRepo } from '../Repositories/userRepository';
 import { User } from '../Entities/User';
 import { UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
-import { getRoleById } from './roleService';
-import { Role } from '../Entities/Role';
 import { failed, success } from '../Utils/errorHandler';
+import { roleRepo } from '../Repositories/roleRepository';
 
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
     try {
-        const role = await getRoleById(3) as unknown as Role;
+        const role = await roleRepo.findOneByID(3);
         if (!role) {
             return failed('role');
         }
