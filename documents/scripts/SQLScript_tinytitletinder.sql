@@ -47,6 +47,38 @@ END //
 DELIMITER ;
 
 
+/*Denne får kun et navn ud, men concatter origin og meaning så der nu står india, china. I stedet
+for at navnet kommer ud flere gange.*/
+DELIMITER //
+drop procedure if exists getNamesByParentId;
+CREATE PROCEDURE getNamesByParentId(
+  IN parentId INT
+)
+BEGIN
+  SELECT
+    ns.name_suggest_id,
+    ns.name_suggest_name,
+    ns.gender,
+    ns.popularity,
+    ns.namesakes,
+    GROUP_CONCAT(DISTINCT o.region) AS origins,
+    GROUP_CONCAT(DISTINCT m.definition) AS meanings
+  FROM
+    parent_name_suggest pns
+  JOIN name_suggest ns ON ns.name_suggest_id = pns.fk_name_suggest_id
+  LEFT JOIN name_suggest_origin nso ON ns.name_suggest_id = nso.fk_name_suggest_id
+  LEFT JOIN origin o ON o.origin_id = nso.fk_origin_id
+  LEFT JOIN name_suggest_meaning nsm ON ns.name_suggest_id = nsm.fk_name_suggest_id
+  LEFT JOIN meaning m ON m.meaning_id = nsm.fk_meaning_id
+  WHERE
+    pns.fk_parent_id = parentId
+  GROUP BY
+    ns.name_suggest_id, ns.name_suggest_name, ns.gender, ns.popularity, ns.namesakes;
+END //
+
+DELIMITER ;
+
+/* Uden concat, får flere af de samme navne ud. 
 DELIMITER //
 drop procedure if exists getNamesByParentId;
 CREATE PROCEDURE getNamesByParentId(
@@ -64,4 +96,4 @@ JOIN meaning m ON m.meaning_id = nsm.fk_meaning_id
 WHERE pns.fk_parent_id = parentId;
 END //
 
-DELIMITER ;
+DELIMITER ;*/
