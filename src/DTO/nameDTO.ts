@@ -7,6 +7,7 @@ export interface NameResponseDTO {
   gender: string;
   nameDays: string;
   namesakes: string;
+  popularity: number;
   origins: OriginResponseDTO[] | null;
   meanings?: MeaningResponseDTO[] | null;
 }

@@ -3,6 +3,7 @@ export interface OriginResponseDTO {
     region: string; 
     religion: string;
     description: string;
+    nameId?: number;
 }
 
 export interface OriginRequestDTO {

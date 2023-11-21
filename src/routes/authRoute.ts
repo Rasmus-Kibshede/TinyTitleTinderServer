@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { checkAuth, login } from '../Controllers/authController';
+import { checkAuth, login, logout } from '../Controllers/authController';
 import { validateCredintials } from '../Utils/routeUtil';
-import { authorize } from '../Utils/jwtUtil';
+import { authorizeToken } from '../Utils/jwtUtil';
 
 const authRouter = Router();
 
 authRouter.post('/login', validateCredintials, login);
-authRouter.get('/checkauth', authorize, checkAuth);
+authRouter.get('/checkauth', authorizeToken, checkAuth);
+authRouter.get('/logout', logout);
 
 export default authRouter;
