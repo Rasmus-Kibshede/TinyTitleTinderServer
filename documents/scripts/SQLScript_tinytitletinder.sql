@@ -47,8 +47,8 @@ END //
 DELIMITER ;
 
 DELIMITER //
-drop procedure if exists GetNamesOriginsMeaningsByParentId;
-CREATE PROCEDURE GetNamesOriginsMeaningsByParentId(IN parentId INT)
+drop procedure if exists GetNamesOriginsDefinitionsByParentId;
+CREATE PROCEDURE GetNamesOriginsDefinitionsByParentId(IN parentId INT)
 BEGIN
   -- Create temporary table to names
   CREATE TEMPORARY TABLE TempNames AS
@@ -81,26 +81,26 @@ BEGIN
     WHERE
       nso.fk_name_suggest_id IN (SELECT parent_name_suggest.fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId);
 
-  -- Meanings: stored in temporary table
-  CREATE TEMPORARY TABLE TempMeanings AS
+  -- Definitions: stored in temporary table
+  CREATE TEMPORARY TABLE TempDefinitions AS
     SELECT
-      m.meaning_id,
+      m.definition_id,
       m.definition,
       nsm.fk_name_suggest_id
     FROM
-      name_suggest_meaning nsm
+      name_suggest_definition nsm
     JOIN
-      meaning m ON nsm.fk_meaning_id = m.meaning_id
+      definition m ON nsm.fk_definition_id = m.definition_id
     WHERE
       nsm.fk_name_suggest_id IN (SELECT parent_name_suggest.fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId);
 
   SELECT * FROM TempNames;
   SELECT * FROM TempOrigins;
-  SELECT * FROM TempMeanings;
+  SELECT * FROM TempDefinitions;
 
   DROP TEMPORARY TABLE IF EXISTS TempNames;
   DROP TEMPORARY TABLE IF EXISTS TempOrigins;
-  DROP TEMPORARY TABLE IF EXISTS TempMeanings;
+  DROP TEMPORARY TABLE IF EXISTS TempDefinitions;
 END //
 
 DELIMITER ;

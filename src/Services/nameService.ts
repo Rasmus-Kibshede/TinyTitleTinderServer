@@ -3,7 +3,7 @@ import { OriginResponseDTO } from '../DTO/originDTO';
 import { Name } from '../Entities/Name';
 import { nameRepo } from '../Repositories/nameRepository';
 import { failed, success } from '../Utils/errorHandler';
-import { MeaningResponseDTO } from '../DTO/meaningDTO';
+import { DefinitionResponseDTO } from '../DTO/definitionDTO';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
@@ -42,12 +42,10 @@ export const getNames = async () => {
 
 export const getNamesByParentId = async (parentId: number) => {
   try {
-    const response = await nameRepo.findNamesByParentId(parentId);  
+    const response = await nameRepo.findNamesByParentId(parentId);
     const originDTOs: OriginResponseDTO[] = response[1].map((origin: OriginStoredProcedure) => convertToOriginDTO(origin));
-    const meaningDTOs: MeaningResponseDTO[] = response[2].map((meaning: MeaningStoredProcedure) => convertToMeaningDTO(meaning));
-    const nameDTOs: NameResponseDTO[] = response[0].map((name: NameStoredProcedure) => convertToDTOSpecial(name, 
-      originDTOs.filter(origin => origin.nameId === name.name_suggest_id), 
-      meaningDTOs.filter(meaning => meaning.nameId === name.name_suggest_id)));
+    const nameDTOs: NameResponseDTO[] = response[0].map((name: NameStoredProcedure) => convertToDTOSpecial(name,
+      originDTOs.filter(origin => origin.nameId === name.name_suggest_id)));
 
     return success(nameDTOs);
   } catch (err) {
@@ -88,12 +86,11 @@ const convertToDTO = (name: Name) => {
     nameDays: name.nameDays,
     namesakes: name.namesakes,
     origins: name.origins,
-    meanings: name.meanings,
   };
   return dto;
 };
 
-const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseDTO[], meanings: MeaningResponseDTO[]) => {
+const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseDTO[]) => {
   const nameDTO: NameResponseDTO = {
     nameSuggestId: name.name_suggest_id,
     nameSuggestName: name.name_suggest_name,
@@ -102,29 +99,20 @@ const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseD
     nameDays: name.name_days,
     namesakes: name.namesakes,
     origins: origins,
-    meanings: meanings
   };
   return nameDTO;
 };
 
 const convertToOriginDTO = (origin: OriginStoredProcedure) => {
-const originDTO: OriginResponseDTO = {
-  originId: origin.origin_id,
-  region: origin.region,
-  religion: origin.region,
-  description: origin.description,
-  nameId: origin.fk_name_suggest_id
-};
-  return originDTO;
-};
-
-const convertToMeaningDTO = (meaning: MeaningStoredProcedure) => {
-  const meaningDTO: MeaningResponseDTO = {
-    meaningId: meaning.meaning_id,
-    definition: meaning.definition,
-    nameId: meaning.fk_name_suggest_id
+  const originDTO: OriginResponseDTO = {
+    originId: origin.origin_id,
+    region: origin.region,
+    religion: origin.region,
+    description: origin.description,
+    definition: origin.definition,
+    nameId: origin.fk_name_suggest_id
   };
-  return meaningDTO;
+  return originDTO;
 };
 
 // eslint-disable-next-line camelcase
@@ -143,9 +131,7 @@ class NameStoredProcedure {
   region: string;
   religion: string;
   description: string;
-  // eslint-disable-next-line camelcase
-  meaning_id: number;
-  definition: string;
+  meaning: string;
 }
 
 class OriginStoredProcedure {
@@ -154,14 +140,7 @@ class OriginStoredProcedure {
   region: string;
   religion: string;
   description: string;
-  // eslint-disable-next-line camelcase
-  fk_name_suggest_id: number;
-}
-
-class MeaningStoredProcedure {
-  // eslint-disable-next-line camelcase
-  meaning_id: number;
-  definition: string;
+  definition: DefinitionResponseDTO;
   // eslint-disable-next-line camelcase
   fk_name_suggest_id: number;
 }

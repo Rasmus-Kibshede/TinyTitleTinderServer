@@ -6,7 +6,7 @@ INSERT INTO origin (region, religion) VALUES
 ('Brazil', 'Catholicism'),
 ('China', 'Buddhism');
 
-INSERT INTO meaning (definition) VALUES
+INSERT INTO definition (meaning) VALUES
 ('The name "John" is of male gender and has a popularity score of 0.85. It is associated with the nameday of June 24 and has notable namesakes such as John F. Kennedy. It also has related names like Jonathan and Jack.'),
 ('The name "Priya" is of female gender and has a popularity score of 0.92. It is associated with the nameday of March 15 and has notable namesakes such as Priyanka Chopra. It also has related names like Pria and Priyanka.'),
 ('The name "Carlos" is of male gender and has a popularity score of 0.78. It is associated with the nameday of November 4 and has notable namesakes such as Carlos Santana. It also has related names like Carlo and Carlito.'),
@@ -22,7 +22,7 @@ INSERT INTO name_suggest (name_suggest_name, gender, popularity, name_days, name
 ('Margot', 'Female', 0.14, '2000-07-03', 'Margot Robbie'),
 ('Maria', 'Female', 0.73, '2000-08-02', 'Maria Bello');
 
-INSERT INTO name_suggest_meaning (fk_name_suggest_id, fk_meaning_id) VALUES
+INSERT INTO name_suggest_definition (fk_name_suggest_id, fk_definition_id) VALUES
 (1, 2),
 (2, 3),
 (3, 4),

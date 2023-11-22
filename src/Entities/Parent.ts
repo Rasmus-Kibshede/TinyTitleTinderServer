@@ -6,6 +6,7 @@ import { Address } from './Address';
 
 @Entity()
 export class Parent {
+  
   @PrimaryGeneratedColumn({ name: 'parent_id' })
   parentId: number;
 

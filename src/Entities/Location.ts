@@ -3,6 +3,7 @@ import { Address } from './Address';
 
 @Entity()
 export class Location {
+    
     @PrimaryGeneratedColumn({ name: 'location_id' })
     locationId: number;
 

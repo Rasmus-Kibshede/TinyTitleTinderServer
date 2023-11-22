@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Name } from './Name';
+import { Definition } from './Definition';
 
 @Entity()
 export class Origin {
@@ -19,4 +20,7 @@ export class Origin {
     @ManyToMany(() => Name, (name) => name.origins)
     @JoinColumn()
     names: Name[];
+
+    @OneToOne(() => Definition)
+    definition: Definition;
 }
