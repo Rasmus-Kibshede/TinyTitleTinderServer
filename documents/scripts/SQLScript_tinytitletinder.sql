@@ -153,7 +153,7 @@ DELIMITER ;
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS GetNamesWithNoParentRelation;
-CREATE PROCEDURE GetNamesWithNoParentRelation()
+CREATE PROCEDURE GetNamesWithNoParentRelation(IN parentId INT)
 BEGIN
   -- Names with no relations
   CREATE TEMPORARY TABLE TempNames AS
@@ -167,9 +167,13 @@ BEGIN
     FROM
       name_suggest ns
     WHERE
-      ns.name_suggest_id NOT IN (SELECT fk_name_suggest_id FROM parent_name_suggest);
+      ns.name_suggest_id NOT IN (
+        SELECT fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId
+        UNION
+        SELECT fk_name_suggest_id FROM parent_name_suggest_dislike WHERE fk_parent_id = parentId
+      );
 
-  -- Origins and meaning related to name. 
+  -- Origins and meaning related to name.
   CREATE TEMPORARY TABLE TempOriginsDefinitions AS
     SELECT
       o.origin_id,
