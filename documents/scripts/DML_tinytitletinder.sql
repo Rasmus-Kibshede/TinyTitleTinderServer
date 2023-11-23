@@ -22,6 +22,18 @@ INSERT INTO name_suggest (name_suggest_name, gender, popularity, name_days, name
 ('Margot', 'Female', 0.14, '01-01-2023', 'Margot Robbie'),
 ('Maria', 'Female', 0.73, '01-01-2023', 'Maria Bello');
 
+INSERT INTO location (country) VALUES
+('United States'),
+('India'),
+('Brazil'),
+('China');
+
+INSERT INTO address (city, zipcode, address, locationLocationId) VALUES
+('New York', '10001', '123 Main St', 1),
+('Mumbai', '400001', '456 Elm St', 2),
+('Rio de Janeiro', '20000', '789 Oak St', 3),
+('Beijing', '100000', '101 Pine St', 4);
+
 INSERT INTO parent (age, gender, first_name, last_name, addressAddressId) VALUES
 (35, 'Male', 'John', 'Smith',1),
 (30, 'Female', 'Priya', 'Patel',2),
@@ -44,18 +56,6 @@ INSERT INTO user_role (fk_user_id, fk_role_id) VALUES
 (2, 2),
 (3, 3),
 (4, 1);
-
-INSERT INTO location (country) VALUES
-('United States'),
-('India'),
-('Brazil'),
-('China');
-
-INSERT INTO address (city, zipcode, address, locationLocationId) VALUES
-('New York', '10001', '123 Main St', 1),
-('Mumbai', '400001', '456 Elm St', 2),
-('Rio de Janeiro', '20000', '789 Oak St', 3),
-('Beijing', '100000', '101 Pine St', 4);
 
 INSERT INTO family (family_name) VALUES
 ('Smith'),
