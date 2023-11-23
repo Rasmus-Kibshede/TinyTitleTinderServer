@@ -39,17 +39,17 @@ INSERT INTO user_role (fk_user_id, fk_role_id) VALUES
 (3, 3),
 (4, 1);
 
-INSERT INTO address (city, zipcode, address) VALUES
-('New York', '10001', '123 Main St'),
-('Mumbai', '400001', '456 Elm St'),
-('Rio de Janeiro', '20000', '789 Oak St'),
-('Beijing', '100000', '101 Pine St');
-
 INSERT INTO location (country) VALUES
 ('United States'),
 ('India'),
 ('Brazil'),
 ('China');
+
+INSERT INTO address (city, zipcode, address, locationLocationId) VALUES
+('New York', '10001', '123 Main St', 1),
+('Mumbai', '400001', '456 Elm St', 2),
+('Rio de Janeiro', '20000', '789 Oak St', 3),
+('Beijing', '100000', '101 Pine St', 4);
 
 INSERT INTO family (family_name) VALUES
 ('Smith'),
