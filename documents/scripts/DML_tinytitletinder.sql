@@ -6,7 +6,7 @@ INSERT INTO definition (meaning) VALUES
 ('Free man, valiant'),
 ('Lofty');
 
-INSERT INTO origin (region, religion, description, definitionDefinitionId) VALUES
+INSERT INTO origin (region, religion, description, fk_definition_id) VALUES
 ('United States', 'Christianity', 'The land of the free and school shootings', 1),
 ('India', 'Hinduism', 'Budda checkin', 2),
 ('Brazil', 'Catholicism', 'Pendejo', 3),
@@ -28,19 +28,19 @@ INSERT INTO location (country) VALUES
 ('Brazil'),
 ('China');
 
-INSERT INTO address (city, zipcode, address, locationLocationId) VALUES
+INSERT INTO address (city, zipcode, address, fk_location_id) VALUES
 ('New York', '10001', '123 Main St', 1),
 ('Mumbai', '400001', '456 Elm St', 2),
 ('Rio de Janeiro', '20000', '789 Oak St', 3),
 ('Beijing', '100000', '101 Pine St', 4);
 
-INSERT INTO parent (age, gender, first_name, last_name, addressAddressId) VALUES
+INSERT INTO parent (age, gender, first_name, last_name, fk_address_id) VALUES
 (35, 'Male', 'John', 'Smith',1),
 (30, 'Female', 'Priya', 'Patel',2),
 (40, 'Male', 'Carlos', 'Silva',3),
 (32, 'Male', 'Wei', 'Wang',4);
 
-INSERT INTO user (email, password, user_active, created_at, last_login, parentParentId) VALUES
+INSERT INTO user (email, password, user_active, created_at, last_login, fk_parent_id) VALUES
 ('user1@example.com', 'password1', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 YEAR, 1),
 ('user2@example.com', 'password2', 1, '2016-11-05 14:29:36', NOW() - INTERVAL 1 MONTH, 2),
 ('user3@example.com', 'password3', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 WEEK, 3),

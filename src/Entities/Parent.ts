@@ -1,12 +1,11 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn, OneToOne } from 'typeorm';
-//import { User } from './User';
 import { Name } from './Name';
 import { Family } from './Family';
 import { Address } from './Address';
 
 @Entity()
 export class Parent {
-  
+
   @PrimaryGeneratedColumn({ name: 'parent_id' })
   parentId: number;
 
@@ -56,6 +55,6 @@ export class Parent {
   families: Family[];
 
   @OneToOne(() => Address)
-  @JoinColumn()
+  @JoinColumn({ name: 'fk_address_id' })
   address: Address;
 }

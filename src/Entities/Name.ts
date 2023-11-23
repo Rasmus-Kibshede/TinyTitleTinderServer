@@ -1,10 +1,10 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  JoinColumn
 } from 'typeorm';
 import { Origin } from './Origin';
 import { Parent } from './Parent';
