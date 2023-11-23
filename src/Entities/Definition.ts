@@ -6,6 +6,6 @@ export class Definition {
     @PrimaryGeneratedColumn({ name: 'definition_id' })
     definitionId: number;
 
-    @Column('varchar', { length: 255, nullable: false, name: 'definition', unique: true })
+    @Column('varchar', { length: 255, nullable: false, name: 'meaning', unique: true })
     meaning: string;
 }
