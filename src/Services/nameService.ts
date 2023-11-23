@@ -106,12 +106,16 @@ const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseD
 };
 
 const convertToOriginDTO = (origin: OriginStoredProcedure) => {
+  const definition: DefinitionResponseDTO = {
+    definitionId: origin.definition_id,
+    meaning: origin.meaning
+  };
   const originDTO: OriginResponseDTO = {
     originId: origin.origin_id,
     region: origin.region,
     religion: origin.region,
     description: origin.description,
-    definition: origin.definition,
+    definition: definition,
     nameId: origin.fk_name_suggest_id
   };
   return originDTO;
@@ -142,7 +146,9 @@ class OriginStoredProcedure {
   region: string;
   religion: string;
   description: string;
-  definition: DefinitionResponseDTO;
+  // eslint-disable-next-line camelcase
+  definition_id: number;
+  meaning: string;
   // eslint-disable-next-line camelcase
   fk_name_suggest_id: number;
 }
