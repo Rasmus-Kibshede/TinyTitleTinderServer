@@ -47,10 +47,10 @@ END //
 DELIMITER ;
 
 DELIMITER //
-drop procedure if exists GetNamesOriginsDefinitionsByParentId;
+DROP PROCEDURE IF EXISTS GetNamesOriginsDefinitionsByParentId;
 CREATE PROCEDURE GetNamesOriginsDefinitionsByParentId(IN parentId INT)
 BEGIN
-  -- Create temporary table to names
+  -- Names: stored in temporary table
   CREATE TEMPORARY TABLE TempNames AS
     SELECT
       ns.name_suggest_id,
@@ -73,34 +73,24 @@ BEGIN
       o.region,
       o.religion,
       o.description,
+      d.definition_id,
+      d.meaning,
       nso.fk_name_suggest_id
     FROM
       name_suggest_origin nso
     JOIN
       origin o ON nso.fk_origin_id = o.origin_id
+    JOIN
+      definition d ON o.definitionDefinitionId = d.definition_id
     WHERE
       nso.fk_name_suggest_id IN (SELECT parent_name_suggest.fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId);
 
-  -- Definitions: stored in temporary table
-  CREATE TEMPORARY TABLE TempDefinitions AS
-    SELECT
-      m.definition_id,
-      m.definition,
-      nsm.fk_name_suggest_id
-    FROM
-      name_suggest_definition nsm
-    JOIN
-      definition m ON nsm.fk_definition_id = m.definition_id
-    WHERE
-      nsm.fk_name_suggest_id IN (SELECT parent_name_suggest.fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId);
+  -- Retrieve data from temporary tables
+  SELECT  * FROM TempNames;
+  SELECT  * FROM TempOrigins;
 
-  SELECT * FROM TempNames;
-  SELECT * FROM TempOrigins;
-  SELECT * FROM TempDefinitions;
-
+  -- Drop temporary tables
   DROP TEMPORARY TABLE IF EXISTS TempNames;
   DROP TEMPORARY TABLE IF EXISTS TempOrigins;
-  DROP TEMPORARY TABLE IF EXISTS TempDefinitions;
 END //
-
 DELIMITER ;
