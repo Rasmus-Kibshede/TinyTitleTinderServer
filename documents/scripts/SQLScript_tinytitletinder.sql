@@ -1,5 +1,5 @@
 use tiny_title_tinder_database;
-
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
 DELIMITER //
 drop procedure if exists CreateUserWithRoleAndLocation;
 CREATE PROCEDURE CreateUserWithRoleAndLocation(
@@ -45,9 +45,57 @@ BEGIN
 END //
 
 DELIMITER ;
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
+DELIMITER //
+DROP PROCEDURE IF EXISTS GetDislikedNamesOriginsDefinitionsByParentId;
+CREATE PROCEDURE GetDislikedNamesOriginsDefinitionsByParentId(IN parentId INT)
+BEGIN
+  -- Names: stored in temporary table
+  CREATE TEMPORARY TABLE TempNames AS
+    SELECT
+      ns.name_suggest_id,
+      ns.name_suggest_name,
+      ns.gender,
+      ns.popularity,
+      ns.name_days,
+      ns.namesakes
+    FROM
+      parent_name_suggest_dislike pns
+    JOIN
+      name_suggest ns ON ns.name_suggest_id = pns.fk_name_suggest_id
+    WHERE
+      pns.fk_parent_id = parentId;
 
-/*-----------------------------------------------------------------*/
+  -- Origins: stored in temporary table
+  CREATE TEMPORARY TABLE TempOrigins AS
+    SELECT
+      o.origin_id,
+      o.region,
+      o.religion,
+      o.description,
+      d.definition_id,
+      d.meaning,
+      nso.fk_name_suggest_id
+    FROM
+      name_suggest_origin nso
+    JOIN
+      origin o ON nso.fk_origin_id = o.origin_id
+    JOIN
+      definition d ON o.fk_definition_id = d.definition_id
+    WHERE
+      nso.fk_name_suggest_id IN (SELECT parent_name_suggest_dislike.fk_name_suggest_id FROM parent_name_suggest_dislike WHERE fk_parent_id = parentId);
 
+  -- Retrieve data from temporary tables
+  SELECT  * FROM TempNames;
+  SELECT  * FROM TempOrigins;
+
+  -- Drop temporary tables
+  DROP TEMPORARY TABLE IF EXISTS TempNames;
+  DROP TEMPORARY TABLE IF EXISTS TempOrigins;
+END //
+DELIMITER ;
+
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
 DELIMITER //
 DROP PROCEDURE IF EXISTS GetNamesOriginsDefinitionsByParentId;
 CREATE PROCEDURE GetNamesOriginsDefinitionsByParentId(IN parentId INT)
@@ -87,16 +135,16 @@ BEGIN
     WHERE
       nso.fk_name_suggest_id IN (SELECT parent_name_suggest.fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId);
 
-  -- Results
+  -- Retrieve data from temporary tables
   SELECT  * FROM TempNames;
   SELECT  * FROM TempOrigins;
 
+  -- Drop temporary tables
   DROP TEMPORARY TABLE IF EXISTS TempNames;
   DROP TEMPORARY TABLE IF EXISTS TempOrigins;
 END //
 DELIMITER ;
-
-/*-----------------------------------------------------------------*/
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS GetAllNamesLikedByFamily;
@@ -140,16 +188,17 @@ CREATE TEMPORARY TABLE TempOrigins AS
     TempNames tn ON nso.fk_name_suggest_id = tn.name_suggest_id;
 
 
-  -- Results
+  -- Retrieve data from temporary tables
   SELECT  * FROM TempNames;
   SELECT  * FROM TempOrigins;
 
+  -- Drop temporary tables
   DROP TEMPORARY TABLE IF EXISTS TempNames;
   DROP TEMPORARY TABLE IF EXISTS TempOrigins;
 END //
 DELIMITER ;
 
-/*-----------------------------------------------------------------*/
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
 
 DELIMITER //
 DROP PROCEDURE IF EXISTS GetNamesWithNoParentRelation;
@@ -200,3 +249,6 @@ BEGIN
   DROP TEMPORARY TABLE IF EXISTS TempOriginsDefinitions;
 END //
 DELIMITER ;
+
+
+call GetNamesWithNoParentRelation(1)

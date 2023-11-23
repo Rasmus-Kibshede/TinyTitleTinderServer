@@ -45,19 +45,26 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
     let response;
     if (isLiked === 'true') {
       response = await nameRepo.findNamesByParentId(parentId);
-    } else if (isLiked === 'false') {
+    } else (isLiked === 'false'); {
       response = await nameRepo.findDislikedNamesByParentId(parentId);
-    } else {
-      response = await nameRepo.findNamesNoRelation();
     }
-    const originDTOs: OriginResponseDTO[] = response[1].map((origin: OriginStoredProcedure) => convertToOriginDTO(origin));
-    const nameDTOs: NameResponseDTO[] = response[0].map((name: NameStoredProcedure) => convertToDTOSpecial(name,
-      originDTOs.filter(origin => origin.nameId === name.name_suggest_id)));
+    
+    const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
 
     return success(nameDTOs);
   } catch (err) {
     return failed(err);
   }
+};
+
+export const getNamesWithNoRelations = async (parentId: number) => {
+  try {
+  const response = await nameRepo.findNamesNoRelation(parentId);
+  const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
+  return success(nameDTOs);
+} catch (err) {
+  return failed(err);
+}
 };
 
 export const updateName = async (nameRequestDTO: NameRequestDTO) => {
@@ -82,6 +89,14 @@ export const deleteNameByID = async (id: number) => {
   } catch (err) {
     return failed(err);
   }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const RemoveDublicates = (response: any) => {
+  const originDTOs: OriginResponseDTO[] = response[1].map((origin: OriginStoredProcedure) => convertToOriginDTO(origin));
+  const nameDTOs: NameResponseDTO[] = response[0].map((name: NameStoredProcedure) => convertToDTOSpecial(name,
+    originDTOs.filter(origin => origin.nameId === name.name_suggest_id)));
+  return nameDTOs;
 };
 
 const convertToDTO = (name: Name) => {

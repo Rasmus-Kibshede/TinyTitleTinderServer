@@ -27,9 +27,12 @@ export const getAllNames = async (req: Request, res: Response) => {
 };
 
 export const getNamesByParentId = async (req: Request, res: Response) => {
-  console.log(req.params);
-  
   const response = await nameService.getNamesByParentId(Number(req.params.id), req.params.isliked);
+  responseController.response(res, response, 200);
+};
+
+export const getNamesWithNoRelations = async (req: Request, res: Response) => {
+  const response = await nameService.getNamesWithNoRelations(Number(req.params.id));
   responseController.response(res, response, 200);
 };
 
