@@ -7,7 +7,7 @@ export const createAddress = async (req: Request, res: Response) => {
     const addressRequestDTO: AddressRequestDTO = {
         city: req.body.city,
         zipcode: req.body.zipcode,
-        address: req.body.address,
+        street: req.body.street,
         location: req.body.location
     };
     const response = await addressService.createAddress(addressRequestDTO);
@@ -30,7 +30,7 @@ export const updateAddress = async (req: Request, res: Response) => {
         addressId: req.body.addressId,
         city: req.body.city,
         zipcode: req.body.zipcode,
-        address: req.body.address,
+        street: req.body.street,
         location: req.body.location
     };
     const response = await addressService.updateAddress(addressRequestDTO);

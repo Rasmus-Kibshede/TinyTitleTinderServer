@@ -24,7 +24,7 @@ export class User {
     lastLogin: Date | null;
 
     @OneToOne(() => Parent)
-    @JoinColumn()
+    @JoinColumn({ name: 'fk_parent_id' })
     parent: Parent;
 
     @ManyToMany(() => Role, (role) => role.users, { nullable: true })
@@ -41,5 +41,4 @@ export class User {
         }
     })
     roles: Role[] | null;
-
 }

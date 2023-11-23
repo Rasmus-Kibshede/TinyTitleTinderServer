@@ -11,13 +11,13 @@ import { LocationResponseDTO } from '../DTO/locationDTO';
 import * as locationRepo from '../Repositories/locationRepository';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
-    try {
-        const role = await roleRepo.findOneByID(3);
-        if (!role) {
-            return failed('role');
-        }
-        UserRequestDTO.roles = [];
-        UserRequestDTO.roles.push(role);
+  try {
+    const role = await roleRepo.findOneByID(3);
+    if (!role) {
+      return failed('role');
+    }
+    UserRequestDTO.roles = [];
+    UserRequestDTO.roles.push(role);
 
     const response = await userRepo.save(UserRequestDTO as User);
 
@@ -39,30 +39,30 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
       userRequestDTO.parent?.address.location?.locationId,
       userRequestDTO.parent?.address.city,
       userRequestDTO.parent?.address.zipcode,
-      userRequestDTO.parent?.address.address,
+      userRequestDTO.parent?.address.street,
     ]);
 
-const addressDTO: AddressResponseDTO = {
-    city: userResponse.city,
-    zipcode: userResponse.zipcode,
-    address: userResponse.address,
-    location: await locationRepo.locationRepo.findOneByID(userResponse.locationId) as LocationResponseDTO
-};
+    const addressDTO: AddressResponseDTO = {
+      city: userResponse.city,
+      zipcode: userResponse.zipcode,
+      street: userResponse.address,
+      location: await locationRepo.locationRepo.findOneByID(userResponse.locationId) as LocationResponseDTO
+    };
 
-const paretDTO: ParentResponseDTO = {
-    age: userResponse.age,
-    gender: userResponse.gender,
-    firstName: userResponse.firstName,
-    lastName: userResponse.lastName,
-    families: [],
-    address: addressDTO
-};
+    const paretDTO: ParentResponseDTO = {
+      age: userResponse.age,
+      gender: userResponse.gender,
+      firstName: userResponse.firstName,
+      lastName: userResponse.lastName,
+      families: [],
+      address: addressDTO
+    };
 
     const userDTO: UserResponseDTO = {
-        email: userResponse.email,
-        userActive: true,
-        roles: await roleRepo.findOneByID(3),
-        parent: paretDTO
+      email: userResponse.email,
+      userActive: true,
+      roles: await roleRepo.findOneByID(3),
+      parent: paretDTO
     };
 
     return success(userDTO);

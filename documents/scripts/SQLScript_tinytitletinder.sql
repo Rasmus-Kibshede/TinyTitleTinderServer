@@ -30,17 +30,17 @@ BEGIN
     SELECT LAST_INSERT_ID() INTO p_parent_id;
 
     -- Relation: user with parent
-    UPDATE user SET parentParentId = p_parent_id WHERE user_id = p_user_id;
+    UPDATE user SET fk_parent_id = p_parent_id WHERE user_id = p_user_id;
 
     -- Create address
-    INSERT INTO address (city, zipcode, address, locationLocationId) VALUES (p_city, p_zipcode, p_address, p_location_id);
+    INSERT INTO address (city, zipcode, street, fk_location_id) VALUES (p_city, p_zipcode, p_address, p_location_id);
     SELECT LAST_INSERT_ID() INTO p_address_id;
 
     -- Relation: location with parent
-    update parent SET addressAddressId = p_address_id where parent_id = p_parent_id;
+    update parent SET fk_address_id = p_address_id where parent_id = p_parent_id;
 
     -- Relation: address with location
-    update address SET locationLocationId = p_location_id where address_id = p_address_id;
+    update address SET fk_location_id = p_location_id where address_id = p_address_id;
     SELECT * from user where user_id = p_user_id;
 END //
 
@@ -83,7 +83,7 @@ BEGIN
     JOIN
       origin o ON nso.fk_origin_id = o.origin_id
     JOIN
-      definition d ON o.definitionDefinitionId = d.definition_id
+      definition d ON o.fk_definition_id = d.definition_id
     WHERE
       nso.fk_name_suggest_id IN (SELECT parent_name_suggest.fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId);
 
@@ -135,7 +135,7 @@ CREATE TEMPORARY TABLE TempOrigins AS
   JOIN
     origin o ON nso.fk_origin_id = o.origin_id
   JOIN
-    definition d ON o.definitionDefinitionId = d.definition_id
+    definition d ON o.fk_definition_id = d.definition_id
   JOIN
     TempNames tn ON nso.fk_name_suggest_id = tn.name_suggest_id;
 
@@ -184,7 +184,7 @@ BEGIN
     JOIN
       origin o ON nso.fk_origin_id = o.origin_id
     JOIN
-      definition d ON o.definitionDefinitionId = d.definition_id
+      definition d ON o.fk_definition_id = d.definition_id
     WHERE
       nso.fk_name_suggest_id IN (SELECT name_suggest_id FROM TempNames);
 

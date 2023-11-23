@@ -6,7 +6,7 @@ const definitionRoute = express.Router();
 
 definitionRoute.post('/definitions', definitionController.createDefinition);
 definitionRoute.get('/definitions/:id', validateParamsId, definitionController.getDefinitionByID);
-definitionRoute.get('/definitions', definitionController.getAllDefinition);
+definitionRoute.get('/definitions', definitionController.getAllDefinitions);
 definitionRoute.put('/definitions', definitionController.updateDefinition);
 definitionRoute.put('/definitions/:id', validateParamsId, definitionController.deleteDefinitionByID);
 
