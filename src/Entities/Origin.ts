@@ -22,5 +22,6 @@ export class Origin {
     names: Name[];
 
     @OneToOne(() => Definition)
+    @JoinColumn()
     definition: Definition;
 }

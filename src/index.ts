@@ -14,7 +14,7 @@ import authRouter from './routes/authRoute';
 import originRouter from './routes/originRoute';
 import locationRoute from './routes/locationRoute';
 import familyRoute from './routes/familyRoute';
-import definitionRoute from './Routes/definitionRoute';
+import definitionRoute from './routes/definitionRoute';
 import cors from 'cors';
 import cookiePaser from 'cookie-parser';
 
