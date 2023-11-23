@@ -1,10 +1,10 @@
 USE tiny_title_tinder_database;
 
 INSERT INTO definition (meaning) VALUES
-('The name "John" is of male gender and has a popularity score of 0.85. It is associated with the nameday of June 24 and has notable namesakes such as John F. Kennedy. It also has related names like Jonathan and Jack.'),
-('The name "Priya" is of female gender and has a popularity score of 0.92. It is associated with the nameday of March 15 and has notable namesakes such as Priyanka Chopra. It also has related names like Pria and Priyanka.'),
-('The name "Carlos" is of male gender and has a popularity score of 0.78. It is associated with the nameday of November 4 and has notable namesakes such as Carlos Santana. It also has related names like Carlo and Carlito.'),
-('The name "Wei" is of male gender and has a popularity score of 0.67. It is associated with the nameday of September 12 and has notable namesakes such as Wei Jingsheng. It also has related names like Wey and Wayne.');
+('John is a masculine name of Hebrew origin, derived from "Yohannan," meaning "God is gracious."'),
+('Beloved'),
+('Free man, valiant'),
+('Lofty');
 
 INSERT INTO origin (region, religion, description, definitionDefinitionId) VALUES
 ('United States', 'Christianity', 'The land of the free and school shootings', 1),
