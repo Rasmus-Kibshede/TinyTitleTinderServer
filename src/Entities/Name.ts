@@ -49,4 +49,8 @@ export class Name {
   @ManyToMany(() => Parent, (parent) => parent.names)
   @JoinColumn()
   parents: Parent[];
+
+  @ManyToMany(() => Parent, (parent) => parent.names)
+  @JoinColumn()
+  parentsDislike: Parent[];
 }

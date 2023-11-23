@@ -37,6 +37,21 @@ export class Parent {
   })
   names: Name[] | null;
 
+  @ManyToMany(() => Name, (name) => name.parents, { nullable: true })
+  @JoinColumn()
+  @JoinTable({
+    name: 'parent_name_suggest_dislike',
+    joinColumn: {
+      name: 'fk_parent_id',
+      referencedColumnName: 'parentId',
+    },
+    inverseJoinColumn: {
+      name: 'fk_name_suggest_id',
+      referencedColumnName: 'nameSuggestId',
+    },
+  })
+  namesDisliked: Name[] | null;
+
   @ManyToMany(() => Family, (family) => family.parents)
   families: Family[];
 
