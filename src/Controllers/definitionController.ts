@@ -16,7 +16,7 @@ export const getDefinitionByID = async (req: Request, res: Response) => {
 	responseController.response(res, response, 200);
 };
 
-export const getAllDefinition = async (req: Request, res: Response) => {
+export const getAllDefinitions = async (req: Request, res: Response) => {
 	const response = await definitionService.getDefinitions();
 	responseController.response(res, response, 200);
 };
