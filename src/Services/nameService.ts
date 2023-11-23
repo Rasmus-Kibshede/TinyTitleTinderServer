@@ -47,8 +47,9 @@ export const getNamesByParentId = async (parentId: number, isLiked: boolean) => 
        response = await nameRepo.findNamesByParentId(parentId);
     }else if (isLiked === false){
       response = await nameRepo.findDislikedNamesByParentId(parentId);
-    } else
+    } else {
     response = await nameRepo.findNamesNoRelation();
+    }
     const originDTOs: OriginResponseDTO[] = response[1].map((origin: OriginStoredProcedure) => convertToOriginDTO(origin));
     const nameDTOs: NameResponseDTO[] = response[0].map((name: NameStoredProcedure) => convertToDTOSpecial(name,
       originDTOs.filter(origin => origin.nameId === name.name_suggest_id)));
