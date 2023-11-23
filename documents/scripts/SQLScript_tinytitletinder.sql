@@ -46,6 +46,8 @@ END //
 
 DELIMITER ;
 
+/*-----------------------------------------------------------------*/
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS GetNamesOriginsDefinitionsByParentId;
 CREATE PROCEDURE GetNamesOriginsDefinitionsByParentId(IN parentId INT)
@@ -85,12 +87,112 @@ BEGIN
     WHERE
       nso.fk_name_suggest_id IN (SELECT parent_name_suggest.fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId);
 
-  -- Retrieve data from temporary tables
+  -- Results
   SELECT  * FROM TempNames;
   SELECT  * FROM TempOrigins;
 
-  -- Drop temporary tables
   DROP TEMPORARY TABLE IF EXISTS TempNames;
   DROP TEMPORARY TABLE IF EXISTS TempOrigins;
+END //
+DELIMITER ;
+
+/*-----------------------------------------------------------------*/
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS GetAllNamesLikedByFamily;
+CREATE PROCEDURE GetAllNamesLikedByFamily(IN familyId INT)
+BEGIN
+  -- Names: stored in temporary table
+  CREATE TEMPORARY TABLE TempNames AS
+    SELECT
+      ns.name_suggest_id,
+      ns.name_suggest_name,
+      ns.gender,
+      ns.popularity,
+      ns.name_days,
+      ns.namesakes
+    FROM
+      parent_name_suggest pnl
+    JOIN
+      parent p ON pnl.fk_parent_id = p.parent_id
+    JOIN
+      name_suggest ns ON pnl.fk_name_suggest_id = ns.name_suggest_id
+    WHERE
+      pnl.fk_parent_id = familyId;
+
+  -- Origins: stored in temporary table
+CREATE TEMPORARY TABLE TempOrigins AS
+  SELECT
+    o.origin_id,
+    o.region,
+    o.religion,
+    o.description,
+    d.definition_id,
+    d.meaning,
+    nso.fk_name_suggest_id
+  FROM
+    name_suggest_origin nso
+  JOIN
+    origin o ON nso.fk_origin_id = o.origin_id
+  JOIN
+    definition d ON o.definitionDefinitionId = d.definition_id
+  JOIN
+    TempNames tn ON nso.fk_name_suggest_id = tn.name_suggest_id;
+
+
+  -- Results
+  SELECT  * FROM TempNames;
+  SELECT  * FROM TempOrigins;
+
+  DROP TEMPORARY TABLE IF EXISTS TempNames;
+  DROP TEMPORARY TABLE IF EXISTS TempOrigins;
+END //
+DELIMITER ;
+
+/*-----------------------------------------------------------------*/
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS GetNamesWithNoParentRelation;
+CREATE PROCEDURE GetNamesWithNoParentRelation()
+BEGIN
+  -- Names with no relations
+  CREATE TEMPORARY TABLE TempNames AS
+    SELECT
+      ns.name_suggest_id,
+      ns.name_suggest_name,
+      ns.gender,
+      ns.popularity,
+      ns.name_days,
+      ns.namesakes
+    FROM
+      name_suggest ns
+    WHERE
+      ns.name_suggest_id NOT IN (SELECT fk_name_suggest_id FROM parent_name_suggest);
+
+  -- Origins and meaning related to name. 
+  CREATE TEMPORARY TABLE TempOriginsDefinitions AS
+    SELECT
+      o.origin_id,
+      o.region,
+      o.religion,
+      o.description,
+      d.definition_id,
+      d.meaning,
+      nso.fk_name_suggest_id
+    FROM
+      name_suggest_origin nso
+    JOIN
+      origin o ON nso.fk_origin_id = o.origin_id
+    JOIN
+      definition d ON o.definitionDefinitionId = d.definition_id
+    WHERE
+      nso.fk_name_suggest_id IN (SELECT name_suggest_id FROM TempNames);
+
+  -- Results
+  SELECT * FROM TempNames;
+  SELECT * FROM TempOriginsDefinitions;
+
+  DROP TEMPORARY TABLE IF EXISTS TempNames;
+  DROP TEMPORARY TABLE IF EXISTS TempOriginsDefinitions;
 END //
 DELIMITER ;
