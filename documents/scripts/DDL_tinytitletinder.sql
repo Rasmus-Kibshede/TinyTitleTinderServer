@@ -10,10 +10,10 @@ CREATE TABLE origin (
   PRIMARY KEY (origin_id)
 );
 
-CREATE TABLE meaning (
-  meaning_id int NOT NULL AUTO_INCREMENT,
-  definition text,
-  PRIMARY KEY (meaning_id)
+CREATE TABLE definition (
+  definition_id int NOT NULL AUTO_INCREMENT,
+  meaning text,
+  PRIMARY KEY (definition_id)
 );
 
 CREATE TABLE name_suggest (
@@ -26,11 +26,11 @@ CREATE TABLE name_suggest (
   PRIMARY KEY (name_suggest_id)
 );
 
-CREATE TABLE name_suggest_meaning (
-  fk_meaning_id int NOT NULL AUTO_INCREMENT,
+CREATE TABLE name_suggest_definition (
+  fk_definition_id int NOT NULL AUTO_INCREMENT,
   fk_name_suggest_id int NOT NULL,
   FOREIGN KEY (fk_name_suggest_id) REFERENCES name_suggest(name_suggest_id),
-  FOREIGN KEY (fk_meaning_id) REFERENCES meaning(meaning_id)
+  FOREIGN KEY (fk_definition_id) REFERENCES definition(definition_id)
 );
 
 CREATE TABLE user (
@@ -205,9 +205,9 @@ JOIN
 JOIN
     origin o ON no.fk_origin_id = o.origin_id
 JOIN
-    name_suggest_meaning nm ON n.name_suggest_id = nm.fk_name_suggest_id
+    name_suggest_definition nm ON n.name_suggest_id = nm.fk_name_suggest_id
 JOIN
-    meaning m ON nm.fk_name_suggest_id = m.meaning_id;
+    definition m ON nm.fk_name_suggest_id = m.definition_id;
 
 
 CREATE or replace VIEW UserAddress AS

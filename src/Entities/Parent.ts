@@ -1,11 +1,11 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, JoinColumn, OneToOne } from 'typeorm';
-//import { User } from './User';
 import { Name } from './Name';
 import { Family } from './Family';
 import { Address } from './Address';
 
 @Entity()
 export class Parent {
+
   @PrimaryGeneratedColumn({ name: 'parent_id' })
   parentId: number;
 
@@ -36,10 +36,25 @@ export class Parent {
   })
   names: Name[] | null;
 
+  @ManyToMany(() => Name, (name) => name.parents, { nullable: true })
+  @JoinColumn()
+  @JoinTable({
+    name: 'parent_name_suggest_dislike',
+    joinColumn: {
+      name: 'fk_parent_id',
+      referencedColumnName: 'parentId',
+    },
+    inverseJoinColumn: {
+      name: 'fk_name_suggest_id',
+      referencedColumnName: 'nameSuggestId',
+    },
+  })
+  namesDisliked: Name[] | null;
+
   @ManyToMany(() => Family, (family) => family.parents)
   families: Family[];
 
   @OneToOne(() => Address)
-  @JoinColumn()
+  @JoinColumn({ name: 'fk_address_id' })
   address: Address;
 }

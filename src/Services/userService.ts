@@ -5,15 +5,19 @@ import { failed, success } from '../Utils/errorHandler';
 import { roleRepo } from '../Repositories/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
+import { ParentResponseDTO } from '../DTO/parentDTO';
+import { AddressResponseDTO } from '../DTO/addressDTO';
+import { LocationResponseDTO } from '../DTO/locationDTO';
+import * as locationRepo from '../Repositories/locationRepository';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
-    try {
-        const role = await roleRepo.findOneByID(3);
-        if (!role) {
-            return failed('role');
-        }
-        UserRequestDTO.roles = [];
-        UserRequestDTO.roles.push(role);
+  try {
+    const role = await roleRepo.findOneByID(3);
+    if (!role) {
+      return failed('role');
+    }
+    UserRequestDTO.roles = [];
+    UserRequestDTO.roles.push(role);
 
     const response = await userRepo.save(UserRequestDTO as User);
 
@@ -35,9 +39,33 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
       userRequestDTO.parent?.address.location?.locationId,
       userRequestDTO.parent?.address.city,
       userRequestDTO.parent?.address.zipcode,
-      userRequestDTO.parent?.address.address,
+      userRequestDTO.parent?.address.street,
     ]);
-    return success(userResponse);
+
+    const addressDTO: AddressResponseDTO = {
+      city: userResponse.city,
+      zipcode: userResponse.zipcode,
+      street: userResponse.address,
+      location: await locationRepo.locationRepo.findOneByID(userResponse.locationId) as LocationResponseDTO
+    };
+
+    const paretDTO: ParentResponseDTO = {
+      age: userResponse.age,
+      gender: userResponse.gender,
+      firstName: userResponse.firstName,
+      lastName: userResponse.lastName,
+      families: [],
+      address: addressDTO
+    };
+
+    const userDTO: UserResponseDTO = {
+      email: userResponse.email,
+      userActive: true,
+      roles: await roleRepo.findOneByID(3),
+      parent: paretDTO
+    };
+
+    return success(userDTO);
   } catch (err) {
     return failed(err);
   }

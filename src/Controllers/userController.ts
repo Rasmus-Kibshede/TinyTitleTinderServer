@@ -27,10 +27,10 @@ export const signUp = async (req: Request, res: Response) => {
 	const addressRequestDTO: AddressRequestDTO = {
 		city: req.body.city,
 		zipcode: req.body.zipcode,
-		address: req.body.address,
+		street: req.body.street,
 		location: locationRequestDTO
 	};
-	
+
 	const parentRequestDTO: ParentRequestDTO = {
 		age: req.body.age,
 		gender: req.body.gender,
