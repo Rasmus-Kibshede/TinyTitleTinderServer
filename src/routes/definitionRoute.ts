@@ -1,8 +1,8 @@
-import express from 'express';
+import { Router } from 'express';
 import * as definitionController from '../Controllers/definitionController';
 import { validateParamsId } from '../Utils/routeUtil';
 
-const definitionRoute = express.Router();
+const definitionRoute = Router();
 
 definitionRoute.post('/definitions', definitionController.createDefinition);
 definitionRoute.get('/definitions/:id', validateParamsId, definitionController.getDefinitionByID);
