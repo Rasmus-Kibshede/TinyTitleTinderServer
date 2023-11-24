@@ -31,8 +31,8 @@ export const getNamesByParentId = async (req: Request, res: Response) => {
   responseController.response(res, response, 200);
 };
 
-export const getNamesWithNoRelations = async (req: Request, res: Response) => {
-  const response = await nameService.getNamesWithNoRelations(Number(req.params.id));
+export const getParentlessNames = async (req: Request, res: Response) => {
+  const response = await nameService.getParentlessNames(Number(req.params.id));
   responseController.response(res, response, 200);
 };
 

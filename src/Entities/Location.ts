@@ -11,5 +11,5 @@ export class Location {
     country: string;
 
     @OneToMany(() => Address, (address) => address.location)
-    addresses: Address[];
+    streets: Address[];
 }

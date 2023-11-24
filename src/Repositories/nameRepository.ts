@@ -27,7 +27,7 @@ export const nameRepo = appDataSource.getRepository(Name).extend({
   findDislikedNamesByParentId(parentId: number) {
     return nameRepo.query('call GetDislikedNamesOriginsDefinitionsByParentId(?)', [parentId]);
   },
-  findNamesNoRelation(parentId: number){
+  findParentlessNames(parentId: number){
     return nameRepo.query('call GetNamesWithNoParentRelation(?)', [parentId]);
   }
 });

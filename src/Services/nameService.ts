@@ -57,9 +57,9 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
   }
 };
 
-export const getNamesWithNoRelations = async (parentId: number) => {
+export const getParentlessNames = async (parentId: number) => {
   try {
-  const response = await nameRepo.findNamesNoRelation(parentId);
+  const response = await nameRepo.findParentlessNames(parentId);
   const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
   return success(nameDTOs);
 } catch (err) {
