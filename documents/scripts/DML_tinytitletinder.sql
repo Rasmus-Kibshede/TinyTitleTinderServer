@@ -28,7 +28,7 @@ INSERT INTO location (country) VALUES
 ('Brazil'),
 ('China');
 
-INSERT INTO address (city, zipcode, address, fk_location_id) VALUES
+INSERT INTO address (city, zipcode, street, fk_location_id) VALUES
 ('New York', '10001', '123 Main St', 1),
 ('Mumbai', '400001', '456 Elm St', 2),
 ('Rio de Janeiro', '20000', '789 Oak St', 3),
