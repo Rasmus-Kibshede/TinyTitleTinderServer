@@ -24,6 +24,7 @@ export const validateCredintials = (req: Request, res: Response, next: NextFunct
         const password = req.body.password;
 
         if (validator.isEmail(newEmail) && validator.isStrongPassword(password)) {
+            
             next();
         }
     } catch (error) {

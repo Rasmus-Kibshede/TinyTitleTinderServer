@@ -63,13 +63,10 @@ export const getParentByEmailAndPassword = async (
   res: Response
 ) => {
   try {
-    const response = await userRepo.findOneByEmailAndPassword(
-      userLogin.email,
-      userLogin.password
-    );
+    const response = await userRepo.findOneByEmail(userLogin.email);
 
     if (!response) {
-      return failed('user');
+      return failed(new Error('Email or password is incorrect'));
     }
 
     const isPsswordCorrect = await comparePassword(
@@ -78,7 +75,7 @@ export const getParentByEmailAndPassword = async (
     );
 
     if (!isPsswordCorrect) {
-      return failed('user');
+      return failed(new Error('Email or password is incorrect'));
     }
 
     const user: UserResponseDTO = {
