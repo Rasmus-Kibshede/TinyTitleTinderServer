@@ -29,10 +29,10 @@ INSERT INTO name_suggest_meaning (fk_name_suggest_id, fk_meaning_id) VALUES
 (4, 1);
 
 INSERT INTO user (email, password, user_active, created_at, last_login) VALUES
-('user1@example.com', 'password1', 1, '2012-11-05 14:29:36', '2012-12-05 14:29:36'),
-('user2@example.com', 'password2', 1, '2016-11-05 14:29:36', '2016-12-05 14:29:36'),
-('user3@example.com', 'password3', 1, '2012-11-05 14:29:36', '2012-12-05 14:29:36'),
-('user4@example.com', 'password4', 1, '2019-11-05 14:29:36', '2019-12-05 14:29:36');
+('user1@example.com', '$2y$10$cSAxMlEISyqto2ZSwNaxrO..m54wrPyCencZ0Y73jqwy6aKpwPhc2', 1, '2012-11-05 14:29:36', '2012-12-05 14:29:36'),
+('user2@example.com', '$2y$10$cSAxMlEISyqto2ZSwNaxrO..m54wrPyCencZ0Y73jqwy6aKpwPhc2', 1, '2016-11-05 14:29:36', '2016-12-05 14:29:36'),
+('user3@example.com', '$2y$10$cSAxMlEISyqto2ZSwNaxrO..m54wrPyCencZ0Y73jqwy6aKpwPhc2', 1, '2012-11-05 14:29:36', '2012-12-05 14:29:36'),
+('user4@example.com', '$2y$10$cSAxMlEISyqto2ZSwNaxrO..m54wrPyCencZ0Y73jqwy6aKpwPhc2', 1, '2019-11-05 14:29:36', '2019-12-05 14:29:36');
 
 INSERT INTO user_role (fk_user_id, fk_role_id) VALUES
 (1, 1),
