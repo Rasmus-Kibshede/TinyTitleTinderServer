@@ -31,19 +31,18 @@ appDataSource
     // eslint-disable-next-line no-console
     console.log('Database connection established');
 
-	// Routes
-	app.use(cors());
-	app.use(userRouter);
-	app.use(authRouter);
-	app.use(nameRouter);
-	app.use(addressRoute);
-	app.use(roleRouter);
-	app.use(parentRouter);
-	app.use(originRouter);
-	app.use(locationRoute);
-	app.use(familyRoute);
-	app.use(meaningRoute);
-
+    // Routes
+    app.use(cors());
+    app.use(userRouter);
+    app.use(authRouter);
+    app.use(nameRouter);
+    app.use(addressRoute);
+    app.use(roleRouter);
+    app.use(parentRouter);
+    app.use(originRouter);
+    app.use(locationRoute);
+    app.use(familyRoute);
+    app.use(meaningRoute);
 
     // Take a port 8080 for running server.
     const PORT = process.env.PORT || 3000;
