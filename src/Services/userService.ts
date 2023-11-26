@@ -5,15 +5,16 @@ import { failed, success } from '../Utils/errorHandler';
 import { roleRepo } from '../Repositories/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
+import { comparePassword, hashPassword } from '../Utils/passwordUtil';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
-    try {
-        const role = await roleRepo.findOneByID(3);
-        if (!role) {
-            return failed('role');
-        }
-        UserRequestDTO.roles = [];
-        UserRequestDTO.roles.push(role);
+  try {
+    const role = await roleRepo.findOneByID(3);
+    if (!role) {
+      return failed('role');
+    }
+    UserRequestDTO.roles = [];
+    UserRequestDTO.roles.push(role);
 
     const response = await userRepo.save(UserRequestDTO as User);
 
@@ -25,9 +26,11 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
 
 export const signUp = async (userRequestDTO: UserRequestDTO) => {
   try {
+    const hashedPassword = await hashPassword(userRequestDTO.password);
+
     const userResponse = await userRepo.signUp([
       userRequestDTO.email,
-      userRequestDTO.password,
+      hashedPassword,
       userRequestDTO.parent?.age,
       userRequestDTO.parent?.gender,
       userRequestDTO.parent?.firstName,
@@ -66,6 +69,15 @@ export const getParentByEmailAndPassword = async (
     );
 
     if (!response) {
+      return failed('user');
+    }
+
+    const isPsswordCorrect = await comparePassword(
+      userLogin.password,
+      response.password
+    );
+
+    if (!isPsswordCorrect) {
       return failed('user');
     }
 
