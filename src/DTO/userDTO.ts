@@ -7,14 +7,14 @@ import { RoleRequestDTO, RoleResponseDTO } from './roleDTO';
 export interface UserResponseDTO {
 	email: string;
 	userActive: boolean;
-	roles: RoleResponseDTO[] | RoleResponseDTO | null;
+	roles: RoleResponseDTO[] | null;
 	parent?: ParentRequestDTO | null;
 }
 
 export interface UserRequestDTO {
 	email: string;
 	password: string;
-	roles: RoleRequestDTO[] | RoleRequestDTO | null;
+	roles: RoleRequestDTO[] | null;
 	parent?: ParentRequestDTO | null;
 }
 

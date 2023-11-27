@@ -112,11 +112,25 @@ export const getUsers = async () => {
 
 export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
   try {
-    const userDB = (await userRepo.findOneByEmail(email)) as User;
-    userDB.email = userDTO.email;
-    userDB.password = userDTO.password;
+    const response = await userRepo.findOneByEmail(email);
 
-    const savedUser = await userRepo.save(userDB);
+    if (!response) {
+      return failed(new Error('Email or password is incorrect'));
+    }
+
+    const isPsswordCorrect = await comparePassword(
+      userDTO.password,
+      response.password
+    );
+
+    if (!isPsswordCorrect) {
+      return failed(new Error('Email or password is incorrect'));
+    }
+
+    response.email = userDTO.email;
+    response.password = await hashPassword(userDTO.password);
+
+    const savedUser = await userRepo.save(response);
     if (!savedUser) {
       return failed('user');
     }
