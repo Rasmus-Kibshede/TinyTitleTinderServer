@@ -10,7 +10,6 @@ export const createName = async (req: Request, res: Response) => {
     nameDays: req.body.nameDays,
     namesakes: req.body.namesakes,
     origins: req.body.origins,
-    meanings: req.body.meanings,
   };
 
   const response = await nameService.createName(nameRequestDTO);
@@ -28,7 +27,12 @@ export const getAllNames = async (req: Request, res: Response) => {
 };
 
 export const getNamesByParentId = async (req: Request, res: Response) => {
-  const response = await nameService.getNamesByParentId(Number(req.params.id));
+  const response = await nameService.getNamesByParentId(Number(req.params.id), req.params.isliked);
+  responseController.response(res, response, 200);
+};
+
+export const getParentlessNames = async (req: Request, res: Response) => {
+  const response = await nameService.getParentlessNames(Number(req.params.id));
   responseController.response(res, response, 200);
 };
 
@@ -40,7 +44,6 @@ export const updateName = async (req: Request, res: Response) => {
     nameDays: req.body.nameDays,
     namesakes: req.body.namesakes,
     origins: req.body.origins,
-    meanings: req.body.meanings,
   };
 
   const response = await nameService.updateName(nameRequestDTO);

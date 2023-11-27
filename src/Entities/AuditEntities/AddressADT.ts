@@ -9,6 +9,6 @@ export class AddressADT extends Address implements AuditingEntityDefaultColumns 
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    @ManyToOne(() => LocationADT, (location) => location.addresses)
+    @ManyToOne(() => LocationADT, (location) => location.streets)
     location: LocationADT;
 }
