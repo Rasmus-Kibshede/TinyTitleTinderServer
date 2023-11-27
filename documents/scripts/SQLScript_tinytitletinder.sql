@@ -41,7 +41,6 @@ BEGIN
 
     -- Relation: address with location
     update address SET fk_location_id = p_location_id where address_id = p_address_id;
-    SELECT * from user where user_id = p_user_id;
 END //
 
 DELIMITER ;
