@@ -14,7 +14,7 @@ import authRouter from './routes/authRoute';
 import originRouter from './routes/originRoute';
 import locationRoute from './routes/locationRoute';
 import familyRoute from './routes/familyRoute';
-import meaningRoute from './routes/meaningRoute';
+import definitionRoute from './routes/definitionRoute';
 import cors from 'cors';
 import cookiePaser from 'cookie-parser';
 
@@ -42,7 +42,8 @@ appDataSource
     app.use(originRouter);
     app.use(locationRoute);
     app.use(familyRoute);
-    app.use(meaningRoute);
+    app.use(definitionRoute);
+
 
     // Take a port 8080 for running server.
     const PORT = process.env.PORT || 3000;

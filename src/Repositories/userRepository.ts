@@ -15,16 +15,6 @@ export const userRepo = appDataSource.getRepository(User).extend({
       },
     });
   },
-  // findOneByEmail(email: string) {
-  //   return userRepo.findOne({
-  //     relations: {
-  //       roles: true,
-  //     },
-  //     where: {
-  //       email: email,
-  //     },
-  //   });
-  // },
   findOneByEmail(email: string) {
     return userRepo.findOne({
       where: {

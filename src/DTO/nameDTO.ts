@@ -1,4 +1,3 @@
-import { MeaningRequestDTO, MeaningResponseDTO } from './meaningDTO';
 import { OriginRequestDTO, OriginResponseDTO } from './originDTO';
 
 export interface NameResponseDTO {
@@ -9,7 +8,6 @@ export interface NameResponseDTO {
   namesakes: string;
   popularity: number;
   origins: OriginResponseDTO[] | null;
-  meanings?: MeaningResponseDTO[] | null;
 }
 
 export interface NameRequestDTO {
@@ -19,5 +17,4 @@ export interface NameRequestDTO {
   nameDays: string;
   namesakes: string;
   origins: OriginRequestDTO[] | null;
-  meanings?: MeaningRequestDTO[] | null;
 }
