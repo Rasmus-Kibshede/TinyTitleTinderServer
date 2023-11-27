@@ -5,22 +5,15 @@
 The app defines following CRUD APIs.
 
 <summary>The app defines following CRUD EndPoints.</summary>
-<<<<<<< HEAD
-| Method | Url                   | Description             |
-=======
 
 ### User
 | Method | Url                   | Description             | 
->>>>>>> a7ad1d91ab02536e1b2c8f2fb8779209ed2f63b9
 |--------|-----------------------|-------------------------|
 | POST   | /users                | Create a user           |
 | GET    | /users/:id            | Get a user by ID        |
 | GET    | /users                | Get all users           |
 | PUT    | /users                | Edit a user by Id       |
-<<<<<<< HEAD
 | PUT    | /users/:id            | Delete a user by Id     |
-=======
-| DELETE | /users/:id            | Delete a user by Id     |
 
 >>>>>>> a7ad1d91ab02536e1b2c8f2fb8779209ed2f63b9
 
