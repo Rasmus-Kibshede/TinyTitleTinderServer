@@ -6,7 +6,6 @@ export const nameRepo = appDataSource.getRepository(Name).extend({
     return nameRepo.findOne({
       relations: {
         origins: true,
-        meanings: true,
         parents: true,
       },
       where: {
@@ -18,12 +17,17 @@ export const nameRepo = appDataSource.getRepository(Name).extend({
     return nameRepo.find({
       relations: {
         origins: true,
-        meanings: true,
         parents: true,
       }
     });
   },
   findNamesByParentId(parentId: number) {
-    return nameRepo.query('call GetNamesOriginsMeaningsByParentId(1)', [parentId]);
+    return nameRepo.query('call GetNamesOriginsDefinitionsByParentId(?)', [parentId]);
+  },
+  findDislikedNamesByParentId(parentId: number) {
+    return nameRepo.query('call GetDislikedNamesOriginsDefinitionsByParentId(?)', [parentId]);
+  },
+  findParentlessNames(parentId: number){
+    return nameRepo.query('call GetNamesWithNoParentRelation(?)', [parentId]);
   }
 });

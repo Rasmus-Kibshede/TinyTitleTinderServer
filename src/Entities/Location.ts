@@ -3,6 +3,7 @@ import { Address } from './Address';
 
 @Entity()
 export class Location {
+    
     @PrimaryGeneratedColumn({ name: 'location_id' })
     locationId: number;
 
@@ -10,5 +11,5 @@ export class Location {
     country: string;
 
     @OneToMany(() => Address, (address) => address.location)
-    addresses: Address[];
+    streets: Address[];
 }

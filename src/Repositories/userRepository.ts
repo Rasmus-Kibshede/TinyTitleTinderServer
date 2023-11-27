@@ -17,19 +17,8 @@ export const userRepo = appDataSource.getRepository(User).extend({
   },
   findOneByEmail(email: string) {
     return userRepo.findOne({
-      relations: {
-        roles: true,
-      },
       where: {
         email: email,
-      },
-    });
-  },
-  findOneByEmailAndPassword(email: string, password: string) {
-    return userRepo.findOne({
-      where: {
-        email: email,
-        password: password,
       },
       relations: {
         parent: true,

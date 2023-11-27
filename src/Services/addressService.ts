@@ -62,7 +62,7 @@ export const convertToDTO = (address: Address) => {
         addressId: address.addressId,
         city: address.city,
         zipcode: address.zipcode,
-        address: address.address,
+        street: address.street,
         location: address.location
     };
     return dto;

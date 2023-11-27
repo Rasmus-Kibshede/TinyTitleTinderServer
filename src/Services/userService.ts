@@ -5,15 +5,16 @@ import { failed, success } from '../Utils/errorHandler';
 import { roleRepo } from '../Repositories/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
+import { comparePassword, hashPassword } from '../Utils/passwordUtil';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
-    try {
-        const role = await roleRepo.findOneByID(3);
-        if (!role) {
-            return failed('role');
-        }
-        UserRequestDTO.roles = [];
-        UserRequestDTO.roles.push(role);
+  try {
+    const role = await roleRepo.findOneByID(3);
+    if (!role) {
+      return failed('role');
+    }
+    UserRequestDTO.roles = [];
+    UserRequestDTO.roles.push(role);
 
     const response = await userRepo.save(UserRequestDTO as User);
 
@@ -25,9 +26,11 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
 
 export const signUp = async (userRequestDTO: UserRequestDTO) => {
   try {
-    const userResponse = await userRepo.signUp([
+    const hashedPassword = await hashPassword(userRequestDTO.password);
+
+    await userRepo.signUp([
       userRequestDTO.email,
-      userRequestDTO.password,
+      hashedPassword,
       userRequestDTO.parent?.age,
       userRequestDTO.parent?.gender,
       userRequestDTO.parent?.firstName,
@@ -35,9 +38,10 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
       userRequestDTO.parent?.address.location?.locationId,
       userRequestDTO.parent?.address.city,
       userRequestDTO.parent?.address.zipcode,
-      userRequestDTO.parent?.address.address,
+      userRequestDTO.parent?.address.street,
     ]);
-    return success(userResponse);
+
+    return success('User created');
   } catch (err) {
     return failed(err);
   }
@@ -60,13 +64,19 @@ export const getParentByEmailAndPassword = async (
   res: Response
 ) => {
   try {
-    const response = await userRepo.findOneByEmailAndPassword(
-      userLogin.email,
-      userLogin.password
-    );
+    const response = await userRepo.findOneByEmail(userLogin.email);
 
     if (!response) {
-      return failed('user');
+      return failed(new Error('Email or password is incorrect'));
+    }
+
+    const isPsswordCorrect = await comparePassword(
+      userLogin.password,
+      response.password
+    );
+
+    if (!isPsswordCorrect) {
+      return failed(new Error('Email or password is incorrect'));
     }
 
     const user: UserResponseDTO = {
@@ -103,11 +113,25 @@ export const getUsers = async () => {
 
 export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
   try {
-    const userDB = (await userRepo.findOneByEmail(email)) as User;
-    userDB.email = userDTO.email;
-    userDB.password = userDTO.password;
+    const response = await userRepo.findOneByEmail(email);
 
-    const savedUser = await userRepo.save(userDB);
+    if (!response) {
+      return failed(new Error('Email or password is incorrect'));
+    }
+
+    const isPsswordCorrect = await comparePassword(
+      userDTO.password,
+      response.password
+    );
+
+    if (!isPsswordCorrect) {
+      return failed(new Error('Email or password is incorrect'));
+    }
+
+    response.email = userDTO.email;
+    response.password = await hashPassword(userDTO.password);
+
+    const savedUser = await userRepo.save(response);
     if (!savedUser) {
       return failed('user');
     }

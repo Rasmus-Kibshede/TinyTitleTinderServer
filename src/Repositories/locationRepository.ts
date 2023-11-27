@@ -5,7 +5,7 @@ export const locationRepo = appDataSource.getRepository(Location).extend({
     findOneByID(id: number){
         return locationRepo.findOne({
             relations: {
-                addresses: true
+                streets: true
             },
             where: {
                 locationId: id
@@ -15,7 +15,7 @@ export const locationRepo = appDataSource.getRepository(Location).extend({
     findAll() {
         return locationRepo.find({
             relations: {
-                addresses: true
+                streets: true
             },
         });
     }    

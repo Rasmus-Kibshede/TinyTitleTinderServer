@@ -7,7 +7,8 @@ export const createOrigin = async (req: Request, res: Response) => {
     const originRequestDTO: OriginRequestDTO = {
         region: req.body.region,
         religion: req.body.religion,
-        description: req.body.description
+        description: req.body.description,
+        definition: req.body.definition
     };
 
     const response = await originService.createOrigin(originRequestDTO);
@@ -29,7 +30,8 @@ export const updateOrigin = async (req: Request, res: Response) => {
         originId: req.body.originId,
         region: req.body.region,
         religion: req.body.religion,
-        description: req.body.description
+        description: req.body.description,
+        definition: req.body.definition
     };
     const response = await originService.updateOrigin(originRequestDTO);
     responseController.response(res, response, 200);

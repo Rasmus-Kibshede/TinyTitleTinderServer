@@ -1,5 +1,5 @@
 use tiny_title_tinder_database;
-
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
 DELIMITER //
 drop procedure if exists CreateUserWithRoleAndLocation;
 CREATE PROCEDURE CreateUserWithRoleAndLocation(
@@ -19,81 +19,235 @@ BEGIN
     DECLARE p_parent_id INT;
     DECLARE p_address_id INT;
 
-    -- Create the user
+    -- Create user
     INSERT INTO user (email, password) VALUES (p_email, p_password);
     SELECT LAST_INSERT_ID() INTO p_user_id;
 
     insert into user_role (fk_user_id, fk_role_id) values (p_user_id, 3);
 
-    -- Create the parent
+    -- Create parent
     INSERT INTO parent (age, gender, first_name, last_name) VALUES (p_age, p_gender, p_first_name, p_last_name);
     SELECT LAST_INSERT_ID() INTO p_parent_id;
 
-    -- Associate user with parent
-    UPDATE user SET parentParentId = p_parent_id WHERE user_id = p_user_id;
+    -- Relation: user with parent
+    UPDATE user SET fk_parent_id = p_parent_id WHERE user_id = p_user_id;
 
-    -- Create the address
-    INSERT INTO address (city, zipcode, address, locationLocationId) VALUES (p_city, p_zipcode, p_address, p_location_id);
+    -- Create address
+    INSERT INTO address (city, zipcode, street, fk_location_id) VALUES (p_city, p_zipcode, p_address, p_location_id);
     SELECT LAST_INSERT_ID() INTO p_address_id;
 
-    -- Associate location with parent
-    update parent SET addressAddressId = p_address_id where parent_id = p_parent_id;
+    -- Relation: location with parent
+    update parent SET fk_address_id = p_address_id where parent_id = p_parent_id;
 
-    -- Associate address with location
-    update address SET locationLocationId = p_location_id where address_id = p_address_id;
-    SELECT * from user where user_id = p_user_id;
+    -- Relation: address with location
+    update address SET fk_location_id = p_location_id where address_id = p_address_id;
 END //
 
 DELIMITER ;
-
-
-/*Denne får kun et navn ud, men concatter origin og meaning så der nu står india, china. I stedet
-for at navnet kommer ud flere gange.*/
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
 DELIMITER //
-drop procedure if exists getNamesByParentId;
-CREATE PROCEDURE getNamesByParentId(
-  IN parentId INT
-)
+DROP PROCEDURE IF EXISTS GetDislikedNamesOriginsDefinitionsByParentId;
+CREATE PROCEDURE GetDislikedNamesOriginsDefinitionsByParentId(IN parentId INT)
 BEGIN
+  -- Names: stored in temporary table
+  CREATE TEMPORARY TABLE TempNames AS
+    SELECT
+      ns.name_suggest_id,
+      ns.name_suggest_name,
+      ns.gender,
+      ns.popularity,
+      ns.name_days,
+      ns.namesakes
+    FROM
+      parent_name_suggest_dislike pns
+    JOIN
+      name_suggest ns ON ns.name_suggest_id = pns.fk_name_suggest_id
+    WHERE
+      pns.fk_parent_id = parentId;
+
+  -- Origins: stored in temporary table
+  CREATE TEMPORARY TABLE TempOrigins AS
+    SELECT
+      o.origin_id,
+      o.region,
+      o.religion,
+      o.description,
+      d.definition_id,
+      d.meaning,
+      nso.fk_name_suggest_id
+    FROM
+      name_suggest_origin nso
+    JOIN
+      origin o ON nso.fk_origin_id = o.origin_id
+    JOIN
+      definition d ON o.fk_definition_id = d.definition_id
+    WHERE
+      nso.fk_name_suggest_id IN (SELECT parent_name_suggest_dislike.fk_name_suggest_id FROM parent_name_suggest_dislike WHERE fk_parent_id = parentId);
+
+  -- Retrieve data from temporary tables
+  SELECT  * FROM TempNames;
+  SELECT  * FROM TempOrigins;
+
+  -- Drop temporary tables
+  DROP TEMPORARY TABLE IF EXISTS TempNames;
+  DROP TEMPORARY TABLE IF EXISTS TempOrigins;
+END //
+DELIMITER ;
+
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
+DELIMITER //
+DROP PROCEDURE IF EXISTS GetNamesOriginsDefinitionsByParentId;
+CREATE PROCEDURE GetNamesOriginsDefinitionsByParentId(IN parentId INT)
+BEGIN
+  -- Names: stored in temporary table
+  CREATE TEMPORARY TABLE TempNames AS
+    SELECT
+      ns.name_suggest_id,
+      ns.name_suggest_name,
+      ns.gender,
+      ns.popularity,
+      ns.name_days,
+      ns.namesakes
+    FROM
+      parent_name_suggest pns
+    JOIN
+      name_suggest ns ON ns.name_suggest_id = pns.fk_name_suggest_id
+    WHERE
+      pns.fk_parent_id = parentId;
+
+  -- Origins: stored in temporary table
+  CREATE TEMPORARY TABLE TempOrigins AS
+    SELECT
+      o.origin_id,
+      o.region,
+      o.religion,
+      o.description,
+      d.definition_id,
+      d.meaning,
+      nso.fk_name_suggest_id
+    FROM
+      name_suggest_origin nso
+    JOIN
+      origin o ON nso.fk_origin_id = o.origin_id
+    JOIN
+      definition d ON o.fk_definition_id = d.definition_id
+    WHERE
+      nso.fk_name_suggest_id IN (SELECT parent_name_suggest.fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId);
+
+  -- Retrieve data from temporary tables
+  SELECT  * FROM TempNames;
+  SELECT  * FROM TempOrigins;
+
+  -- Drop temporary tables
+  DROP TEMPORARY TABLE IF EXISTS TempNames;
+  DROP TEMPORARY TABLE IF EXISTS TempOrigins;
+END //
+DELIMITER ;
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS GetAllNamesLikedByFamily;
+CREATE PROCEDURE GetAllNamesLikedByFamily(IN familyId INT)
+BEGIN
+  -- Names: stored in temporary table
+  CREATE TEMPORARY TABLE TempNames AS
+    SELECT
+      ns.name_suggest_id,
+      ns.name_suggest_name,
+      ns.gender,
+      ns.popularity,
+      ns.name_days,
+      ns.namesakes
+    FROM
+      parent_name_suggest pnl
+    JOIN
+      parent p ON pnl.fk_parent_id = p.parent_id
+    JOIN
+      name_suggest ns ON pnl.fk_name_suggest_id = ns.name_suggest_id
+    WHERE
+      pnl.fk_parent_id = familyId;
+
+  -- Origins: stored in temporary table
+CREATE TEMPORARY TABLE TempOrigins AS
   SELECT
-    ns.name_suggest_id,
-    ns.name_suggest_name,
-    ns.gender,
-    ns.popularity,
-    ns.namesakes,
-    GROUP_CONCAT(DISTINCT o.region) AS origins,
-    GROUP_CONCAT(DISTINCT m.definition) AS meanings
+    o.origin_id,
+    o.region,
+    o.religion,
+    o.description,
+    d.definition_id,
+    d.meaning,
+    nso.fk_name_suggest_id
   FROM
-    parent_name_suggest pns
-  JOIN name_suggest ns ON ns.name_suggest_id = pns.fk_name_suggest_id
-  LEFT JOIN name_suggest_origin nso ON ns.name_suggest_id = nso.fk_name_suggest_id
-  LEFT JOIN origin o ON o.origin_id = nso.fk_origin_id
-  LEFT JOIN name_suggest_meaning nsm ON ns.name_suggest_id = nsm.fk_name_suggest_id
-  LEFT JOIN meaning m ON m.meaning_id = nsm.fk_meaning_id
-  WHERE
-    pns.fk_parent_id = parentId
-  GROUP BY
-    ns.name_suggest_id, ns.name_suggest_name, ns.gender, ns.popularity, ns.namesakes;
-END //
+    name_suggest_origin nso
+  JOIN
+    origin o ON nso.fk_origin_id = o.origin_id
+  JOIN
+    definition d ON o.fk_definition_id = d.definition_id
+  JOIN
+    TempNames tn ON nso.fk_name_suggest_id = tn.name_suggest_id;
 
+
+  -- Retrieve data from temporary tables
+  SELECT  * FROM TempNames;
+  SELECT  * FROM TempOrigins;
+
+  -- Drop temporary tables
+  DROP TEMPORARY TABLE IF EXISTS TempNames;
+  DROP TEMPORARY TABLE IF EXISTS TempOrigins;
+END //
 DELIMITER ;
 
-/* Uden concat, får flere af de samme navne ud. 
+/*---------------------END PRODUCT-----------------------------------------------------------------------------------*/
+
 DELIMITER //
-drop procedure if exists getNamesByParentId;
-CREATE PROCEDURE getNamesByParentId(
-IN parentId int
-)
+DROP PROCEDURE IF EXISTS GetNamesWithNoParentRelation;
+CREATE PROCEDURE GetNamesWithNoParentRelation(IN parentId INT)
 BEGIN
+  -- Names with no relations
+  CREATE TEMPORARY TABLE TempNames AS
+    SELECT
+      ns.name_suggest_id,
+      ns.name_suggest_name,
+      ns.gender,
+      ns.popularity,
+      ns.name_days,
+      ns.namesakes
+    FROM
+      name_suggest ns
+    WHERE
+      ns.name_suggest_id NOT IN (
+        SELECT fk_name_suggest_id FROM parent_name_suggest WHERE fk_parent_id = parentId
+        UNION
+        SELECT fk_name_suggest_id FROM parent_name_suggest_dislike WHERE fk_parent_id = parentId
+      );
 
-SELECT ns.*, o.*, m.*
-FROM parent_name_suggest pns
-JOIN name_suggest ns ON ns.name_suggest_id = pns.fk_name_suggest_id
-JOIN name_suggest_origin nso ON ns.name_suggest_id = nso.fk_name_suggest_id
-JOIN origin o ON o.origin_id = nso.fk_origin_id
-JOIN name_suggest_meaning nsm ON ns.name_suggest_id = nsm.fk_name_suggest_id
-JOIN meaning m ON m.meaning_id = nsm.fk_meaning_id
-WHERE pns.fk_parent_id = parentId;
+  -- Origins and meaning related to name.
+  CREATE TEMPORARY TABLE TempOriginsDefinitions AS
+    SELECT
+      o.origin_id,
+      o.region,
+      o.religion,
+      o.description,
+      d.definition_id,
+      d.meaning,
+      nso.fk_name_suggest_id
+    FROM
+      name_suggest_origin nso
+    JOIN
+      origin o ON nso.fk_origin_id = o.origin_id
+    JOIN
+      definition d ON o.fk_definition_id = d.definition_id
+    WHERE
+      nso.fk_name_suggest_id IN (SELECT name_suggest_id FROM TempNames);
+
+  -- Results
+  SELECT * FROM TempNames;
+  SELECT * FROM TempOriginsDefinitions;
+
+  DROP TEMPORARY TABLE IF EXISTS TempNames;
+  DROP TEMPORARY TABLE IF EXISTS TempOriginsDefinitions;
 END //
+DELIMITER ;
 
-DELIMITER ;*/
+
+call GetNamesWithNoParentRelation(1)
