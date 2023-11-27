@@ -15,8 +15,6 @@ The app defines following CRUD APIs.
 | PUT    | /users                | Edit a user by Id       |
 | PUT    | /users/:id            | Delete a user by Id     |
 
->>>>>>> a7ad1d91ab02536e1b2c8f2fb8779209ed2f63b9
-
 ### Parent
 | Method | Url                   | Description             | 
 |--------|-----------------------|-------------------------|
