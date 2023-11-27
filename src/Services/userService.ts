@@ -6,6 +6,10 @@ import { roleRepo } from '../Repositories/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
 import { comparePassword, hashPassword } from '../Utils/passwordUtil';
+import { parentRepo } from '../Repositories/parentRepository';
+import { ParentResponseDTO } from '../DTO/parentDTO';
+import { addressRepo } from '../Repositories/addressRepository';
+import { AddressResponseDTO } from '../DTO/addressDTO';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
@@ -78,8 +82,8 @@ export const getParentByEmailAndPassword = async (
     if (!isPsswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
     }
-
-    const user: UserResponseDTO = {
+//Rasmus gamle. 
+   /* const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
       parent: {
@@ -91,11 +95,22 @@ export const getParentByEmailAndPassword = async (
         address: response.parent.address,
       },
       userActive: true,
+    };*/ 
+
+    const user: UserResponseDTO = {
+      email: response.email,
+      roles: response.roles,
+      //God kodestil...
+      parent: await parentRepo.findOneByID(response.parent.parentId) as unknown as ParentResponseDTO,
+      userActive: false
     };
+
+    //God kodestil...
+  user.parent!.address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as unknown as AddressResponseDTO;  
 
     const token = await authService.login(response, res);
 
-    return success({ user, token });
+    return success({ user: user, token });
   } catch (err) {
     return failed(err);
   }
@@ -161,7 +176,7 @@ export const convertToDTO = (user: User) => {
     email: user.email,
     userActive: user.userActive,
     roles: user.roles,
-    parent: user.parent,
+    parent: user.parent as ParentResponseDTO,
   };
 
   return dto;
