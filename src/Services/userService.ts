@@ -5,10 +5,7 @@ import { failed, success } from '../Utils/errorHandler';
 import { roleRepo } from '../Repositories/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
-import { ParentResponseDTO } from '../DTO/parentDTO';
-import { AddressResponseDTO } from '../DTO/addressDTO';
-import { LocationResponseDTO } from '../DTO/locationDTO';
-import * as locationRepo from '../Repositories/locationRepository';
+
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
