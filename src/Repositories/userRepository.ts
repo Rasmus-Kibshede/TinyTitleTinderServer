@@ -36,6 +36,16 @@ export const userRepo = appDataSource.getRepository(User).extend({
       },
     });
   },
+  updateLastLogin(email: string) {
+    return userRepo.update(
+      {
+        email: email,
+      },
+      {
+        lastLogin: new Date(),
+      }
+    );
+  },
   findAll() {
     return userRepo.find({
       relations: {

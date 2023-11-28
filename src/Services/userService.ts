@@ -97,6 +97,8 @@ export const getParentByEmailAndPassword = async (
       return failed('user');
     }
 
+    await userRepo.updateLastLogin(response.email);
+
     const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
