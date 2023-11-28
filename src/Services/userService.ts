@@ -5,10 +5,11 @@ import { failed, success } from '../Utils/errorHandler';
 import { roleRepo } from '../Repositories/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
+import { comparePassword, hashPassword } from '../Utils/passwordUtil';
+import { parentRepo } from '../Repositories/parentRepository';
 import { ParentResponseDTO } from '../DTO/parentDTO';
+import { addressRepo } from '../Repositories/addressRepository';
 import { AddressResponseDTO } from '../DTO/addressDTO';
-import { LocationResponseDTO } from '../DTO/locationDTO';
-import * as locationRepo from '../Repositories/locationRepository';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
@@ -29,9 +30,11 @@ export const createUser = async (UserRequestDTO: UserRequestDTO) => {
 
 export const signUp = async (userRequestDTO: UserRequestDTO) => {
   try {
-    const userResponse = await userRepo.signUp([
+    const hashedPassword = await hashPassword(userRequestDTO.password);
+
+    await userRepo.signUp([
       userRequestDTO.email,
-      userRequestDTO.password,
+      hashedPassword,
       userRequestDTO.parent?.age,
       userRequestDTO.parent?.gender,
       userRequestDTO.parent?.firstName,
@@ -42,30 +45,7 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
       userRequestDTO.parent?.address.street,
     ]);
 
-    const addressDTO: AddressResponseDTO = {
-      city: userResponse.city,
-      zipcode: userResponse.zipcode,
-      street: userResponse.address,
-      location: await locationRepo.locationRepo.findOneByID(userResponse.locationId) as LocationResponseDTO
-    };
-
-    const paretDTO: ParentResponseDTO = {
-      age: userResponse.age,
-      gender: userResponse.gender,
-      firstName: userResponse.firstName,
-      lastName: userResponse.lastName,
-      families: [],
-      address: addressDTO
-    };
-
-    const userDTO: UserResponseDTO = {
-      email: userResponse.email,
-      userActive: true,
-      roles: await roleRepo.findOneByID(3),
-      parent: paretDTO
-    };
-
-    return success(userDTO);
+    return success('User created');
   } catch (err) {
     return failed(err);
   }
@@ -88,13 +68,19 @@ export const getParentByEmailAndPassword = async (
   res: Response
 ) => {
   try {
-    const response = await userRepo.findOneByEmailAndPassword(
-      userLogin.email,
-      userLogin.password
-    );
+    const response = await userRepo.findOneByEmail(userLogin.email);
 
     if (!response) {
-      return failed('user');
+      return failed(new Error('Email or password is incorrect'));
+    }
+
+    const isPsswordCorrect = await comparePassword(
+      userLogin.password,
+      response.password
+    );
+
+    if (!isPsswordCorrect) {
+      return failed(new Error('Email or password is incorrect'));
     }
 
     await userRepo.updateLastLogin(response.email);
@@ -102,20 +88,17 @@ export const getParentByEmailAndPassword = async (
     const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
-      parent: {
-        firstName: response.parent.firstName,
-        lastName: response.parent.lastName,
-        age: response.parent.age,
-        gender: response.parent.gender,
-        parentId: response.parent.parentId,
-        address: response.parent.address,
-      },
-      userActive: true,
+      //God kodestil...
+      parent: await parentRepo.findOneByID(response.parent.parentId) as unknown as ParentResponseDTO,
+      userActive: false
     };
+
+    //God kodestil...
+  user.parent!.address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as unknown as AddressResponseDTO;  
 
     const token = await authService.login(response, res);
 
-    return success({ user, token });
+    return success({ user: user, token });
   } catch (err) {
     return failed(err);
   }
@@ -133,11 +116,25 @@ export const getUsers = async () => {
 
 export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
   try {
-    const userDB = (await userRepo.findOneByEmail(email)) as User;
-    userDB.email = userDTO.email;
-    userDB.password = userDTO.password;
+    const response = await userRepo.findOneByEmail(email);
 
-    const savedUser = await userRepo.save(userDB);
+    if (!response) {
+      return failed(new Error('Email or password is incorrect'));
+    }
+
+    const isPsswordCorrect = await comparePassword(
+      userDTO.password,
+      response.password
+    );
+
+    if (!isPsswordCorrect) {
+      return failed(new Error('Email or password is incorrect'));
+    }
+
+    response.email = userDTO.email;
+    response.password = await hashPassword(userDTO.password);
+
+    const savedUser = await userRepo.save(response);
     if (!savedUser) {
       return failed('user');
     }
@@ -167,7 +164,7 @@ export const convertToDTO = (user: User) => {
     email: user.email,
     userActive: user.userActive,
     roles: user.roles,
-    parent: user.parent,
+    parent: user.parent as ParentResponseDTO,
   };
 
   return dto;
