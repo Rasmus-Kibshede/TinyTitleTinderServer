@@ -85,16 +85,24 @@ export const getParentByEmailAndPassword = async (
 
     await userRepo.updateLastLogin(response.email);
 
+    const parent = await parentRepo.findOneByID(response.parent.parentId) as ParentResponseDTO;
+    if (!parent) {
+      return failed(new Error('No Parent'));
+    }
+
     const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
-      //God kodestil...
-      parent: await parentRepo.findOneByID(response.parent.parentId) as unknown as ParentResponseDTO,
+      parent: parent,
       userActive: false
     };
 
-    //God kodestil...
-  user.parent!.address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as unknown as AddressResponseDTO;  
+    const address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as unknown as AddressResponseDTO;
+    if (!address) {
+      return failed(new Error('No Address'));
+    }
+
+    user.parent!.address = address;
 
     const token = await authService.login(response, res);
 
