@@ -1,4 +1,4 @@
-import { ParentRequestDTO } from './parentDTO';
+import { ParentRequestDTO, ParentResponseDTO } from './parentDTO';
 import { RoleRequestDTO, RoleResponseDTO } from './roleDTO';
 
 
@@ -8,7 +8,7 @@ export interface UserResponseDTO {
 	email: string;
 	userActive: boolean;
 	roles: RoleResponseDTO[] | RoleResponseDTO | null;
-	parent?: ParentRequestDTO | null;
+	parent?: ParentResponseDTO | null;
 }
 
 export interface UserRequestDTO {

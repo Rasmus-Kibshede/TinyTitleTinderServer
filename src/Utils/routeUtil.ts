@@ -34,7 +34,7 @@ export const validateCredintials = (req: Request, res: Response, next: NextFunct
 
 export const validateNewMail = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const newEmail = req.body.newEmail;
+        const newEmail = req.body.email;
 
         if (validator.isEmail(newEmail)) {
             next();

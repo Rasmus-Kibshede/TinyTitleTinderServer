@@ -6,6 +6,10 @@ import { roleRepo } from '../Repositories/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
 import { comparePassword, hashPassword } from '../Utils/passwordUtil';
+import { parentRepo } from '../Repositories/parentRepository';
+import { ParentResponseDTO } from '../DTO/parentDTO';
+import { addressRepo } from '../Repositories/addressRepository';
+import { AddressResponseDTO } from '../DTO/addressDTO';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
@@ -79,23 +83,30 @@ export const getParentByEmailAndPassword = async (
       return failed(new Error('Email or password is incorrect'));
     }
 
+    await userRepo.updateLastLogin(response.email);
+
+    const parent = await parentRepo.findOneByID(response.parent.parentId) as ParentResponseDTO;
+    if (!parent) {
+      return failed(new Error('No Parent'));
+    }
+
     const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
-      parent: {
-        firstName: response.parent.firstName,
-        lastName: response.parent.lastName,
-        age: response.parent.age,
-        gender: response.parent.gender,
-        parentId: response.parent.parentId,
-        address: response.parent.address,
-      },
-      userActive: true,
+      parent: parent,
+      userActive: false
     };
+
+    const address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as AddressResponseDTO;
+    if (!address) {
+      return failed(new Error('No Address'));
+    }
+
+    user.parent!.address = address;
 
     const token = await authService.login(response, res);
 
-    return success({ user, token });
+    return success({ user: user, token });
   } catch (err) {
     return failed(err);
   }
@@ -161,7 +172,7 @@ export const convertToDTO = (user: User) => {
     email: user.email,
     userActive: user.userActive,
     roles: user.roles,
-    parent: user.parent,
+    parent: user.parent as ParentResponseDTO,
   };
 
   return dto;
