@@ -97,7 +97,7 @@ export const getParentByEmailAndPassword = async (
       userActive: false
     };
 
-    const address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as unknown as AddressResponseDTO;
+    const address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as AddressResponseDTO;
     if (!address) {
       return failed(new Error('No Address'));
     }
