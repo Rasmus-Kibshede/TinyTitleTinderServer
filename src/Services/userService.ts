@@ -82,21 +82,7 @@ export const getParentByEmailAndPassword = async (
     if (!isPsswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
     }
-//Rasmus gamle. 
-   /* const user: UserResponseDTO = {
-      email: response.email,
-      roles: response.roles,
-      parent: {
-        firstName: response.parent.firstName,
-        lastName: response.parent.lastName,
-        age: response.parent.age,
-        gender: response.parent.gender,
-        parentId: response.parent.parentId,
-        address: response.parent.address,
-      },
-      userActive: true,
-    };*/ 
-
+    
     const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
