@@ -1,10 +1,7 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Origin } from '../Origin';
-import { ManyToMany, JoinColumn, OneToOne } from 'typeorm';
-import { NameADT } from './NameADT';
-import { DefinitionADT } from './DefinitionADT';
+import { BeforeInsert } from 'typeorm';
+import { appDataSource } from '../../Repositories/data-source';
 
 @AuditingEntity(Origin, { name: 'adt_origin' })
 export class OriginADT extends Origin implements AuditingEntityDefaultColumns {
@@ -12,11 +9,11 @@ export class OriginADT extends Origin implements AuditingEntityDefaultColumns {
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    // @ManyToMany(() => NameADT, (name) => name.origins)
-    // @JoinColumn()
-    // names: NameADT[];
-
-    // @OneToOne(() => DefinitionADT)
-    // definition: DefinitionADT;
-
+    @BeforeInsert()
+    dropFkParentId() {
+        const queryRunner = appDataSource.createQueryRunner();
+        queryRunner.query('ALTER TABLE adt_origin DROP COLUMN fk_definition_id;');
+        queryRunner.query('ALTER TABLE adt_origin ADD COLUMN fk_definition_id INT NULL;');
+        queryRunner.release();
+    }
 }

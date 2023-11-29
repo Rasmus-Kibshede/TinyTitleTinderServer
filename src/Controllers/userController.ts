@@ -59,7 +59,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 	responseController.response(res, response, 200);
 };
 
-//TODO Denne kan ikke tage imod rolle uden at opdatere email, crasher appen.
+//TODO: Denne kan ikke tage imod rolle uden at opdatere email, crasher appen.
 export const updateUser = async (req: Request, res: Response) => {
 	const userRequestDTO: UserRequestDTO = {
 		email: req.body.newEmail,

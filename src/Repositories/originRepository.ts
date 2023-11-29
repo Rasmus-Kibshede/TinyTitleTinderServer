@@ -6,10 +6,17 @@ export const originRepo = appDataSource.getRepository(Origin).extend({
         return originRepo.findOne({
             where: {
                 originId: id
+            },
+            relations: {
+                definition: true
             }
         });
     },
     findAll() {
-        return originRepo.find();
+        return originRepo.find({
+            relations: {
+                definition: true
+            }
+        });
     }
 });

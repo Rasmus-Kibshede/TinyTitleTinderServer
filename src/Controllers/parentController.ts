@@ -4,23 +4,13 @@ import * as responseController from '../Controllers/responseController';
 import { ParentRequestDTO } from '../DTO/parentDTO';
 
 export const createParent = async (req: Request, res: Response) => {
-    let parentRequestDTO: ParentRequestDTO;
-    if (!req.body.user) {
-        parentRequestDTO = {
-            age: req.body.age,
-            gender: req.body.gender,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            address: req.body.address
-        };
-    }
-     parentRequestDTO = {
+    const parentRequestDTO: ParentRequestDTO = {
         age: req.body.age,
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         address: req.body.address
-    };
+     };
 
     const response = await parentService.createParent(parentRequestDTO);
     responseController.response(res, response, 200);

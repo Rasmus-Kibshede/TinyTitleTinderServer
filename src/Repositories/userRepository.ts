@@ -49,7 +49,7 @@ export const userRepo = appDataSource.getRepository(User).extend({
       params
     );
   },
-  // transaction
+  // TODO: Code something useful here
   updateTablesForName(name: string) {
     return userRepo.manager.transaction(
       'SERIALIZABLE',
