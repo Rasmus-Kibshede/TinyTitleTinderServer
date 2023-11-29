@@ -10,7 +10,7 @@ export const createFamily = async (req: Request, res: Response) => {
     };
 
     const response = await familyService.createFamily(familyRequestDTO);
-    responseController.response(res, response, 200);
+    responseController.response(res, response, 201);
 };
 
 export const getAllFamilies = async (req: Request, res: Response) => {

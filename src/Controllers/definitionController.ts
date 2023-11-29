@@ -8,7 +8,7 @@ export const createDefinition = async (req: Request, res: Response) => {
 		meaning: req.body.meaning
 	};
 	const response = await definitionService.createDefinition(definitionRequestDTO);
-	responseController.response(res, response, 200);
+	responseController.response(res, response, 201);
 };
 
 export const getDefinitionByID = async (req: Request, res: Response) => {

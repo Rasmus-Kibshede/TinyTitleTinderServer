@@ -8,7 +8,7 @@ export const createRole = async (req: Request, res: Response) => {
         title: req.body.title
     };
 	const response = await roleService.createRole(roleRequestDTO);
-	responseController.response(res, response, 200);
+	responseController.response(res, response, 201);
 };
 
 export const getRoleByID = async (req: Request, res: Response) => {
