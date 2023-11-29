@@ -130,12 +130,12 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
       return failed(new Error('Email or password is incorrect'));
     }
 
-    const isPsswordCorrect = await comparePassword(
+    const isPasswordCorrect = await comparePassword(
       userDTO.password,
       response.password
     );
 
-    if (!isPsswordCorrect) {
+    if (!isPasswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
     }
 

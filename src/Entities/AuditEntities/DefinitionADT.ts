@@ -6,5 +6,4 @@ export class DefinitionADT extends Definition implements AuditingEntityDefaultCo
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
-
 }

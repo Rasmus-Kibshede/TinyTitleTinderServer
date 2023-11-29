@@ -49,4 +49,20 @@ export const userRepo = appDataSource.getRepository(User).extend({
       params
     );
   },
+  // transaction
+  updateTablesForName(name: string) {
+    return userRepo.manager.transaction(
+      'SERIALIZABLE',
+      async (manager) => {
+      await manager.query('update user set name = ? where name = ?', [
+        name,
+        name,
+      ]);
+      await manager.query('update parent set name = ? where name = ?', [
+        name,
+        name,
+      ]);
+    });
+  },
 });
+

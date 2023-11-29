@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Location } from '../Location';
 import { OneToMany } from 'typeorm';
@@ -10,9 +12,6 @@ export class LocationADT extends Location implements AuditingEntityDefaultColumn
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
 
-    @OneToMany(() => AddressADT, (address) => address.location)
-    streets: AddressADT[];
-
-    @OneToMany(() => ParentADT, (parents) => parents.location)
-    parents: ParentADT[];
+    // @OneToMany(() => AddressADT, (address) => address.location)
+    // streets: AddressADT[];
 }
