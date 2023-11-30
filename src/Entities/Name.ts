@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   JoinTable,
   ManyToMany,
@@ -15,6 +16,7 @@ export class Name {
   @PrimaryGeneratedColumn({ name: 'name_suggest_id' })
   nameSuggestId: number;
 
+  @Index('name',{ unique: true }) 
   @Column('varchar', { length: 255, nullable: false, name: 'name_suggest_name', unique: true, })
   nameSuggestName: string;
 

@@ -70,16 +70,15 @@ export const getParentByEmailAndPassword = async (
   res: Response
 ) => {
   try {
-    const response = await userRepo.findOneByEmail(userLogin.email);
+    const response = await userRepo.findOneByEmail(userLogin.email);  
 
     if (!response) {
       return failed(new Error('Email or password is incorrect'));
     }
-
     const isPasswordCorrect = await comparePassword(
       userLogin.password,
       response.password
-    );
+    );  
 
     if (!isPasswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
@@ -122,7 +121,7 @@ export const getParentByEmailAndPassword = async (
     user.parent!.address = address;
 
     const token = await authService.login(response, res);
-
+  
     return success({ user: user, token });
   } catch (err) {
     return failed(err);
