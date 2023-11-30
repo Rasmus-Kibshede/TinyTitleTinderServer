@@ -49,8 +49,8 @@ export const userRepo = appDataSource.getRepository(User).extend({
       params
     );
   },
-  // TODO: Code something useful here
-  updateTablesForName(name: string) {
+  // TODO: update this to use the new stored procedure
+  updateTablesForName(id: number) {
     return userRepo.manager.transaction(
       'SERIALIZABLE',
       async (manager) => {

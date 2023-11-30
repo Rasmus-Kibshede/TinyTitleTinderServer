@@ -10,6 +10,8 @@ import { parentRepo } from '../Repositories/parentRepository';
 import { ParentResponseDTO } from '../DTO/parentDTO';
 import { addressRepo } from '../Repositories/addressRepository';
 import { AddressResponseDTO } from '../DTO/addressDTO';
+import * as nameService from './nameService';
+import { NameResponseDTO } from '../DTO/nameDTO';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
@@ -74,12 +76,12 @@ export const getParentByEmailAndPassword = async (
       return failed(new Error('Email or password is incorrect'));
     }
 
-    const isPsswordCorrect = await comparePassword(
+    const isPasswordCorrect = await comparePassword(
       userLogin.password,
       response.password
     );
 
-    if (!isPsswordCorrect) {
+    if (!isPasswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
     }
 
@@ -90,10 +92,25 @@ export const getParentByEmailAndPassword = async (
       return failed(new Error('No Parent'));
     }
 
+    if (parent.names) {
+      const likedNames = await nameService.getNamesByParentId(parent.parentId!, 'true');
+
+      if (likedNames.success) {
+        parent.names = likedNames.result.data as NameResponseDTO[];
+      }
+
+      const dislikedNames = await nameService.getNamesByParentId(parent.parentId!, 'false');
+
+      if (dislikedNames.success) {
+        parent.dislikedNames = dislikedNames.result.data as NameResponseDTO[];
+      }
+    }
+
     const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
       parent: parent,
+
       userActive: false
     };
 

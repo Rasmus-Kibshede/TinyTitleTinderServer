@@ -10,7 +10,8 @@ export const createParent = async (req: Request, res: Response) => {
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        address: req.body.address
+        families: req.body.families,
+        address: req.body.address,
      };
 
     const response = await parentService.createParent(parentRequestDTO);
@@ -27,6 +28,7 @@ export const getParentById = async (req: Request, res: Response) => {
     responseController.response(res, response, 200);
 };
 
+//TODO: Doesn't work
 export const updateParent = async (req: Request, res: Response) => {
     const parentRequestDTO: ParentRequestDTO = {
         parentId: req.body.id,
@@ -34,6 +36,7 @@ export const updateParent = async (req: Request, res: Response) => {
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        families: req.body.families,
         address: req.body.address
     };
     const response = await parentService.updateParent(parentRequestDTO);

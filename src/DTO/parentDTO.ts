@@ -7,8 +7,9 @@ export interface ParentResponseDTO {
   gender: string;
   firstName: string;
   lastName: string;
-  names?: NameResponseDTO[] | null;
-  families: FamilyResponseDTO[];
+  names?: NameResponseDTO[];
+  dislikedNames?: NameResponseDTO[];
+  families?: FamilyResponseDTO[];
   address: AddressResponseDTO;
 }
 
@@ -18,5 +19,7 @@ export interface ParentRequestDTO {
   gender: string;
   firstName: string;
   lastName: string;
+  names?: NameResponseDTO[];
+  families?: FamilyResponseDTO[];
   address: AddressRequestDTO;
 }

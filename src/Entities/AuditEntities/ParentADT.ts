@@ -8,12 +8,14 @@ export class ParentADT extends Parent implements AuditingEntityDefaultColumns {
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
-    
+
     @BeforeInsert()
-    dropFkParentId() {
-        const queryRunner = appDataSource.createQueryRunner();
-        queryRunner.query('ALTER TABLE adt_parent DROP COLUMN fk_address_id;');
-        queryRunner.query('ALTER TABLE adt_parent ADD COLUMN fk_address_id INT NULL;');
-        queryRunner.release();
+    dropFkAddressId() {
+        if (process.env.SYNCHRONIZE !== 'true') {
+            const queryRunner = appDataSource.createQueryRunner();
+            queryRunner.query('ALTER TABLE adt_parent DROP COLUMN fk_address_id;');
+            queryRunner.query('ALTER TABLE adt_parent ADD COLUMN fk_address_id INT NULL;');
+            queryRunner.release();
+        }
     }
 }

@@ -12,10 +12,12 @@ export class UserADT extends User implements AuditingEntityDefaultColumns {
 
     @BeforeInsert()
     dropFkParentId() {
-        const queryRunner = appDataSource.createQueryRunner();
-        queryRunner.query('ALTER TABLE adt_user DROP COLUMN fk_parent_id;');
-        queryRunner.query('ALTER TABLE adt_user ADD COLUMN fk_parent_id INT NULL;');
-        queryRunner.release();
+        if (process.env.SYNCHRONIZE === 'true') {
+            const queryRunner = appDataSource.createQueryRunner();
+            queryRunner.query('ALTER TABLE adt_user DROP COLUMN fk_parent_id;');
+            queryRunner.query('ALTER TABLE adt_user ADD COLUMN fk_parent_id INT NULL;');
+            queryRunner.release();
+        }
     }
 
     @Column('varchar', { length: 255, name: 'modified_by', nullable: true })
