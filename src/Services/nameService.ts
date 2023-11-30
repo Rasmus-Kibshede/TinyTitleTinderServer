@@ -29,6 +29,19 @@ export const getNameByID = async (id: number) => {
   }
 };
 
+export const getNameByNameSuggestName = async (name: string) => {
+try {
+  const response = await nameRepo.findOneByName(name);
+  if(!response){
+    return failed(new Error('No such name'));
+  }
+
+   return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
+  }
+};
+
 export const getNames = async () => {
   try {
     const names = await nameRepo.findAll();

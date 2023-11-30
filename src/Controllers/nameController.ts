@@ -21,6 +21,12 @@ export const getNameByID = async (req: Request, res: Response) => {
   responseController.response(res, response, 200);
 };
 
+export const getNameByNameSuggestName = async (req: Request, res: Response) => {
+const response = await nameService.getNameByNameSuggestName(req.params.name);
+responseController.response(res, response, 200);
+};
+
+
 export const getAllNames = async (req: Request, res: Response) => {
   const response = await nameService.getNames();
   responseController.response(res, response, 200);
