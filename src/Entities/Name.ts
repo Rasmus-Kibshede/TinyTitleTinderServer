@@ -46,11 +46,11 @@ export class Name {
   })
   origins: Origin[] | null;
 
-  @ManyToMany(() => Parent, (parent) => parent.names)
+  @ManyToMany(() => Parent, (parent) => parent.likedNames)
   @JoinColumn()
   parents: Parent[];
 
-  @ManyToMany(() => Parent, (parent) => parent.names)
+  @ManyToMany(() => Parent, (parent) => parent.likedNames)
   @JoinColumn()
   parentsDislike: Parent[];
 }

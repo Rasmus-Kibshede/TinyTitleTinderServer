@@ -16,7 +16,7 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
     findAll() {
         return parentRepo.find({
             relations: {
-                names: true,
+                likedNames: true,
                 families: true,
                 address: true,
             }
