@@ -28,17 +28,19 @@ export const getParentById = async (req: Request, res: Response) => {
     responseController.response(res, response, 200);
 };
 
-//TODO: Doesn't work
 export const updateParent = async (req: Request, res: Response) => {
     const parentRequestDTO: ParentRequestDTO = {
-        parentId: req.body.id,
+        parentId: req.body.parentId,
         age: req.body.age,
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        likedNames: req.body.likedNames,
+        dislikedNames: req.body.dislikedNames,
         families: req.body.families,
         address: req.body.address
     };
+    
     const response = await parentService.updateParent(parentRequestDTO);
     responseController.response(res, response, 200);
 };

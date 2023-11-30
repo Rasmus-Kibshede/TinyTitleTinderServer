@@ -50,7 +50,7 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
     } else {
       return failed('isLiked');
     }
-    
+
     const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
 
     return success(nameDTOs);
@@ -61,12 +61,12 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
 
 export const getParentlessNames = async (parentId: number) => {
   try {
-  const response = await nameRepo.findParentlessNames(parentId);
-  const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
-  return success(nameDTOs);
-} catch (err) {
-  return failed(err);
-}
+    const response = await nameRepo.findParentlessNames(parentId);
+    const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
+    return success(nameDTOs);
+  } catch (err) {
+    return failed(err);
+  }
 };
 
 export const updateName = async (nameRequestDTO: NameRequestDTO) => {

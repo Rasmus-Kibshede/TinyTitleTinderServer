@@ -40,7 +40,8 @@ export const getParentById = async (id: number) => {
 
 export const updateParent = async (parentDTO: ParentRequestDTO) => {
   try {
-    const response = await parentRepo.save(parentDTO);
+    const response = await parentRepo.save(parentDTO as Parent);
+    
     return success(convertToDTO(response));
   } catch (err) {
     return failed(err);
@@ -69,6 +70,7 @@ export const convertToDTO = (parent: Parent) => {
     firstName: parent.firstName,
     lastName: parent.lastName,
     likedNames: parent.likedNames as NameResponseDTO[],
+    dislikedNames: parent.dislikedNames as NameResponseDTO[],
     families: parent.families,
     address: parent.address,
   };

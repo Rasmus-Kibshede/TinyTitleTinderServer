@@ -19,6 +19,8 @@ export interface ParentRequestDTO {
   gender: string;
   firstName: string;
   lastName: string;
+  likedNames?: NameResponseDTO[];
+  dislikedNames?: NameResponseDTO[];
   names?: NameResponseDTO[];
   families?: FamilyResponseDTO[];
   address: AddressRequestDTO;
