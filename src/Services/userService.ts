@@ -92,7 +92,7 @@ export const getParentByEmailAndPassword = async (
       return failed(new Error('No Parent'));
     }
 
-    if (parent.names) {
+    if (!parent.names) {
       const likedNames = await nameService.getNamesByParentId(parent.parentId!, 'true');
 
       if (likedNames.success) {

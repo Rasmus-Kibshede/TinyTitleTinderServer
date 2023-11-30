@@ -45,8 +45,10 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
     let response;
     if (isLiked === 'true') {
       response = await nameRepo.findNamesByParentId(parentId);
-    } else (isLiked === 'false'); {
+    } else if (isLiked === 'false') {
       response = await nameRepo.findDislikedNamesByParentId(parentId);
+    } else {
+      return failed('isLiked');
     }
     
     const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
