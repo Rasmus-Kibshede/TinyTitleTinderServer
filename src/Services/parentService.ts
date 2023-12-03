@@ -62,6 +62,25 @@ export const deleteParent = async (parentId: number) => {
   }
 };
 
+export const updateTablesForName = async (
+  parentId: number,
+  likedNames: number[],
+  dislikedNames: number[]
+) => {
+  try {
+    await parentRepo.updateTablesForName(
+      parentId,
+      likedNames,
+      dislikedNames
+    );
+    
+    return success('Updated tables for name');
+
+  } catch (err) {
+    return failed(err);
+  }
+};
+
 export const convertToDTO = (parent: Parent) => {
   const dto: ParentResponseDTO = {
     parentId: parent.parentId,

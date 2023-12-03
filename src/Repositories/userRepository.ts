@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { UserRequestDTO } from '../DTO/userDTO';
 import { User } from '../Entities/User';
 import { appDataSource } from './data-source';
 
@@ -49,20 +46,4 @@ export const userRepo = appDataSource.getRepository(User).extend({
       params
     );
   },
-  // TODO: update this to use the new stored procedure
-  updateTablesForName(id: number) {
-    return userRepo.manager.transaction(
-      'SERIALIZABLE',
-      async (manager) => {
-      await manager.query('update user set name = ? where name = ?', [
-        name,
-        name,
-      ]);
-      await manager.query('update parent set name = ? where name = ?', [
-        name,
-        name,
-      ]);
-    });
-  },
 });
-

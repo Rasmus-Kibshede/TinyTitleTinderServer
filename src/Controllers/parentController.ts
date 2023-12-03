@@ -49,3 +49,8 @@ export const deleteParent = async (req: Request, res: Response) => {
     const response = await parentService.deleteParent(Number(req.params.id));
     responseController.response(res, response, 204);
 };
+
+export const updateTablesForName = async (req: Request, res: Response) => {
+    const response = await parentService.updateTablesForName(Number(req.params.id), req.body.likedNames, req.body.dislikedNames);
+    responseController.response(res, response, 200);
+};
