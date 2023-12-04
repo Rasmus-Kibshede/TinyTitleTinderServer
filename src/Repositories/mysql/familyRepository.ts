@@ -1,7 +1,7 @@
-import { Family } from '../Entities/Family';
-import { appDataSource } from './data-source';
+import { Family } from '../../Entities/Family';
+import { mysqlDataSource } from '../data-sources';
 
-export const parentRepo = appDataSource.getRepository(Family).extend({
+export const parentRepo = mysqlDataSource.getRepository(Family).extend({
     findOneByID(id: number) {
         return parentRepo.findOne({
             where: {

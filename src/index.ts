@@ -24,59 +24,54 @@ app.use(express.json());
 app.use(cookiePaser());
 
 //Typeorm setup
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-import { appDataSource, appDataSourceMongo } from './Repositories/data-source';
-import userRouterMDB from './routes/userRouteMDB';
+// import { mysqlDataSource } from './Repositories/data-sources';
+import { getDb } from './Repositories/data-sources';
 
-appDataSourceMongo.initialize().then(() => {
-	// eslint-disable-next-line no-console
-	console.log('Mongo connection established');
+declare global {
+  // eslint-disable-next-line no-var
+  var dbChoice: string;
+}
 
-	app.use(userRouterMDB);
+app.use('*', async (req, res, next) => {
+  if (req.headers['database-choice'] === undefined) {
+    global.dbChoice = 'mysql';
+  } else {
+    global.dbChoice = req.headers['database-choice'] as string;
+  }
 
-	const PORT = process.env.M_PORT || 8080;
-
-	app.listen(PORT, () => {
-		// eslint-disable-next-line no-console
-		console.log(`MongoDB App: http://localhost:${PORT}/`);
-
-	});
-
-}).catch((error) => {
-	// eslint-disable-next-line no-console
-	console.log(error);
+  await getDb();
+  next();
 });
 
-appDataSource
-  .initialize()
-  .then(() => {
-    // eslint-disable-next-line no-console
-    console.log('Database connection established');
+// mysqlDataSource
+//   .initialize()
+//   .then(() => {
+//     // eslint-disable-next-line no-console
+//     console.log('Database connection established');
 
-    // Routes
-    app.use(cors());
-    app.use(userRouter);
-    app.use(authRouter);
-    app.use(nameRouter);
-    app.use(addressRoute);
-    app.use(roleRouter);
-    app.use(parentRouter);
-    app.use(originRouter);
-    app.use(locationRoute);
-    app.use(familyRoute);
-    app.use(definitionRoute);
+// Routes
+app.use(cors());
+app.use(userRouter);
+app.use(authRouter);
+app.use(nameRouter);
+app.use(addressRoute);
+app.use(roleRouter);
+app.use(parentRouter);
+app.use(originRouter);
+app.use(locationRoute);
+app.use(familyRoute);
+app.use(definitionRoute);
 
+// Take a port 8080 for running server.
+const PORT = process.env.PORT || 3000;
 
-    // Take a port 8080 for running server.
-    const PORT = process.env.PORT || 3000;
-
-    // Server setup
-    app.listen(PORT, () => {
-      // eslint-disable-next-line no-console
-      console.log(`App: http://localhost:${PORT}/`);
-    });
-  })
-  .catch((error) => {
-    // eslint-disable-next-line no-console
-    console.log(error);
-  });
+// Server setup
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`App: http://localhost:${PORT}/`);
+});
+//   })
+//   .catch((error) => {
+//     // eslint-disable-next-line no-console
+//     console.log(error);
+//   });

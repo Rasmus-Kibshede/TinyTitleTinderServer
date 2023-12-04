@@ -1,5 +1,5 @@
 import { UserMDB, UserRolesInner } from '../Entities/MongoDBEntities/UserMDB';
-import { userRepoMDB } from '../Repositories/userRepository';
+import { userRepoMDB } from '../Repositories/mysql/userRepository';
 import { UserRequestDTOMDB, UserResponseDTOMDB } from '../DTO/userDTOMDB';
 import { failed, success } from '../Utils/errorHandler';
 

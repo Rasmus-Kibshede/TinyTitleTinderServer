@@ -1,4 +1,4 @@
-import { locationRepo } from '../Repositories/locationRepository';
+import { locationRepo } from '../Repositories/mysql/locationRepository';
 import { Location } from '../Entities/Location';
 import { LocationRequestDTO, LocationResponseDTO } from '../DTO/locationDTO';
 import { failed, success } from '../Utils/errorHandler';

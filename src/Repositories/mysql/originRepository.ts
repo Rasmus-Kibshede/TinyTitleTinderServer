@@ -1,7 +1,7 @@
-import { Origin } from '../Entities/Origin';
-import { appDataSource } from './data-source';
+import { Origin } from '../../Entities/Origin';
+import { mysqlDataSource } from '../data-sources';
 
-export const originRepo = appDataSource.getRepository(Origin).extend({
+export const originRepo = mysqlDataSource.getRepository(Origin).extend({
     findOneByID(id: number) {
         return originRepo.findOne({
             where: {

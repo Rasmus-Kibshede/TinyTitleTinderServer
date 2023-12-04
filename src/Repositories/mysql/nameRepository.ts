@@ -1,7 +1,7 @@
-import { Name } from '../Entities/Name';
-import { appDataSource } from './data-source';
+import { Name } from '../../Entities/Name';
+import { mysqlDataSource } from '../data-sources';
 
-export const nameRepo = appDataSource.getRepository(Name).extend({
+export const nameRepo = mysqlDataSource.getRepository(Name).extend({
   findOneByID(id: number) {
     return nameRepo.findOne({
       relations: {

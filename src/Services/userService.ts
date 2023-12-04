@@ -1,14 +1,14 @@
-import { userRepo } from '../Repositories/userRepository';
+import { userRepo } from '../Repositories/mysql/userRepository';
 import { User } from '../Entities/User';
 import { UserLogin, UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { failed, success } from '../Utils/errorHandler';
-import { roleRepo } from '../Repositories/roleRepository';
+import { roleRepo } from '../Repositories/mysql/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
 import { comparePassword, hashPassword } from '../Utils/passwordUtil';
-import { parentRepo } from '../Repositories/parentRepository';
+import { parentRepo } from '../Repositories/mysql/parentRepository';
 import { ParentResponseDTO } from '../DTO/parentDTO';
-import { addressRepo } from '../Repositories/addressRepository';
+import { addressRepo } from '../Repositories/mysql/addressRepository';
 import { AddressResponseDTO } from '../DTO/addressDTO';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {

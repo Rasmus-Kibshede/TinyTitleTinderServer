@@ -1,6 +1,6 @@
 import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
 import { Origin } from '../Entities/Origin';
-import { originRepo } from '../Repositories/originRepository';
+import { originRepo } from '../Repositories/mysql/originRepository';
 import { failed, success } from '../Utils/errorHandler';
 
 export const createOrigin = async (OriginRequestDTO: OriginRequestDTO) => {

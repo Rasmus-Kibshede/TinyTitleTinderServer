@@ -1,7 +1,7 @@
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { OriginResponseDTO } from '../DTO/originDTO';
 import { Name } from '../Entities/Name';
-import { nameRepo } from '../Repositories/nameRepository';
+import { nameRepo } from '../Repositories/mysql/nameRepository';
 import { failed, success } from '../Utils/errorHandler';
 import { DefinitionResponseDTO } from '../DTO/definitionDTO';
 

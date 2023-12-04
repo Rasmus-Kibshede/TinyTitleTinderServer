@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import { UserMDB } from '../Entities/MongoDBEntities/UserMDB';
-import { User } from '../Entities/User';
-import { appDataSource, appDataSourceMongo } from './data-source';
+import { UserMDB } from '../../Entities/MongoDBEntities/UserMDB';
+import { User } from '../../Entities/User';
+import { mysqlDataSource, mongoDataSource } from '../data-sources';
 
-export const userRepo = appDataSource.getRepository(User).extend({
+export const userRepo = mysqlDataSource.getRepository(User).extend({
   findOneByID(id: number) {
     return userRepo.findOne({
       relations: {
@@ -51,7 +51,7 @@ export const userRepo = appDataSource.getRepository(User).extend({
   },
 });
 
-export const userRepoMDB = appDataSourceMongo.getMongoRepository(UserMDB).extend({
+export const userRepoMDB = mongoDataSource.getMongoRepository(UserMDB).extend({
     findOneByID(id: number) {
         return userRepoMDB.findOne({
             where: {

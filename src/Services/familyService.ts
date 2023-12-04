@@ -1,4 +1,4 @@
-import { parentRepo as familyRepo } from '../Repositories/familyRepository';
+import { parentRepo as familyRepo } from '../Repositories/mysql/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
 import { Family } from '../Entities/Family';
 import { failed, success } from '../Utils/errorHandler';

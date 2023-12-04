@@ -1,7 +1,7 @@
-import { Definition } from '../Entities/Definition';
-import { appDataSource } from './data-source';
+import { Definition } from '../../Entities/Definition';
+import { mysqlDataSource } from '../data-sources';
 
-export const definitionRepo = appDataSource.getRepository(Definition).extend({
+export const definitionRepo = mysqlDataSource.getRepository(Definition).extend({
     findOneByID(id: number) {
         return definitionRepo.findOne({
             where: {

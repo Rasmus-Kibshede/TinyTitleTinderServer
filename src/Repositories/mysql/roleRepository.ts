@@ -1,7 +1,7 @@
-import { Role } from '../Entities/Role';
-import { appDataSource } from './data-source';
+import { Role } from '../../Entities/Role';
+import { mysqlDataSource } from '../data-sources';
 
-export const roleRepo = appDataSource.getRepository(Role).extend({
+export const roleRepo = mysqlDataSource.getRepository(Role).extend({
     findAll() {
         return roleRepo.find({
             select: {
