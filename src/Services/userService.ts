@@ -54,9 +54,9 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
 
 export const getUserByID = async (id: number | string) => {
   try {
-const response = await repoHandler.data('User')?.findOneUser(id);
+    const response = await repoHandler.findOneUser(id);
 
-    //const response = await userRepo.findOneByID(id);
+    // const response = await userRepo.findOneByID(id);
     if (!response) {
       return failed('user');
     }
@@ -88,7 +88,9 @@ export const getParentByEmailAndPassword = async (
 
     await userRepo.updateLastLogin(response.email);
 
-    const parent = await parentRepo.findOneByID(response.parent.parentId) as ParentResponseDTO;
+    const parent = (await parentRepo.findOneByID(
+      response.parent.parentId
+    )) as ParentResponseDTO;
     if (!parent) {
       return failed(new Error('No Parent'));
     }
@@ -97,10 +99,12 @@ export const getParentByEmailAndPassword = async (
       email: response.email,
       roles: response.roles,
       parent: parent,
-      userActive: false
+      userActive: false,
     };
 
-    const address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as AddressResponseDTO;
+    const address = (await addressRepo.findOneByID(
+      Number(user.parent?.address.addressId)
+    )) as AddressResponseDTO;
     if (!address) {
       return failed(new Error('No Address'));
     }

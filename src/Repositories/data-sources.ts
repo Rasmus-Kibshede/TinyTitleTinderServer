@@ -27,16 +27,17 @@ export const mongoDataSource = new DataSource({
   logging: false,
 });
 
+// TODO: Check if the connection alrrady exists.
 export const getDb = async () => {
   switch (global.dbChoice) {
     case 'mysql':
-     await dataSourceConnection(mysqlDataSource, 'mysql');
+      await dataSourceConnection(mysqlDataSource, 'mysql');
       break;
     case 'mongodb':
-    await  dataSourceConnection(mongoDataSource, 'mysql');
+      await dataSourceConnection(mongoDataSource, 'mysql');
       break;
     default:
-    await  dataSourceConnection(mysqlDataSource, 'mysql');
+      await dataSourceConnection(mysqlDataSource, 'mysql');
       break;
   }
 };
