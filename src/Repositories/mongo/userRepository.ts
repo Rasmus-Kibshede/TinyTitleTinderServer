@@ -2,10 +2,10 @@ import { UserMDB } from '../../Entities/MongoDBEntities/UserMDB';
 import { mongoDataSource } from '../data-sources';
 
 export const userRepoMDB = mongoDataSource.getMongoRepository(UserMDB).extend({
-    findOneByID(id: number) {
+    findOneUser(email: string | number) {
         return userRepoMDB.findOne({
             where: {
-                userId: id
+                email : email
             },
         });
     },

@@ -2,7 +2,7 @@ import { User } from '../../Entities/User';
 import { mysqlDataSource } from '../data-sources';
 
 export const userRepo = mysqlDataSource.getRepository(User).extend({
-  findOneByID(id: number) {
+  findOneUser(id: number | number) {
     return userRepo.findOne({
       relations: {
         roles: true,
