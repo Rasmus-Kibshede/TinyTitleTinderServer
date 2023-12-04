@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { UserMDB } from '../../Entities/MongoDBEntities/UserMDB';
 import { User } from '../../Entities/User';
-import { mysqlDataSource, mongoDataSource } from '../data-sources';
+import { mysqlDataSource } from '../data-sources';
 
 export const userRepo = mysqlDataSource.getRepository(User).extend({
   findOneByID(id: number) {
@@ -49,32 +46,4 @@ export const userRepo = mysqlDataSource.getRepository(User).extend({
       params
     );
   },
-});
-
-export const userRepoMDB = mongoDataSource.getMongoRepository(UserMDB).extend({
-    findOneByID(id: number) {
-        return userRepoMDB.findOne({
-            where: {
-                userId: id
-            },
-        });
-    },
-    findOneByEmail(email: string) {
-        return userRepoMDB.findOne({
-            where: {
-                email: email
-            },
-        });
-    },
-    findOneByEmailAndPassword(email: string, password: string) {
-        return userRepoMDB.findOne({
-            where: {
-                email: email,
-                password: password
-            },
-        });
-    },
-    findAll() {
-        return userRepoMDB.find();
-    }
 });
