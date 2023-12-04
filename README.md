@@ -78,14 +78,14 @@ The app defines following CRUD APIs.
 | PUT    | /origins              | Edit a origin by Id     | 
 | PUT    | /origins/:id          | Delete a origin by Id   |
 
-### Meaning
+### Definition
 | Method | Url                   | Description             | 
 |--------|-----------------------|-------------------------|
-| POST   | /meanings             | Create a meaning        | 
-| GET    | /meanings/:id         | Get a meaning by ID     | 
-| GET    | /meanings             | Get all meanings        |  
-| PUT    | /meanings             | Edit a meaning by Id    | 
-| PUT    | /meanings/:id         | Delete a meaning by Id  |
+| POST   | /definitions             | Create a definition        | 
+| GET    | /definitions/:id         | Get a definition by ID     | 
+| GET    | /definitions             | Get all definitions        |  
+| PUT    | /definitions             | Edit a definition by Id    | 
+| PUT    | /definitions/:id         | Delete a definition by Id  |
 
 
 # Install guide

@@ -17,24 +17,23 @@ export const userRepo = appDataSource.getRepository(User).extend({
   },
   findOneByEmail(email: string) {
     return userRepo.findOne({
-      relations: {
-        roles: true,
-      },
       where: {
         email: email,
-      },
-    });
-  },
-  findOneByEmailAndPassword(email: string, password: string) {
-    return userRepo.findOne({
-      where: {
-        email: email,
-        password: password,
       },
       relations: {
         parent: true,
       },
     });
+  },
+  updateLastLogin(email: string) {
+    return userRepo.update(
+      {
+        email: email,
+      },
+      {
+        lastLogin: new Date(),
+      }
+    );
   },
   findAll() {
     return userRepo.find({

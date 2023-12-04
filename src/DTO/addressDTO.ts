@@ -1,9 +1,9 @@
 import { LocationRequestDTO, LocationResponseDTO } from './locationDTO';
 export interface AddressResponseDTO {
-    addressId: number;
+    addressId?: number;
     city: string;
     zipcode: string;
-    address: string;
+    street: string;
     location: LocationResponseDTO;
 }
 
@@ -11,6 +11,6 @@ export interface AddressRequestDTO {
     addressId?: number;
     city: string;
     zipcode: string;
-    address: string;
+    street: string;
     location?: LocationRequestDTO;
 }

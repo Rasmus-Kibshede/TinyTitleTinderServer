@@ -52,6 +52,7 @@ export const validateCredintials = (req: Request, res: Response, next: NextFunct
         const password = req.body.password;
 
         if (validator.isEmail(newEmail) && validator.isStrongPassword(password)) {
+            
             next();
         } 
     } catch (error) {
@@ -61,7 +62,7 @@ export const validateCredintials = (req: Request, res: Response, next: NextFunct
 
 export const validateNewMail = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const newEmail = req.body.newEmail;
+        const newEmail = req.body.email;
 
         if (validator.isEmail(newEmail)) {
             next();

@@ -14,7 +14,7 @@ import authRouter from './routes/authRoute';
 import originRouter from './routes/originRoute';
 import locationRoute from './routes/locationRoute';
 import familyRoute from './routes/familyRoute';
-import meaningRoute from './routes/meaningRoute';
+import definitionRoute from './routes/definitionRoute';
 import cors from 'cors';
 import cookiePaser from 'cookie-parser';
 
@@ -26,7 +26,7 @@ app.use(cookiePaser());
 //Typeorm setup
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 import { appDataSource, appDataSourceMongo } from './Repositories/data-source';
-import userRouterMDB from './Routes/userRouteMDB';
+import userRouterMDB from './routes/userRouteMDB';
 
 appDataSourceMongo.initialize().then(() => {
 	// eslint-disable-next-line no-console
@@ -53,18 +53,18 @@ appDataSource
     // eslint-disable-next-line no-console
     console.log('Database connection established');
 
-	// Routes
-	app.use(cors());
-	app.use(userRouter);
-	app.use(authRouter);
-	app.use(nameRouter);
-	app.use(addressRoute);
-	app.use(roleRouter);
-	app.use(parentRouter);
-	app.use(originRouter);
-	app.use(locationRoute);
-	app.use(familyRoute);
-	app.use(meaningRoute);
+    // Routes
+    app.use(cors());
+    app.use(userRouter);
+    app.use(authRouter);
+    app.use(nameRouter);
+    app.use(addressRoute);
+    app.use(roleRouter);
+    app.use(parentRouter);
+    app.use(originRouter);
+    app.use(locationRoute);
+    app.use(familyRoute);
+    app.use(definitionRoute);
 
 
     // Take a port 8080 for running server.

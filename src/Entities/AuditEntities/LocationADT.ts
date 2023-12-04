@@ -11,7 +11,7 @@ export class LocationADT extends Location implements AuditingEntityDefaultColumn
     readonly _modifiedAt!: Date;
 
     @OneToMany(() => AddressADT, (address) => address.location)
-    addresses: AddressADT[];
+    streets: AddressADT[];
 
     @OneToMany(() => ParentADT, (parents) => parents.location)
     parents: ParentADT[];
