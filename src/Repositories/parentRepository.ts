@@ -30,7 +30,6 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
                     const likedValues = likedNames.map(nameSuggestId => `(${parentId}, ${nameSuggestId})`).join(', ');
                     await manager.query(`INSERT INTO parent_name_suggest (fk_parent_id, fk_name_suggest_id) VALUES ${likedValues}`);
                 }
-    
                 if (dislikedNames.length > 0) {
                     const dislikedValues = dislikedNames.map(nameSuggestId => `(${parentId}, ${nameSuggestId})`).join(', ');
                     await manager.query(`INSERT INTO parent_name_suggest_dislike (fk_parent_id, fk_name_suggest_id) VALUES ${dislikedValues}`);
