@@ -10,6 +10,7 @@ import { parentRepo } from '../Repositories/mysql/parentRepository';
 import { ParentResponseDTO } from '../DTO/parentDTO';
 import { addressRepo } from '../Repositories/mysql/addressRepository';
 import { AddressResponseDTO } from '../DTO/addressDTO';
+import * as repoHandler from '../Repositories/repositoryHandler';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
@@ -53,11 +54,13 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
 
 export const getUserByID = async (id: number) => {
   try {
-    const response = await userRepo.findOneByID(id);
+const response = await repoHandler.data('User')?.findOneByID(id);
+
+    //const response = await userRepo.findOneByID(id);
     if (!response) {
       return failed('user');
     }
-    return success(convertToDTO(response));
+    return success(convertToDTO(response as User));
   } catch (err) {
     return failed(err);
   }

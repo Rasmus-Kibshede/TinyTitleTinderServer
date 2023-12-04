@@ -30,13 +30,13 @@ export const mongoDataSource = new DataSource({
 export const getDb = async () => {
   switch (global.dbChoice) {
     case 'mysql':
-      dataSourceConnection(mysqlDataSource, 'mysql');
+     await dataSourceConnection(mysqlDataSource, 'mysql');
       break;
     case 'mongodb':
-      dataSourceConnection(mongoDataSource, 'mysql');
+    await  dataSourceConnection(mongoDataSource, 'mysql');
       break;
     default:
-      dataSourceConnection(mysqlDataSource, 'mysql');
+    await  dataSourceConnection(mysqlDataSource, 'mysql');
       break;
   }
 };
