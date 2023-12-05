@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { failed, success } from '../Utils/errorHandler';
 import { ValidateAuth, authSignin, clearToken } from '../Utils/jwtUtil';
-import { User } from '../Entities/MysqlEntities/User';
+import { User } from '../Entities/Mysql/User';
 
 export const login = async (user: User, res: Response) => {
   try {

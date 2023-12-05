@@ -1,5 +1,5 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
-import { Parent } from '../MysqlEntities/Parent';
+import { Parent } from '../Mysql/Parent';
 import { OneToOne, JoinColumn, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
 import { UserADT } from './UserADT';
 import { NameADT } from './NameADT';

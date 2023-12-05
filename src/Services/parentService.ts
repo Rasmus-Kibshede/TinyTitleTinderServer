@@ -1,5 +1,5 @@
-import { parentRepo } from '../Repositories/mysql/parentRepository';
-import { Parent } from '../Entities/MysqlEntities/Parent';
+import { parentRepo } from '../Repositories/Mysql/parentRepository';
+import { Parent } from '../Entities/Mysql/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
 import { failed, success } from '../Utils/errorHandler';
 import { NameResponseDTO } from '../DTO/nameDTO';

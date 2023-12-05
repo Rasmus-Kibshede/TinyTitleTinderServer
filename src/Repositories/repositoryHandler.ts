@@ -1,7 +1,10 @@
-import { userRepo as userMysql } from './mysql/userRepository';
-import { userRepoMDB as userMongo } from './mongo/userRepository';
-import { parentRepo as parentMysql } from './mysql/parentRepository';
-import { parentRepo as parentMongo } from './mysql/parentRepository';
+// import { userRepo as userMysql } from './mysql/userRepository';
+// import { userRepoMDB as userMongo } from './mongo/userRepository';
+// import { parentRepo as parentMysql } from './mysql/parentRepository';
+// import { parentRepo as parentMongo } from './mysql/parentRepository';
+
+import { nameRepo as nameMysqlRepo } from './Mysql/nameRepository';
+import { nameRepo as nameMongoRepo } from './Mongo/nameRepository';
 
 // export const data = (entity: string) => {
 //   const dbChoice = global.dbChoice;
@@ -30,23 +33,32 @@ import { parentRepo as parentMongo } from './mysql/parentRepository';
 //   }
 // };
 
-export const dataUser = () => {
+export const nameRepository = () => {
   switch (global.dbChoice) {
     case 'mysql':
-      return userMysql;
+      return nameMysqlRepo;
     case 'mongodb':
-      return userMongo;
+      return nameMongoRepo;
   }
 };
 
-export const dataParent = () => {
-  switch (global.dbChoice) {
-    case 'mysql':
-      return parentMysql;
-    case 'mongodb':
-      return parentMongo;
-  }
-};
+// export const dataUser = () => {
+//   switch (global.dbChoice) {
+//     case 'mysql':
+//       return userMysql;
+//     case 'mongodb':
+//       return userMongo;
+//   }
+// };
+
+// export const dataParent = () => {
+//   switch (global.dbChoice) {
+//     case 'mysql':
+//       return parentMysql;
+//     case 'mongodb':
+//       return parentMongo;
+//   }
+// };
 
 // export const findOneUser = async (id: number | string) => {
 //   return await data('User')?.findOneUser(id);

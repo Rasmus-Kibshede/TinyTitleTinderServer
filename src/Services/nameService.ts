@@ -1,13 +1,16 @@
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { OriginResponseDTO } from '../DTO/originDTO';
-import { Name } from '../Entities/MysqlEntities/Name';
-import { nameRepo } from '../Repositories/mysql/nameRepository';
+import { Name } from '../Entities/Mysql/Name';
+// import { nameRepo } from '../Repositories/mysql/nameRepository';
 import { failed, success } from '../Utils/errorHandler';
 import { DefinitionResponseDTO } from '../DTO/definitionDTO';
+import { nameRepository } from '../Repositories/repositoryHandler';
+
+const nameRepo = nameRepository();
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
-    const response = await nameRepo.save(nameRequestDTO);
+    const response = await nameRepository()?.save(nameRequestDTO);
 
     return success(convertToDTO(response));
   } catch (err) {
@@ -45,10 +48,11 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
     let response;
     if (isLiked === 'true') {
       response = await nameRepo.findNamesByParentId(parentId);
-    } else (isLiked === 'false'); {
+    } else isLiked === 'false';
+    {
       response = await nameRepo.findDislikedNamesByParentId(parentId);
     }
-    
+
     const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
 
     return success(nameDTOs);
@@ -59,19 +63,18 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
 
 export const getParentlessNames = async (parentId: number) => {
   try {
-  const response = await nameRepo.findParentlessNames(parentId);
-  const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
-  return success(nameDTOs);
-} catch (err) {
-  return failed(err);
-}
+    const response = await nameRepo.findParentlessNames(parentId);
+    const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
+    return success(nameDTOs);
+  } catch (err) {
+    return failed(err);
+  }
 };
 
 export const updateName = async (nameRequestDTO: NameRequestDTO) => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
     return success(convertToDTO(response));
-
   } catch (err) {
     return failed(err);
   }
@@ -93,9 +96,16 @@ export const deleteNameByID = async (id: number) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const RemoveDublicates = (response: any) => {
-  const originDTOs: OriginResponseDTO[] = response[1].map((origin: OriginStoredProcedure) => convertToOriginDTO(origin));
-  const nameDTOs: NameResponseDTO[] = response[0].map((name: NameStoredProcedure) => convertToDTOSpecial(name,
-    originDTOs.filter(origin => origin.nameId === name.name_suggest_id)));
+  const originDTOs: OriginResponseDTO[] = response[1].map(
+    (origin: OriginStoredProcedure) => convertToOriginDTO(origin)
+  );
+  const nameDTOs: NameResponseDTO[] = response[0].map(
+    (name: NameStoredProcedure) =>
+      convertToDTOSpecial(
+        name,
+        originDTOs.filter((origin) => origin.nameId === name.name_suggest_id)
+      )
+  );
   return nameDTOs;
 };
 
@@ -112,7 +122,10 @@ const convertToDTO = (name: Name) => {
   return dto;
 };
 
-const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseDTO[]) => {
+const convertToDTOSpecial = (
+  name: NameStoredProcedure,
+  origins: OriginResponseDTO[]
+) => {
   const nameDTO: NameResponseDTO = {
     nameSuggestId: name.name_suggest_id,
     nameSuggestName: name.name_suggest_name,
@@ -128,7 +141,7 @@ const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseD
 const convertToOriginDTO = (origin: OriginStoredProcedure) => {
   const definition: DefinitionResponseDTO = {
     definitionId: origin.definition_id,
-    meaning: origin.meaning
+    meaning: origin.meaning,
   };
   const originDTO: OriginResponseDTO = {
     originId: origin.origin_id,
@@ -136,7 +149,7 @@ const convertToOriginDTO = (origin: OriginStoredProcedure) => {
     religion: origin.region,
     description: origin.description,
     definition: definition,
-    nameId: origin.fk_name_suggest_id
+    nameId: origin.fk_name_suggest_id,
   };
   return originDTO;
 };

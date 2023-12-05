@@ -1,6 +1,6 @@
-import { parentRepo as familyRepo } from '../Repositories/mysql/familyRepository';
+import { parentRepo as familyRepo } from '../Repositories/Mysql/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
-import { Family } from '../Entities/MysqlEntities/Family';
+import { Family } from '../Entities/Mysql/Family';
 import { failed, success } from '../Utils/errorHandler';
 
 export const createFamily = async (familyRequestDTO: FamilyRequestDTO) => {

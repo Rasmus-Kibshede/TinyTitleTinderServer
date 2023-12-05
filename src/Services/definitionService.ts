@@ -1,6 +1,6 @@
 import { DefinitionRequestDTO, DefinitionResponseDTO } from '../DTO/definitionDTO';
-import { Definition } from '../Entities/MysqlEntities/Definition';
-import { definitionRepo } from '../Repositories/mysql/definitionRepository';
+import { Definition } from '../Entities/Mysql/Definition';
+import { definitionRepo } from '../Repositories/Mysql/definitionRepository';
 import { failed, success } from '../Utils/errorHandler';
 
 export const createDefinition = async (definitionRequestDTO: DefinitionRequestDTO) => {

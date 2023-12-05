@@ -1,4 +1,4 @@
-import { UserMDB } from '../../Entities/MongoEntities/UserMDB';
+import { UserMDB } from '../../Entities/Mongo/UserMDB';
 import { mongoDataSource } from '../data-sources';
 
 export const userRepoMDB = mongoDataSource.getMongoRepository(UserMDB).extend({
