@@ -8,6 +8,8 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
                 parentId: id
             },
             relations: {
+                likedNames: true,
+                dislikedNames: true,
                 address: true,
                 families: true
             }
