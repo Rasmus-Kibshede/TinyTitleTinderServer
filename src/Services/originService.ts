@@ -1,5 +1,5 @@
 import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
-import { Origin } from '../Entities/Origin';
+import { Origin } from '../Entities/MysqlEntities/Origin';
 import { originRepo } from '../Repositories/mysql/originRepository';
 import { failed, success } from '../Utils/errorHandler';
 

@@ -1,4 +1,4 @@
-import { Definition } from '../../Entities/Definition';
+import { Definition } from '../../Entities/MysqlEntities/Definition';
 import { mysqlDataSource } from '../data-sources';
 
 export const definitionRepo = mysqlDataSource.getRepository(Definition).extend({

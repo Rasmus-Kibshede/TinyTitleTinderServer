@@ -1,5 +1,5 @@
 import { roleRepo } from '../Repositories/mysql/roleRepository';
-import { Role } from '../Entities/Role';
+import { Role } from '../Entities/MysqlEntities/Role';
 import { RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
 import { failed, success } from '../Utils/errorHandler';
 

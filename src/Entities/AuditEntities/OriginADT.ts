@@ -1,5 +1,5 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
-import { Origin } from '../Origin';
+import { Origin } from '../MysqlEntities/Origin';
 import { ManyToMany, JoinColumn } from 'typeorm';
 import { NameADT } from './NameADT';
 

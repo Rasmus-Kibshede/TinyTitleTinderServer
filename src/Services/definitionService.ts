@@ -1,5 +1,5 @@
 import { DefinitionRequestDTO, DefinitionResponseDTO } from '../DTO/definitionDTO';
-import { Definition } from '../Entities/Definition';
+import { Definition } from '../Entities/MysqlEntities/Definition';
 import { definitionRepo } from '../Repositories/mysql/definitionRepository';
 import { failed, success } from '../Utils/errorHandler';
 

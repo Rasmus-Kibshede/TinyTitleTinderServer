@@ -1,4 +1,4 @@
-import { Address } from '../../Entities/Address';
+import { Address } from '../../Entities/MysqlEntities/Address';
 import { mysqlDataSource } from '../data-sources';
 
 export const addressRepo = mysqlDataSource.getRepository(Address).extend({

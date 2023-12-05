@@ -1,5 +1,5 @@
 import { userRepo } from '../Repositories/mysql/userRepository';
-import { User } from '../Entities/User';
+import { User } from '../Entities/MysqlEntities/User';
 import { UserLogin, UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { failed, success } from '../Utils/errorHandler';
 import { roleRepo } from '../Repositories/mysql/roleRepository';
@@ -54,7 +54,7 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
 
 export const getUserByID = async (id: number | string) => {
   try {
-    const response = await repoHandler.findOneUser(id);
+    const response = await repoHandler.dataUser()?.findOneUser(id);
 
     // const response = await userRepo.findOneByID(id);
     if (!response) {
@@ -62,6 +62,8 @@ export const getUserByID = async (id: number | string) => {
     }
     return success(convertToDTO(response as User));
   } catch (err) {
+    console.log('this is the error', err.message);
+
     return failed(err);
   }
 };
@@ -88,7 +90,7 @@ export const getParentByEmailAndPassword = async (
 
     await userRepo.updateLastLogin(response.email);
 
-    const parent = (await parentRepo.findOneByID(
+    const parent = (await parentRepo.findOne(
       response.parent.parentId
     )) as ParentResponseDTO;
     if (!parent) {

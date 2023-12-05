@@ -1,4 +1,4 @@
-import { Origin } from '../../Entities/Origin';
+import { Origin } from '../../Entities/MysqlEntities/Origin';
 import { mysqlDataSource } from '../data-sources';
 
 export const originRepo = mysqlDataSource.getRepository(Origin).extend({

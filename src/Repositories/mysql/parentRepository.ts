@@ -1,25 +1,25 @@
-import { Parent } from '../../Entities/Parent';
+import { Parent } from '../../Entities/MysqlEntities/Parent';
 import { mysqlDataSource } from '../data-sources';
 
 export const parentRepo = mysqlDataSource.getRepository(Parent).extend({
-    findOneByID(id: number) {
-        return parentRepo.findOne({
-            where: {
-                parentId: id
-            },
-            relations: {
-                address: true,
-                families: true
-            }
-        });
-    },
-    findAll() {
-        return parentRepo.find({
-            relations: {
-                names: true,
-                families: true,
-                address: true,
-            }
-        });
-    }
+  findOne(id: number | string) {
+    return parentRepo.findOne({
+      where: {
+        parentId: Number(id),
+      },
+      relations: {
+        address: true,
+        families: true,
+      },
+    });
+  },
+  findAll() {
+    return parentRepo.find({
+      relations: {
+        names: true,
+        families: true,
+        address: true,
+      },
+    });
+  },
 });

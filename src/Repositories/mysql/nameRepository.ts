@@ -1,4 +1,4 @@
-import { Name } from '../../Entities/Name';
+import { Name } from '../../Entities/MysqlEntities/Name';
 import { mysqlDataSource } from '../data-sources';
 
 export const nameRepo = mysqlDataSource.getRepository(Name).extend({

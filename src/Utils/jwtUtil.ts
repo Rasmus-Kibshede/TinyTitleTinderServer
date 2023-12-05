@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { failed } from '../Utils/errorHandler';
 import { responseError } from '../Controllers/responseController';
-import { User } from '../Entities/User';
+import { User } from '../Entities/MysqlEntities/User';
 
 //Skal denne bruge det nye Error/response system system? i så fald skal jeg lige have en gennemgang af koden.
 export const authorizeToken = (

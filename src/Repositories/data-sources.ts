@@ -4,12 +4,15 @@ import { AuditingSubscriber } from 'typeorm-auditing';
 
 export const mysqlDataSource = new DataSource({
   type: 'mysql',
-  host: process.env.L_HOST,
-  username: process.env.L_USERNAME,
-  database: process.env.L_DATABASE,
-  password: process.env.L_PASSWORD,
-  port: Number(process.env.L_PORT),
-  entities: ['src/Entities/*.ts', 'src/Entities/AuditEntities/*.ts'],
+  host: process.env.DB_MYSQL_HOST,
+  username: process.env.DB_MYSQL_USERNAME,
+  password: process.env.DB_MYSQL_PASSWORD,
+  database: process.env.DB_MYSQL_DATABASE,
+  port: Number(process.env.DB_MYSQL_PORT),
+  entities: [
+    'src/Entities/MysqlEntities/*.ts',
+    'src/Entities/AuditEntities/*.ts',
+  ],
   subscribers: [AuditingSubscriber],
   synchronize: process.env.SYNCHRONIZE === 'true' || false,
   logging: false,
@@ -18,12 +21,13 @@ export const mysqlDataSource = new DataSource({
 // TODO: Find solution to RangeError: Maximum call stack size exceeded when giving entity path.
 export const mongoDataSource = new DataSource({
   type: 'mongodb',
-  url: process.env.M_DB_CONN_STRING,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  ssl: true,
-  entities: ['src/Entities/MongoDBEntities/*.ts'],
-  synchronize: true,
+  host: process.env.DB_MONGO_HOST,
+  username: process.env.DB_MONGO_USERNAME,
+  password: process.env.DB_MONGO_PASSWORD,
+  database: process.env.DB_MONGO_DATABASE,
+  port: Number(process.env.DB_MONGO_DBPORT),
+  entities: ['src/Entities/MongoEntities/*.ts'],
+  synchronize: process.env.SYNCHRONIZE === 'true' || false,
   logging: false,
 });
 
@@ -31,24 +35,27 @@ export const mongoDataSource = new DataSource({
 export const getDb = async () => {
   switch (global.dbChoice) {
     case 'mysql':
-      await dataSourceConnection(mysqlDataSource, 'mysql');
+      await dataSourceConnection(mysqlDataSource, 'Mysql');
       break;
     case 'mongodb':
-      await dataSourceConnection(mongoDataSource, 'mysql');
+      await dataSourceConnection(mongoDataSource, 'MongoDB');
       break;
     default:
-      await dataSourceConnection(mysqlDataSource, 'mysql');
+      await dataSourceConnection(mysqlDataSource, 'Mysql');
       break;
   }
 };
 
 const dataSourceConnection = async (data: DataSource, dataType: string) => {
+  if (data.isInitialized) {
+    return data;
+  }
   await data
     .initialize()
     .then(() => {
       console.log(dataType, 'connected');
     })
     .catch((err) => {
-      console.log(dataType, 'connected', err.message);
+      console.log(dataType, 'error', err.message);
     });
 };

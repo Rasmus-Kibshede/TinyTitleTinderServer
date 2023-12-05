@@ -1,5 +1,5 @@
 import { parentRepo } from '../Repositories/mysql/parentRepository';
-import { Parent } from '../Entities/Parent';
+import { Parent } from '../Entities/MysqlEntities/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
 import { failed, success } from '../Utils/errorHandler';
 import { NameResponseDTO } from '../DTO/nameDTO';
@@ -27,7 +27,7 @@ export const getParents = async () => {
 
 export const getParentById = async (id: number) => {
   try {
-    const response = await parentRepo.findOneByID(id);
+    const response = await parentRepo.findOne(id);
     if (!response) {
       return failed('parent');
     }
@@ -49,7 +49,7 @@ export const updateParent = async (parentDTO: ParentRequestDTO) => {
 
 export const deleteParent = async (parentId: number) => {
   try {
-    const parentDB = await parentRepo.findOneByID(parentId);
+    const parentDB = await parentRepo.findOne(parentId);
 
     if (!parentDB) {
       return failed('parent');

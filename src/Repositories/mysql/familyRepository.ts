@@ -1,4 +1,4 @@
-import { Family } from '../../Entities/Family';
+import { Family } from '../../Entities/MysqlEntities/Family';
 import { mysqlDataSource } from '../data-sources';
 
 export const parentRepo = mysqlDataSource.getRepository(Family).extend({
