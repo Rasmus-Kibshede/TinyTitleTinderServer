@@ -9,5 +9,8 @@ export class Origin {
   religion: string;
 
   @Column('varchar', { name: 'description' })
-  description: Definition;
+  description: string;
+
+  @Column('varchar', { name: 'definition' })
+  definition: Definition;
 }
