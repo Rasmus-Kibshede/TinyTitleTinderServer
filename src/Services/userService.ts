@@ -62,8 +62,6 @@ export const getUserByID = async (id: number | string) => {
     }
     return success(convertToDTO(response as User));
   } catch (err) {
-    console.log('this is the error', err.message);
-
     return failed(err);
   }
 };
