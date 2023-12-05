@@ -1,31 +1,13 @@
 import 'dotenv/config';
-
-// Import the express in typescript file
-import express from 'express';
 import 'reflect-metadata';
-
-// import routes
-import userRouter from './routes/userRoute';
-import addressRoute from './routes/addressRoute';
-import roleRouter from './routes/roleRoute';
-import parentRouter from './routes/parentRoute';
-import nameRouter from './routes/nameRoute';
-import authRouter from './routes/authRoute';
-import originRouter from './routes/originRoute';
-import locationRoute from './routes/locationRoute';
-import familyRoute from './routes/familyRoute';
-import definitionRoute from './routes/definitionRoute';
+import express from 'express';
 import cors from 'cors';
 import cookiePaser from 'cookie-parser';
+import { getDb } from './Repositories/data-sources';
 
-// Initialize the express engine
 const app = express();
 app.use(express.json());
 app.use(cookiePaser());
-
-//Typeorm setup
-// import { mysqlDataSource } from './Repositories/data-sources';
-import { getDb } from './Repositories/data-sources';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -43,13 +25,18 @@ app.use('*', async (req, res, next) => {
   next();
 });
 
-// mysqlDataSource
-//   .initialize()
-//   .then(() => {
-//     // eslint-disable-next-line no-console
-//     console.log('Database connection established');
-
 // Routes
+import userRouter from './routes/userRoute';
+import addressRoute from './routes/addressRoute';
+import roleRouter from './routes/roleRoute';
+import parentRouter from './routes/parentRoute';
+import nameRouter from './routes/nameRoute';
+import authRouter from './routes/authRoute';
+import originRouter from './routes/originRoute';
+import locationRoute from './routes/locationRoute';
+import familyRoute from './routes/familyRoute';
+import definitionRoute from './routes/definitionRoute';
+
 app.use(cors());
 app.use(userRouter);
 app.use(authRouter);
@@ -62,16 +49,9 @@ app.use(locationRoute);
 app.use(familyRoute);
 app.use(definitionRoute);
 
-// Take a port 8080 for running server.
 const PORT = process.env.PORT || 3000;
 
-// Server setup
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`App: http://localhost:${PORT}/`);
 });
-//   })
-//   .catch((error) => {
-//     // eslint-disable-next-line no-console
-//     console.log(error);
-//   });
