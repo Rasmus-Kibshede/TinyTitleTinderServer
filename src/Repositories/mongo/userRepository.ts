@@ -2,6 +2,7 @@ import { UserMDB } from '../../Entities/MongoEntities/UserMDB';
 import { mongoDataSource } from '../data-sources';
 
 export const userRepoMDB = mongoDataSource.getMongoRepository(UserMDB).extend({
+  // For dynamic datasorce v2
   findOneUser(email: string | number) {
     return userRepoMDB.findOne({
       where: {

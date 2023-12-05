@@ -52,11 +52,11 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
   }
 };
 
-export const getUserByID = async (id: number | string) => {
+export const getUserByID = async (id: number) => {
   try {
-    const response = await repoHandler.dataUser()?.findOneUser(id);
+    // const response = await repoHandler.dataUser()?.findOneUser(id);
 
-    // const response = await userRepo.findOneByID(id);
+    const response = await userRepo.findOneByID(id);
     if (!response) {
       return failed('user');
     }
@@ -161,7 +161,7 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
 
 export const deleteUserByID = async (id: number) => {
   try {
-    const response = await userRepo.findOneUser(id);
+    const response = await userRepo.findOneByID(id);
     if (!response || !response.userActive) {
       return failed('user');
     }

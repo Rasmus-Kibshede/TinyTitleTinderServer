@@ -2,13 +2,24 @@ import { User } from '../../Entities/MysqlEntities/User';
 import { mysqlDataSource } from '../data-sources';
 
 export const userRepo = mysqlDataSource.getRepository(User).extend({
-  findOneUser(id: number | string) {
+  // For dynamic datasorce v2
+  // findOneUser(id: number | string) {
+  //   return userRepo.findOne({
+  //     relations: {
+  //       roles: true,
+  //     },
+  //     where: {
+  //       userId: Number(id),
+  //     },
+  //   });
+  // },
+  findOneByID(id: number) {
     return userRepo.findOne({
       relations: {
         roles: true,
       },
       where: {
-        userId: Number(id),
+        userId: id,
       },
     });
   },
