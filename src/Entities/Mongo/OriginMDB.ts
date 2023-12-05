@@ -1,19 +1,13 @@
 import { Column } from 'typeorm';
+import { Definition } from './Definition';
 
-export class OriginMDB {
+export class Origin {
+  @Column('varchar', { name: 'region' })
+  region: string;
 
-    @Column('varchar', { length: 255, nullable: false, name: 'region' })
-    region: string;
+  @Column('varchar', { name: 'religion' })
+  religion: string;
 
-    @Column('varchar', { length: 255, nullable: false, name: 'religion' })
-    religion: string;
-
-    @Column('varchar', { length: 255, nullable: false, name: 'description' })
-    description: string;
-
-    constructor(region: string, religion: string, description: string) {
-        this.region = region;
-        this.religion = religion;
-        this.description = description;
-    }
+  @Column('varchar', { name: 'description' })
+  description: Definition;
 }

@@ -1,16 +1,14 @@
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { OriginResponseDTO } from '../DTO/originDTO';
 import { Name } from '../Entities/Mysql/Name';
-// import { nameRepo } from '../Repositories/mysql/nameRepository';
 import { failed, success } from '../Utils/errorHandler';
 import { DefinitionResponseDTO } from '../DTO/definitionDTO';
 import { nameRepository } from '../Repositories/repositoryHandler';
-
-const nameRepo = nameRepository();
+import { nameRepo } from '../Repositories/Mysql/nameRepository';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
-    const response = await nameRepository()?.save(nameRequestDTO);
+    const response = await nameRepository()?.createName(nameRequestDTO);
 
     return success(convertToDTO(response));
   } catch (err) {

@@ -13,7 +13,7 @@ import { Parent } from './Parent';
 export class Name {
 
   @PrimaryGeneratedColumn({ name: 'name_suggest_id' })
-  nameSuggestId: number;
+  nameSuggestId?: number;
 
   @Column('varchar', { length: 255, nullable: false, name: 'name_suggest_name', unique: true, })
   nameSuggestName: string;

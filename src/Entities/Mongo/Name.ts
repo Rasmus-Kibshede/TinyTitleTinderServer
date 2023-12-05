@@ -1,6 +1,5 @@
 import { Entity, ObjectIdColumn, ObjectId, Column } from 'typeorm';
-import { OriginMDB } from './OriginMDB';
-import { MeaningMDB } from './MeaningMDB';
+import { Origin } from './OriginMDB';
 
 // We cannot reference other tables using TypeOrm, like we see in the rleational migrator code generator or in the MongoDB documentation:
 // https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/
@@ -8,7 +7,7 @@ import { MeaningMDB } from './MeaningMDB';
 @Entity({ name: 'name_suggest' })
 export class Name {
   @ObjectIdColumn()
-  _id: ObjectId;
+  _id?: ObjectId;
 
   @Column('varchar', {
     length: 255,
@@ -29,9 +28,6 @@ export class Name {
   @Column('varchar', { length: 255, nullable: true, name: 'namesakes' })
   namesakes: string;
 
-  @Column(() => OriginMDB)
-  origins: OriginMDB[];
-
-  @Column(() => MeaningMDB)
-  meanings: MeaningMDB[];
+  @Column(() => Origin)
+  origins: Origin[] | null;
 }
