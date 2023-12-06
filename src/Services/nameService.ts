@@ -1,6 +1,6 @@
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { OriginResponseDTO } from '../DTO/originDTO';
-import { Name } from '../Entities/Mysql/Name';
+// import { Name } from '../Entities/Mysql/Name';
 import { failed, success } from '../Utils/errorHandler';
 import { DefinitionResponseDTO } from '../DTO/definitionDTO';
 import { nameRepository } from '../Repositories/repositoryHandler';
@@ -9,8 +9,11 @@ import { nameRepo } from '../Repositories/Mysql/nameRepository';
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
     const response = await nameRepository()?.createName(nameRequestDTO);
+    if (!response) {
+      return failed('name');
+    }
 
-    return success(convertToDTO(response));
+    return success(response);
   } catch (err) {
     return failed(err);
   }
@@ -107,18 +110,18 @@ const RemoveDublicates = (response: any) => {
   return nameDTOs;
 };
 
-const convertToDTO = (name: Name) => {
-  const dto: NameResponseDTO = {
-    nameSuggestId: name.nameSuggestId,
-    nameSuggestName: name.nameSuggestName,
-    gender: name.gender,
-    popularity: Number(name.popularity),
-    nameDays: name.nameDays,
-    namesakes: name.namesakes,
-    origins: name.origins,
-  };
-  return dto;
-};
+// const convertToDTO = (name: Name) => {
+//   const dto: NameResponseDTO = {
+//     nameSuggestId: name.nameSuggestId,
+//     nameSuggestName: name.nameSuggestName,
+//     gender: name.gender,
+//     popularity: Number(name.popularity),
+//     nameDays: name.nameDays,
+//     namesakes: name.namesakes,
+//     origins: name.origins,
+//   };
+//   return dto;
+// };
 
 const convertToDTOSpecial = (
   name: NameStoredProcedure,

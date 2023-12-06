@@ -1,21 +1,24 @@
 import { Name } from '../../Entities/Mysql/Name';
 import { mysqlDataSource } from '../data-sources';
-import { NameRequestDTO } from '../../DTO/nameDTO';
+import { NameRequestDTO, NameResponseDTO } from '../../DTO/nameDTO';
+import { failed } from '../../Utils/errorHandler';
 
 export const nameRepo = mysqlDataSource.getRepository(Name).extend({
-  createName(nameRequestDTO: NameRequestDTO) {
-    return this.save(nameRequestDTO);
+  async createName(nameRequestDTO: NameRequestDTO) {
+    return convertToDTO(await this.save(nameRequestDTO));
   },
-  findOneByID(id: number) {
-    return nameRepo.findOne({
-      relations: {
-        origins: true,
-        parents: true,
-      },
-      where: {
-        nameSuggestId: id,
-      },
-    });
+  async findOneByID(id: number) {
+    return convertToDTO(
+      await this.findOne({
+        relations: {
+          origins: true,
+          parents: true,
+        },
+        where: {
+          nameSuggestId: id,
+        },
+      })
+    );
   },
   findAll() {
     return nameRepo.find({
@@ -40,3 +43,18 @@ export const nameRepo = mysqlDataSource.getRepository(Name).extend({
     return nameRepo.query('call GetNamesWithNoParentRelation(?)', [parentId]);
   },
 });
+
+const convertToDTO = (name: Name | null) => {
+  if (!name) return failed('name');
+
+  const dto: NameResponseDTO = {
+    nameSuggestId: name.nameSuggestId,
+    nameSuggestName: name.nameSuggestName,
+    gender: name.gender,
+    popularity: Number(name.popularity),
+    nameDays: name.nameDays,
+    namesakes: name.namesakes,
+    origins: name.origins,
+  };
+  return dto;
+};
