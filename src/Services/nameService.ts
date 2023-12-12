@@ -9,6 +9,7 @@ import { Name } from '../Entities/Mysql/Name';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
+    
     const response = await nameRepository()?.createOneName(nameRequestDTO);
     if (!response) {
       return failed('name');

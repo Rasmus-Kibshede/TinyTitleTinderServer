@@ -1,7 +1,7 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Parent } from '../Parent';
 import { BeforeInsert } from 'typeorm';
-import { appDataSource } from '../../Repositories/data-source';
+import { mysqlDataSource } from '../../../Repositories/data-sources';
 
 @AuditingEntity(Parent, { name: 'adt_parent' })
 export class ParentADT extends Parent implements AuditingEntityDefaultColumns {
@@ -12,7 +12,7 @@ export class ParentADT extends Parent implements AuditingEntityDefaultColumns {
     @BeforeInsert()
     dropFkAddressId() {
         if (process.env.SYNCHRONIZE !== 'true') {
-            const queryRunner = appDataSource.createQueryRunner();
+            const queryRunner = mysqlDataSource.createQueryRunner();
             queryRunner.query('ALTER TABLE adt_parent DROP COLUMN fk_address_id;');
             queryRunner.query('ALTER TABLE adt_parent ADD COLUMN fk_address_id INT NULL;');
             queryRunner.release();

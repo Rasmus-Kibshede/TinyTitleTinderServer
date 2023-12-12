@@ -25,7 +25,7 @@ export const mongoDataSource = new DataSource({
   password: process.env.DB_MONGO_PASSWORD,
   database: process.env.DB_MONGO_DATABASE,
   port: Number(process.env.DB_MONGO_DBPORT),
-  entities: ['src/Entities/MongoEntities/*.ts'],
+  entities: ['src/Entities/Mongo/*.ts'],
   synchronize: process.env.SYNCHRONIZE === 'true' || false,
   logging: false,
 });

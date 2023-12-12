@@ -1,7 +1,7 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Origin } from '../Origin';
 import { BeforeInsert } from 'typeorm';
-import { appDataSource } from '../../Repositories/data-source';
+import { mysqlDataSource } from '../../../Repositories/data-sources';
 
 @AuditingEntity(Origin, { name: 'adt_origin' })
 export class OriginADT extends Origin implements AuditingEntityDefaultColumns {
@@ -12,7 +12,7 @@ export class OriginADT extends Origin implements AuditingEntityDefaultColumns {
     @BeforeInsert()
     dropFkOriginId() {
         if (process.env.SYNCHRONIZE === 'true') {
-            const queryRunner = appDataSource.createQueryRunner();
+            const queryRunner = mysqlDataSource.createQueryRunner();
             queryRunner.query('ALTER TABLE adt_origin DROP COLUMN fk_definition_id;');
             queryRunner.query('ALTER TABLE adt_origin ADD COLUMN fk_definition_id INT NULL;');
             queryRunner.release();
