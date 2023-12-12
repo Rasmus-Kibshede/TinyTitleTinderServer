@@ -1,5 +1,5 @@
 import { UserMDB } from '../../Entities/Mongo/UserMDB';
-import { mongoDataSource } from '../data-sources';
+import { mongoDataSource } from '../mysql/data-sources';
 
 export const userRepoMDB = mongoDataSource.getMongoRepository(UserMDB).extend({
   // For dynamic datasorce v2

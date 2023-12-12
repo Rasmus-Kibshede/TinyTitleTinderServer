@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import cookiePaser from 'cookie-parser';
-import { getDb } from './Repositories/data-sources';
+import { getDb } from './Repositories/mysql/data-sources';
 
 const app = express();
 app.use(express.json());
