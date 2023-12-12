@@ -1,7 +1,7 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Role } from '../Role';
-import { ManyToMany } from 'typeorm';
 import { UserADT } from './UserADT';
+import { ManyToMany, JoinColumn } from 'typeorm';
 
 @AuditingEntity(Role, { name: 'adt_role' })
 export class RoleADT extends Role implements AuditingEntityDefaultColumns {
@@ -9,7 +9,7 @@ export class RoleADT extends Role implements AuditingEntityDefaultColumns {
     readonly _action!: AuditingAction.Update;
     readonly _modifiedAt!: Date;
 
-    @ManyToMany(() => UserADT, (user) => user.roles)
+    @ManyToMany(()=> UserADT, (user) => user.roles)
+    @JoinColumn()
     users: UserADT[];
-
 }

@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { UserRequestDTO } from '../DTO/userDTO';
+import { Address } from '../Entities/Address';
+import { Parent } from '../Entities/Parent';
 import { User } from '../Entities/User';
 import { appDataSource } from './data-source';
+import { parentRepo } from './parentRepository';
 
 export const userRepo = appDataSource.getRepository(User).extend({
   findOneByID(id: number) {
@@ -49,4 +49,14 @@ export const userRepo = appDataSource.getRepository(User).extend({
       params
     );
   },
+  signUpTransaction(parent: Parent, user: User, address: Address) {
+    return parentRepo.manager.transaction(
+      'SERIALIZABLE',
+      async (manager) => {
+        await manager.save(address);
+        await manager.save(parent);
+        await manager.save(user);
+      }
+    );
+  }
 });

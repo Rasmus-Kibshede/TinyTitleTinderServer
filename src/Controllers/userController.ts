@@ -6,8 +6,7 @@ import { ParentRequestDTO } from '../DTO/parentDTO';
 import { LocationRequestDTO } from '../DTO/locationDTO';
 import { AddressRequestDTO } from '../DTO/addressDTO';
 
-//TODO Dependency injection eller String med besked om hvilken db
-//TODO Validering af data, så applikation ikke crasher.
+
 export const createUser = async (req: Request, res: Response) => {
 	const UserRequestDTO: UserRequestDTO = {
 		email: req.body.email,
@@ -15,11 +14,11 @@ export const createUser = async (req: Request, res: Response) => {
 		roles: null
 	};
 	const response = await userService.createUser(UserRequestDTO);
-	responseController.response(res, response, 200);
+	responseController.response(res, response, 201);
 };
 
 export const signUp = async (req: Request, res: Response) => {
-	//Skal deles op i flere mindre metoder. 
+
 	const locationRequestDTO: LocationRequestDTO = {
 		locationId: req.body.locationId,
 	};
@@ -59,7 +58,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 	responseController.response(res, response, 200);
 };
 
-//TODO Denne kan ikke tage imod rolle uden at opdatere email, crasher appen.
+//TODO: Denne kan ikke tage imod rolle uden at opdatere email, crasher appen.
 export const updateUser = async (req: Request, res: Response) => {
 	const userRequestDTO: UserRequestDTO = {
 		email: req.body.newEmail,

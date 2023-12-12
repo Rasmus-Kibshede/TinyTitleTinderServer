@@ -29,6 +29,19 @@ export const getNameByID = async (id: number) => {
   }
 };
 
+export const getNameByNameSuggestName = async (name: string) => {
+try {
+  const response = await nameRepo.findOneByName(name);
+  if(!response){
+    return failed(new Error('No such name'));
+  }
+
+   return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
+  }
+};
+
 export const getNames = async () => {
   try {
     const names = await nameRepo.findAll();
@@ -45,10 +58,12 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
     let response;
     if (isLiked === 'true') {
       response = await nameRepo.findNamesByParentId(parentId);
-    } else (isLiked === 'false'); {
+    } else if (isLiked === 'false') {
       response = await nameRepo.findDislikedNamesByParentId(parentId);
+    } else {
+      return failed('isLiked');
     }
-    
+
     const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
 
     return success(nameDTOs);
@@ -59,12 +74,12 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
 
 export const getParentlessNames = async (parentId: number) => {
   try {
-  const response = await nameRepo.findParentlessNames(parentId);
-  const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
-  return success(nameDTOs);
-} catch (err) {
-  return failed(err);
-}
+    const response = await nameRepo.findParentlessNames(parentId);
+    const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
+    return success(nameDTOs);
+  } catch (err) {
+    return failed(err);
+  }
 };
 
 export const updateName = async (nameRequestDTO: NameRequestDTO) => {
