@@ -79,10 +79,10 @@ INSERT INTO parent (age, gender, first_name, last_name, fk_address_id) VALUES
 (32, 'Male', 'Wei', 'Wang',4);
 
 INSERT INTO user (email, password, user_active, created_at, last_login, fk_parent_id) VALUES
-('user1@example.com', 'password1', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 YEAR, 1),
-('user2@example.com', 'password2', 1, '2016-11-05 14:29:36', NOW() - INTERVAL 1 MONTH, 2),
-('user3@example.com', 'password3', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 WEEK, 3),
-('user4@example.com', 'password4', 1, '2019-11-05 14:29:36', NOW() - INTERVAL 1 DAY, 4);
+('user1@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 YEAR, 1),
+('user2@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2016-11-05 14:29:36', NOW() - INTERVAL 1 MONTH, 2),
+('user3@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 WEEK, 3),
+('user4@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2019-11-05 14:29:36', NOW() - INTERVAL 1 DAY, 4);
 
 INSERT INTO role (title) VALUES
 ('Super Admin'),
