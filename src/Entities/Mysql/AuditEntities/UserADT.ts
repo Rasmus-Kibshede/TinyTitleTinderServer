@@ -1,6 +1,6 @@
 // TODO: Update modifiedBy column to log user who made changes
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
-import { User } from '../Mysql/User';
+import { User } from '../User';
 import { ManyToMany, JoinTable, Column } from 'typeorm';
 import { RoleADT } from './RoleADT';
 

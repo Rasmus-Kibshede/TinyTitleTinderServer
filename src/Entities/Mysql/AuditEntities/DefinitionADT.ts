@@ -1,5 +1,5 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
-import { Definition } from '../Mysql/Definition';
+import { Definition } from '../Definition';
 
 @AuditingEntity(Definition, { name: 'adt_definition' })
 export class DefinitionADT extends Definition implements AuditingEntityDefaultColumns {

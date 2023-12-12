@@ -1,5 +1,5 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
-import { Location } from '../Mysql/Location';
+import { Location } from '../Location';
 import { OneToMany } from 'typeorm';
 import { AddressADT } from './AddressADT';
 import { ParentADT } from './ParentADT';

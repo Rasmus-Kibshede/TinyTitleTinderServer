@@ -1,5 +1,5 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
-import { Role } from '../Mysql/Role';
+import { Role } from '../Role';
 import { ManyToMany } from 'typeorm';
 import { UserADT } from './UserADT';
 

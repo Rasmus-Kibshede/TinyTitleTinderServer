@@ -10,8 +10,7 @@ export const mysqlDataSource = new DataSource({
   database: process.env.DB_MYSQL_DATABASE,
   port: Number(process.env.DB_MYSQL_PORT),
   entities: [
-    'src/Entities/MysqlEntities/*.ts',
-    'src/Entities/AuditEntities/*.ts',
+    'src/Entities/Mysql/**/*.ts',
   ],
   subscribers: [AuditingSubscriber],
   synchronize: process.env.SYNCHRONIZE === 'true' || false,

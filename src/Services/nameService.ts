@@ -5,6 +5,7 @@ import { failed, success } from '../Utils/errorHandler';
 import { DefinitionResponseDTO } from '../DTO/definitionDTO';
 import { nameRepository } from '../Repositories/repositoryHandler';
 import { nameRepo } from '../Repositories/Mysql/nameRepository';
+import { Name } from '../Entities/Mysql/Name';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
@@ -27,7 +28,7 @@ export const getNameByID = async (id: number) => {
       return failed('name');
     }
 
-    return success(convertToDTO(response));
+    return success(response);
   } catch (err) {
     return failed(err);
   }
@@ -83,13 +84,8 @@ export const updateName = async (nameRequestDTO: NameRequestDTO) => {
 
 export const deleteNameByID = async (id: number) => {
   try {
-    const nameDB = await nameRepo.findOneByID(id);
-
-    if (!nameDB) {
-      return failed('name');
-    }
-    const response = await nameRepo.remove(nameDB);
-    return success(convertToDTO(response));
+    const response = await nameRepo.delete(id);
+    return success(response);
   } catch (err) {
     return failed(err);
   }
@@ -110,18 +106,18 @@ const RemoveDublicates = (response: any) => {
   return nameDTOs;
 };
 
-// const convertToDTO = (name: Name) => {
-//   const dto: NameResponseDTO = {
-//     nameSuggestId: name.nameSuggestId,
-//     nameSuggestName: name.nameSuggestName,
-//     gender: name.gender,
-//     popularity: Number(name.popularity),
-//     nameDays: name.nameDays,
-//     namesakes: name.namesakes,
-//     origins: name.origins,
-//   };
-//   return dto;
-// };
+const convertToDTO = (name: Name) => {
+  const dto: NameResponseDTO = {
+    nameSuggestId: name.nameSuggestId,
+    nameSuggestName: name.nameSuggestName,
+    gender: name.gender,
+    popularity: Number(name.popularity),
+    nameDays: name.nameDays,
+    namesakes: name.namesakes,
+    origins: name.origins,
+  };
+  return dto;
+};
 
 const convertToDTOSpecial = (
   name: NameStoredProcedure,
