@@ -2,10 +2,10 @@ import { Location } from '../../Entities/Mysql/Location';
 import { mysqlDataSource } from '../data-sources';
 
 export const locationRepo = mysqlDataSource.getRepository(Location).extend({
-    findOneByID(id: number){
+    findOneByID(id: number) {
         return locationRepo.findOne({
             relations: {
-                streets: true
+                addresses: true
             },
             where: {
                 locationId: id
@@ -15,8 +15,8 @@ export const locationRepo = mysqlDataSource.getRepository(Location).extend({
     findAll() {
         return locationRepo.find({
             relations: {
-                streets: true
+                addresses: true
             },
         });
-    }    
+    }
 });
