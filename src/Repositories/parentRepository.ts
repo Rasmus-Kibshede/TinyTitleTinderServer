@@ -1,6 +1,4 @@
-import { Address } from '../Entities/Address';
 import { Parent } from '../Entities/Parent';
-import { User } from '../Entities/User';
 import { appDataSource } from './data-source';
 
 export const parentRepo = appDataSource.getRepository(Parent).extend({
@@ -41,14 +39,4 @@ export const parentRepo = appDataSource.getRepository(Parent).extend({
             }
         );
     },
-    signup(parent: Parent, user: User, address: Address) {
-        return parentRepo.manager.transaction(
-            'SERIALIZABLE',
-            async (manager) => {
-                await manager.save(address);
-                await manager.save(parent);
-                await manager.save(user);
-            }
-        );
-    }
 });

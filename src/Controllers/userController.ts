@@ -6,8 +6,7 @@ import { ParentRequestDTO } from '../DTO/parentDTO';
 import { LocationRequestDTO } from '../DTO/locationDTO';
 import { AddressRequestDTO } from '../DTO/addressDTO';
 
-//TODO: Dependency injection eller String med besked om hvilken db
-//TODO: Validering af data, så applikation ikke crasher.
+
 export const createUser = async (req: Request, res: Response) => {
 	const UserRequestDTO: UserRequestDTO = {
 		email: req.body.email,
@@ -19,7 +18,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const signUp = async (req: Request, res: Response) => {
-	//TODO: Skal deles op i flere mindre metoder. 
+
 	const locationRequestDTO: LocationRequestDTO = {
 		locationId: req.body.locationId,
 	};
