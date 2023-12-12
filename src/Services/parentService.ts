@@ -41,7 +41,7 @@ export const getParentById = async (id: number) => {
 export const updateParent = async (parentDTO: ParentRequestDTO) => {
   try {
     const response = await parentRepo.save(parentDTO as Parent);
-    
+
     return success(convertToDTO(response));
   } catch (err) {
     return failed(err);
@@ -68,13 +68,13 @@ export const updateTablesForName = async (
   dislikedNames: number[]
 ) => {
   try {
-    await parentRepo.updateTablesForName(
+    await parentRepo.saveLikedDislikedNames(
       parentId,
       likedNames,
       dislikedNames
     );
-    
-    return success('Updated tables for name');
+
+    return success(`Updated liked and disliked names for parent with id ${parentId}`);
 
   } catch (err) {
     return failed(err);
