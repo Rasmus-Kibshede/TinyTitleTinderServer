@@ -1,37 +1,15 @@
 import { Name } from '../../Entities/Mongo/Name';
-import { mongoDataSource } from '../mysql/data-sources';
+import { mongoDataSource } from '../data-sources';
 import { NameRequestDTO } from '../../DTO/nameDTO';
 
 export const nameRepo = mongoDataSource.getMongoRepository(Name).extend({
+  getAllNames() {
+    return this.find({});
+  },
+  findOneByName(nameRequestDTO: NameRequestDTO) {
+    return this.findOneBy({ nameSuggestName: nameRequestDTO.nameSuggestName });
+  },
   createOneName(nameRequestDTO: NameRequestDTO) {
     return this.save(nameRequestDTO);
   },
-  //   findOneByID(id: number) {
-  //     return nameRepo.findOne({
-  //       relations: {
-  //         origins: true,
-  //         parents: true,
-  //       },
-  //       where: {
-  //         nameSuggestId: id,
-  //       },
-  //     });
-  //   },
-  //   findAll() {
-  //     return nameRepo.find({
-  //       relations: {
-  //         origins: true,
-  //         parents: true,
-  //       }
-  //     });
-  //   },
-  //   findNamesByParentId(parentId: number) {
-  //     return nameRepo.query('call GetNamesOriginsDefinitionsByParentId(?)', [parentId]);
-  //   },
-  //   findDislikedNamesByParentId(parentId: number) {
-  //     return nameRepo.query('call GetDislikedNamesOriginsDefinitionsByParentId(?)', [parentId]);
-  //   },
-  //   findParentlessNames(parentId: number){
-  //     return nameRepo.query('call GetNamesWithNoParentRelation(?)', [parentId]);
-  //   }
 });

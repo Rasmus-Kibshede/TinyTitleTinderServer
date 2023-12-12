@@ -16,7 +16,7 @@ export const createLocation = async (locationRequestDTO: LocationRequestDTO) => 
 export const getLocations = async () => {
     try {
         const locations = await locationRepo.findAll();
-        const locationDTOs: LocationResponseDTO[] = locations.map(location => convertToDTO(location));
+        const locationDTOs: LocationResponseDTO[] = locations.map((location: Location) => convertToDTO(location));
         return success(locationDTOs);
 
     } catch (err) {

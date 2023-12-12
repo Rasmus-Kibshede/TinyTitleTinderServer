@@ -16,7 +16,7 @@ export const createFamily = async (familyRequestDTO: FamilyRequestDTO) => {
 export const getFamilies = async () => {
     try {
         const families = await familyRepo.findAll();
-        const familyDTOs: FamilyResponseDTO[] = families.map(family => convertToDTO(family));
+        const familyDTOs: FamilyResponseDTO[] = families.map((family: Family) => convertToDTO(family));
         return success(familyDTOs);
 
     } catch (err) {

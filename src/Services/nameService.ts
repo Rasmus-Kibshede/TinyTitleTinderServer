@@ -50,7 +50,7 @@ try {
 export const getNames = async () => {
   try {
     const names = await nameRepo.findAll();
-    const nameDTOs: NameResponseDTO[] = names.map((name) => convertToDTO(name));
+    const nameDTOs: NameResponseDTO[] = names.map((name: Name) => convertToDTO(name));
 
     return success(nameDTOs);
   } catch (err) {

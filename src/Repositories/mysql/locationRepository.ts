@@ -1,5 +1,5 @@
-import { Location } from '../Entities/Mysql/Location';
-import { mysqlDataSource } from './data-sources';
+import { Location } from '../../Entities/Mysql/Location';
+import { mysqlDataSource } from '../data-sources';
 
 export const locationRepo = mysqlDataSource.getRepository(Location).extend({
     findOneByID(id: number) {

@@ -16,7 +16,7 @@ export const createDefinition = async (definitionRequestDTO: DefinitionRequestDT
 export const getDefinitions = async () => {
     try {
         const definitions = await definitionRepo.findAll();
-        const definitionDTOs: DefinitionResponseDTO[] = definitions.map(definition => convertToDTO(definition));
+        const definitionDTOs: DefinitionResponseDTO[] = definitions.map((definition: Definition) => convertToDTO(definition));
         return success(definitionDTOs);
 
     } catch (err) {

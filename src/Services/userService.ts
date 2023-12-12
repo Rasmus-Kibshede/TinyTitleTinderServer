@@ -133,7 +133,7 @@ export const getParentByEmailAndPassword = async (
 export const getUsers = async () => {
   try {
     const users = await userRepo.findAll();
-    const userDTOs: UserResponseDTO[] = users.map((user) => convertToDTO(user));
+    const userDTOs: UserResponseDTO[] = users.map((user: User) => convertToDTO(user));
     return success(userDTOs);
   } catch (err) {
     return failed(err);
