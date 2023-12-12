@@ -42,6 +42,17 @@ export const nameRepo = mysqlDataSource.getRepository(Name).extend({
   findParentlessNames(parentId: number) {
     return nameRepo.query('call GetNamesWithNoParentRelation(?)', [parentId]);
   },
+  findOneByName(name: string) {
+    return nameRepo.findOne({
+      relations: {
+        origins: true,
+        parents: true,
+      },
+      where: {
+        nameSuggestName: name
+      }
+    });
+  }
 });
 
 const convertToDTO = (name: Name | null) => {

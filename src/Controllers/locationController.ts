@@ -9,7 +9,7 @@ export const createLocation = async (req: Request, res: Response) => {
     };
 
     const response = await locationService.createLocation(locationRequestDTO);
-    responseController.response(res, response, 200);
+    responseController.response(res, response, 201);
 };
 
 export const getAllLocations = async (req: Request, res: Response) => {

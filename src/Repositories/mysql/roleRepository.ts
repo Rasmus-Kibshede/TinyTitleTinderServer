@@ -6,8 +6,7 @@ export const roleRepo = mysqlDataSource.getRepository(Role).extend({
         return roleRepo.find({
             select: {
                 roleId: true,
-                title: true,
-                users: true
+                title: true
             },
             relations: {
                 users: true
@@ -16,8 +15,6 @@ export const roleRepo = mysqlDataSource.getRepository(Role).extend({
     },
     findOneByID(id: number) {
         return roleRepo.findOne({
-            relations: {
-            },
             where: {
                 roleId: id
             }

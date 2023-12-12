@@ -9,5 +9,6 @@ parentRouter.get('/parents', parentController.getAllParents);
 parentRouter.get('/parents/:id', validateParamsId, parentController.getParentById);
 parentRouter.put('/parents', parentController.updateParent);
 parentRouter.put('/parents/:id', validateParamsId, parentController.deleteParent);
+parentRouter.put('/parents/:id/tables', parentController.updateTablesForName);
 
 export default parentRouter;

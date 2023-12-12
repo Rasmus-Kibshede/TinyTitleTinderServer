@@ -10,6 +10,8 @@ import { parentRepo } from '../Repositories/Mysql/parentRepository';
 import { ParentResponseDTO } from '../DTO/parentDTO';
 import { addressRepo } from '../Repositories/Mysql/addressRepository';
 import { AddressResponseDTO } from '../DTO/addressDTO';
+import * as nameService from './nameService';
+import { NameResponseDTO } from '../DTO/nameDTO';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
@@ -70,40 +72,50 @@ export const getParentByEmailAndPassword = async (
   res: Response
 ) => {
   try {
-    const response = await userRepo.findOneByEmail(userLogin.email);
+    const response = await userRepo.findOneByEmail(userLogin.email);  
 
     if (!response) {
       return failed(new Error('Email or password is incorrect'));
     }
-
-    const isPsswordCorrect = await comparePassword(
+    const isPasswordCorrect = await comparePassword(
       userLogin.password,
       response.password
-    );
+    );  
 
-    if (!isPsswordCorrect) {
+    if (!isPasswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
     }
 
     await userRepo.updateLastLogin(response.email);
 
-    const parent = (await parentRepo.findOne(
-      response.parent.parentId
-    )) as ParentResponseDTO;
+    const parent = await parentRepo.findOneByID(response.parent.parentId) as ParentResponseDTO;
     if (!parent) {
       return failed(new Error('No Parent'));
+    }
+
+    if (!parent.likedNames) {
+      const likedNames = await nameService.getNamesByParentId(parent.parentId!, 'true');
+
+      if (likedNames.success) {
+        parent.likedNames = likedNames.result.data as NameResponseDTO[];
+      }
+
+      const dislikedNames = await nameService.getNamesByParentId(parent.parentId!, 'false');
+
+      if (dislikedNames.success) {
+        parent.dislikedNames = dislikedNames.result.data as NameResponseDTO[];
+      }
     }
 
     const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
       parent: parent,
-      userActive: false,
+
+      userActive: false
     };
 
-    const address = (await addressRepo.findOneByID(
-      Number(user.parent?.address.addressId)
-    )) as AddressResponseDTO;
+    const address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as AddressResponseDTO;
     if (!address) {
       return failed(new Error('No Address'));
     }
@@ -111,7 +123,7 @@ export const getParentByEmailAndPassword = async (
     user.parent!.address = address;
 
     const token = await authService.login(response, res);
-
+  
     return success({ user: user, token });
   } catch (err) {
     return failed(err);
@@ -136,12 +148,12 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
       return failed(new Error('Email or password is incorrect'));
     }
 
-    const isPsswordCorrect = await comparePassword(
+    const isPasswordCorrect = await comparePassword(
       userDTO.password,
       response.password
     );
 
-    if (!isPsswordCorrect) {
+    if (!isPasswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
     }
 

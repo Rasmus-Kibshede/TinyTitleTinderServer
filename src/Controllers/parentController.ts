@@ -4,26 +4,17 @@ import * as responseController from '../Controllers/responseController';
 import { ParentRequestDTO } from '../DTO/parentDTO';
 
 export const createParent = async (req: Request, res: Response) => {
-    let parentRequestDTO: ParentRequestDTO;
-    if (!req.body.user) {
-        parentRequestDTO = {
-            age: req.body.age,
-            gender: req.body.gender,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            address: req.body.address
-        };
-    }
-     parentRequestDTO = {
+    const parentRequestDTO: ParentRequestDTO = {
         age: req.body.age,
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        address: req.body.address
-    };
+        families: req.body.families,
+        address: req.body.address,
+     };
 
     const response = await parentService.createParent(parentRequestDTO);
-    responseController.response(res, response, 200);
+    responseController.response(res, response, 201);
 };
 
 export const getAllParents = async (req: Request, res: Response) => {
@@ -38,13 +29,17 @@ export const getParentById = async (req: Request, res: Response) => {
 
 export const updateParent = async (req: Request, res: Response) => {
     const parentRequestDTO: ParentRequestDTO = {
-        parentId: req.body.id,
+        parentId: req.body.parentId,
         age: req.body.age,
         gender: req.body.gender,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        likedNames: req.body.likedNames,
+        dislikedNames: req.body.dislikedNames,
+        families: req.body.families,
         address: req.body.address
     };
+    
     const response = await parentService.updateParent(parentRequestDTO);
     responseController.response(res, response, 200);
 };
@@ -52,4 +47,9 @@ export const updateParent = async (req: Request, res: Response) => {
 export const deleteParent = async (req: Request, res: Response) => {
     const response = await parentService.deleteParent(Number(req.params.id));
     responseController.response(res, response, 204);
+};
+
+export const updateTablesForName = async (req: Request, res: Response) => {
+    const response = await parentService.updateTablesForName(Number(req.params.id), req.body.likedNames, req.body.dislikedNames);
+    responseController.response(res, response, 200);
 };

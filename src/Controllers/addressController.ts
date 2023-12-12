@@ -11,7 +11,7 @@ export const createAddress = async (req: Request, res: Response) => {
         location: req.body.location
     };
     const response = await addressService.createAddress(addressRequestDTO);
-    responseController.response(res, response, 200);
+    responseController.response(res, response, 201);
 };
 
 export const getAllAddresses = async (req: Request, res: Response) => {

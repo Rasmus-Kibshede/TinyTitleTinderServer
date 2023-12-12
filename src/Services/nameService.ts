@@ -34,6 +34,19 @@ export const getNameByID = async (id: number) => {
   }
 };
 
+export const getNameByNameSuggestName = async (name: string) => {
+try {
+  const response = await nameRepo.findOneByName(name);
+  if(!response){
+    return failed(new Error('No such name'));
+  }
+
+   return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
+  }
+};
+
 export const getNames = async () => {
   try {
     const names = await nameRepo.findAll();
@@ -52,6 +65,8 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
       response = await nameRepo.findNamesByParentId(parentId);
     } else if (isLiked === 'false') {
       response = await nameRepo.findDislikedNamesByParentId(parentId);
+    } else {
+      return failed('isLiked');
     }
 
     const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);

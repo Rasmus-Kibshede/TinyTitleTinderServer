@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   JoinTable,
   ManyToMany,
@@ -15,6 +16,7 @@ export class Name {
   @PrimaryGeneratedColumn({ name: 'name_suggest_id' })
   nameSuggestId?: number;
 
+  @Index('name',{ unique: true }) 
   @Column('varchar', { length: 255, nullable: false, name: 'name_suggest_name', unique: true, })
   nameSuggestName: string;
 
@@ -46,11 +48,11 @@ export class Name {
   })
   origins: Origin[] | null;
 
-  @ManyToMany(() => Parent, (parent) => parent.names)
+  @ManyToMany(() => Parent, (parent) => parent.likedNames)
   @JoinColumn()
   parents: Parent[];
 
-  @ManyToMany(() => Parent, (parent) => parent.names)
+  @ManyToMany(() => Parent, (parent) => parent.likedNames)
   @JoinColumn()
   parentsDislike: Parent[];
 }

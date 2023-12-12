@@ -27,7 +27,7 @@ export const getParents = async () => {
 
 export const getParentById = async (id: number) => {
   try {
-    const response = await parentRepo.findOne(id);
+    const response = await parentRepo.findOneByID(id);
     if (!response) {
       return failed('parent');
     }
@@ -40,7 +40,8 @@ export const getParentById = async (id: number) => {
 
 export const updateParent = async (parentDTO: ParentRequestDTO) => {
   try {
-    const response = await parentRepo.save(parentDTO);
+    const response = await parentRepo.save(parentDTO as Parent);
+
     return success(convertToDTO(response));
   } catch (err) {
     return failed(err);
@@ -49,13 +50,32 @@ export const updateParent = async (parentDTO: ParentRequestDTO) => {
 
 export const deleteParent = async (parentId: number) => {
   try {
-    const parentDB = await parentRepo.findOne(parentId);
+    const parentDB = await parentRepo.findOneByID(parentId);
 
     if (!parentDB) {
       return failed('parent');
     }
     const response = await parentRepo.remove(parentDB);
     return success(convertToDTO(response));
+  } catch (err) {
+    return failed(err);
+  }
+};
+
+export const updateTablesForName = async (
+  parentId: number,
+  likedNames: number[],
+  dislikedNames: number[]
+) => {
+  try {
+    await parentRepo.saveLikedDislikedNames(
+      parentId,
+      likedNames,
+      dislikedNames
+    );
+
+    return success(`Updated liked and disliked names for parent with id ${parentId}`);
+
   } catch (err) {
     return failed(err);
   }
@@ -68,7 +88,8 @@ export const convertToDTO = (parent: Parent) => {
     gender: parent.gender,
     firstName: parent.firstName,
     lastName: parent.lastName,
-    names: parent.names as NameResponseDTO[],
+    likedNames: parent.likedNames as NameResponseDTO[],
+    dislikedNames: parent.dislikedNames as NameResponseDTO[],
     families: parent.families,
     address: parent.address,
   };
