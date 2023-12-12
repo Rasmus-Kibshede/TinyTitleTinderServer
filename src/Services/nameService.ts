@@ -9,7 +9,7 @@ import { Name } from '../Entities/Mysql/Name';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
-    const response = await nameRepository()?.createName(nameRequestDTO);
+    const response = await nameRepository()?.createOneName(nameRequestDTO);
     if (!response) {
       return failed('name');
     }
@@ -50,8 +50,7 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
     let response;
     if (isLiked === 'true') {
       response = await nameRepo.findNamesByParentId(parentId);
-    } else isLiked === 'false';
-    {
+    } else if (isLiked === 'false') {
       response = await nameRepo.findDislikedNamesByParentId(parentId);
     }
 
@@ -84,8 +83,13 @@ export const updateName = async (nameRequestDTO: NameRequestDTO) => {
 
 export const deleteNameByID = async (id: number) => {
   try {
-    const response = await nameRepo.delete(id);
-    return success(response);
+    const { affected } = await nameRepo.delete(id);
+
+    if (affected === 0) {
+      return failed('name');
+    }
+
+    return success('Name deleted');
   } catch (err) {
     return failed(err);
   }

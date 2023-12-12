@@ -3,7 +3,7 @@ import { mongoDataSource } from '../data-sources';
 import { NameRequestDTO } from '../../DTO/nameDTO';
 
 export const nameRepo = mongoDataSource.getMongoRepository(Name).extend({
-  createName(nameRequestDTO: NameRequestDTO) {
+  createOneName(nameRequestDTO: NameRequestDTO) {
     return this.save(nameRequestDTO);
   },
   //   findOneByID(id: number) {

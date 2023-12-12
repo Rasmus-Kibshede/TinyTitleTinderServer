@@ -4,7 +4,7 @@ import { NameRequestDTO, NameResponseDTO } from '../../DTO/nameDTO';
 import { failed } from '../../Utils/errorHandler';
 
 export const nameRepo = mysqlDataSource.getRepository(Name).extend({
-  async createName(nameRequestDTO: NameRequestDTO) {
+  async createOneName(nameRequestDTO: NameRequestDTO) {
     return convertToDTO(await this.save(nameRequestDTO));
   },
   async findOneByID(id: number) {
