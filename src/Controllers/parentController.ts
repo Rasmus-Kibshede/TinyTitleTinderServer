@@ -3,7 +3,6 @@ import * as parentService from '../Services/parentService';
 import * as responseController from '../Controllers/responseController';
 import { ParentRequestDTO } from '../DTO/parentDTO';
 
-// TODO: Skal families ikke kunne addes til en parent i create og update?
 export const createParent = async (req: Request, res: Response) => {
     const parentRequestDTO: ParentRequestDTO = {
         age: req.body.age,
