@@ -62,7 +62,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
 	const userRequestDTO: UserRequestDTO = {
 		email: req.body.newEmail,
-		password: req.body.password,
+		password: req.body.newPassword,
 		roles: req.body.roles
 	};
 	const response = await userService.updateUser(userRequestDTO, req.body.email);

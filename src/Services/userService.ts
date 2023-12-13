@@ -148,17 +148,8 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
       return failed(new Error('Email or password is incorrect'));
     }
 
-    const isPasswordCorrect = await comparePassword(
-      userDTO.password,
-      response.password
-    );
-
-    if (!isPasswordCorrect) {
-      return failed(new Error('Email or password is incorrect'));
-    }
-
     response.email = userDTO.email;
-    response.password = await hashPassword(userDTO.password);
+    response.password = userDTO.password === '' ? response.password :  await hashPassword(userDTO.password);
 
     const savedUser = await userRepo.save(response);
     if (!savedUser) {
