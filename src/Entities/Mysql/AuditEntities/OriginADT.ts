@@ -1,7 +1,7 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Origin } from '../Origin';
 import { BeforeInsert } from 'typeorm';
-import { mysqlDataSource } from '../../../Repositories/data-sources';
+import { mysqlDataSource } from '../../../Repositories/data-source';
 
 @AuditingEntity(Origin, { name: 'adt_origin' })
 export class OriginADT extends Origin implements AuditingEntityDefaultColumns {

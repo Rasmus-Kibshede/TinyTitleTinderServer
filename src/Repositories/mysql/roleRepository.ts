@@ -1,5 +1,5 @@
 import { Role } from '../../Entities/Mysql/Role';
-import { mysqlDataSource } from '../data-sources';
+import { mysqlDataSource } from '../data-source';
 
 export const roleRepo = mysqlDataSource.getRepository(Role).extend({
     findAll() {

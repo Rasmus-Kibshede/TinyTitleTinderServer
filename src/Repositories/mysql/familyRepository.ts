@@ -1,5 +1,5 @@
 import { Family } from '../../Entities/Mysql/Family';
-import { mysqlDataSource } from '../data-sources';
+import { mysqlDataSource } from '../data-source';
 
 export const parentRepo = mysqlDataSource.getRepository(Family).extend({
     findOneByID(id: number) {

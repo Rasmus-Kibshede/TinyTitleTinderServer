@@ -1,5 +1,5 @@
 import { User } from '../../Entities/Mysql/User';
-import { mysqlDataSource } from '../data-sources';
+import { mysqlDataSource } from '../data-source';
 
 export const userRepo = mysqlDataSource.getRepository(User).extend({
   findOneByID(id: number) {

@@ -2,7 +2,7 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { User } from '../User';
 import { Column, BeforeInsert, JoinColumn, JoinTable, ManyToMany } from 'typeorm';
-import { mysqlDataSource } from '../../../Repositories/data-sources';
+import { mysqlDataSource } from '../../../Repositories/data-source';
 import { RoleADT } from './RoleADT';
 
 @AuditingEntity(User, { name: 'adt_user' })

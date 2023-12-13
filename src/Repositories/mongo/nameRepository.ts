@@ -1,5 +1,5 @@
 import { Name } from '../../Entities/Mongo/Name';
-import { mongoDataSource } from '../data-sources';
+import { mongoDataSource } from '../data-source';
 import { NameRequestDTO } from '../../DTO/nameDTO';
 
 export const nameRepo = mongoDataSource.getMongoRepository(Name).extend({

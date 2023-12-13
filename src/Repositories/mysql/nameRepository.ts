@@ -1,5 +1,5 @@
 import { Name } from '../../Entities/Mysql/Name';
-import { mysqlDataSource } from '../data-sources';
+import { mysqlDataSource } from '../data-source';
 import { NameRequestDTO, NameResponseDTO } from '../../DTO/nameDTO';
 import { failed } from '../../Utils/errorHandler';
 
