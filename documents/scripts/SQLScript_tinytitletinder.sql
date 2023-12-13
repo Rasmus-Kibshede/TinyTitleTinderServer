@@ -260,9 +260,9 @@ CREATE EVENT changeUserToInactive
         EVERY 1 DAY STARTS CURRENT_TIMESTAMP
     DO BEGIN
     UPDATE user
-    SET user_active = 0
+    SET user_active = false
     WHERE last_login < NOW() - INTERVAL 1 YEAR
-      AND user_active = 1;
+      AND user_active = true;
 END //
 
 DROP EVENT IF EXISTS changeUserToActive;
