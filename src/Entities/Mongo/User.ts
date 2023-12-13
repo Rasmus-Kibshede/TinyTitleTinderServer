@@ -9,7 +9,7 @@ import {
 // We cannot reference other tables using TypeOrm, like we see in the rleational migrator code generator or in the MongoDB documentation:
 // https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/ 
 // https://github.com/typeorm/typeorm/pull/9494 - this is a known issue
-@Entity({ name: 'user' })
+@Entity({ name: 'users' })
 export class User {
     
     @ObjectIdColumn()

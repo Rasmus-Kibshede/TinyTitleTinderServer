@@ -20,11 +20,8 @@ export const mysqlDataSource = new DataSource({
 // TODO: Find solution to RangeError: Maximum call stack size exceeded when giving entity path.
 export const mongoDataSource = new DataSource({
   type: 'mongodb',
-  host: process.env.DB_MONGO_HOST,
-  username: process.env.DB_MONGO_USERNAME,
-  password: process.env.DB_MONGO_PASSWORD,
+  url: process.env.DB_MONGO_URL,
   database: process.env.DB_MONGO_DATABASE,
-  port: Number(process.env.DB_MONGO_DBPORT),
   entities: ['src/Entities/Mongo/*.ts'],
   synchronize: process.env.SYNCHRONIZE === 'true' || false,
   logging: false,
