@@ -4,13 +4,13 @@ import {
     ObjectId,
     Column,
 } from 'typeorm';
-import { LocationMDB } from './LocationMDB';
+import { Location } from './Location';
 
 // We cannot reference other tables using TypeOrm, like we see in the rleational migrator code generator or in the MongoDB documentation:
 // https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/ 
 // https://github.com/typeorm/typeorm/pull/9494 - this is a known issue
 @Entity({ name: 'address' })
-export class AddressMDB {
+export class Address {
     
     @ObjectIdColumn()
     _id: ObjectId;
@@ -24,6 +24,6 @@ export class AddressMDB {
     @Column('varchar', { length: 255, nullable: false, name: 'address' })
     address: string;
 
-    @Column(() => LocationMDB)
-    location: LocationMDB;
+    @Column(() => Location)
+    location: Location;
 }

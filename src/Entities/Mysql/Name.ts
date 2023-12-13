@@ -52,7 +52,7 @@ export class Name {
   @JoinColumn()
   parents: Parent[];
 
-  @ManyToMany(() => Parent, (parent) => parent.likedNames)
+  @ManyToMany(() => Parent, (parent) => parent.dislikedNames)
   @JoinColumn()
   parentsDislike: Parent[];
 }

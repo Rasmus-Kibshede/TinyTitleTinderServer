@@ -10,7 +10,7 @@ import {
 // https://www.mongodb.com/docs/manual/tutorial/model-referenced-one-to-many-relationships-between-documents/ 
 // https://github.com/typeorm/typeorm/pull/9494 - this is a known issue
 @Entity({ name: 'user' })
-export class UserMDB {
+export class User {
     
     @ObjectIdColumn()
     _id: ObjectId;

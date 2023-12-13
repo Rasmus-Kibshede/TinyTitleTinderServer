@@ -1,6 +1,6 @@
 import { Column } from 'typeorm';
 
-export class FamilyMDB {
+export class Family {
 
     @Column('varchar', { length: 255, name: 'family_name'})
     familyName: string;
