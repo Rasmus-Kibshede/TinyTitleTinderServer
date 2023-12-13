@@ -10,7 +10,7 @@ export const mysqlDataSource = new DataSource({
   database: process.env.DB_MYSQL_DATABASE,
   port: Number(process.env.DB_MYSQL_PORT),
   entities: [
-    'src/Entities/Mysql/**/*.ts',
+    'src/Entities/Mysql/**/*.js',
   ],
   subscribers: [AuditingSubscriber],
   synchronize: process.env.SYNCHRONIZE === 'true' || false,
@@ -21,7 +21,7 @@ export const mongoDataSource = new DataSource({
   type: 'mongodb',
   url: process.env.DB_MONGO_URL,
   database: process.env.DB_MONGO_DATABASE,
-  entities: ['src/Entities/Mongo/*.ts'],
+  entities: ['src/Entities/Mongo/*.js'],
   synchronize: process.env.SYNCHRONIZE === 'true' || false,
   logging: false,
 });
