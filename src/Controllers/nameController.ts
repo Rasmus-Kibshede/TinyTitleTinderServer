@@ -13,13 +13,19 @@ export const createName = async (req: Request, res: Response) => {
   };
 
   const response = await nameService.createName(nameRequestDTO);
-  responseController.response(res, response, 200);
+  responseController.response(res, response, 201);
 };
 
 export const getNameByID = async (req: Request, res: Response) => {
   const response = await nameService.getNameByID(Number(req.params.id));
   responseController.response(res, response, 200);
 };
+
+export const getNameByNameSuggestName = async (req: Request, res: Response) => {
+const response = await nameService.getNameByNameSuggestName(req.params.name);
+responseController.response(res, response, 200);
+};
+
 
 export const getAllNames = async (req: Request, res: Response) => {
   const response = await nameService.getNames();
@@ -52,7 +58,8 @@ export const updateName = async (req: Request, res: Response) => {
 
 export const deleteNameByID = async (req: Request, res: Response) => {
   const response = await nameService.deleteNameByID(Number(req.params.id));
-  responseController.response(res, response, 204);
+  
+  responseController.response(res, response, 200);
 };
 
 

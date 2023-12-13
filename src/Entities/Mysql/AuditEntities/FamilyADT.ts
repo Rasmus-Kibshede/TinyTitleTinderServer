@@ -1,10 +1,9 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
-import { Definition } from '../Definition';
+import { Family } from '../Family';
 
-@AuditingEntity(Definition, { name: 'adt_definition' })
-export class DefinitionADT extends Definition implements AuditingEntityDefaultColumns {
+@AuditingEntity(Family, { name: 'adt_family' })
+export class FamilyADT extends Family implements AuditingEntityDefaultColumns {
     readonly _seq!: number;
     readonly _action!: AuditingAction;
     readonly _modifiedAt!: Date;
-
 }

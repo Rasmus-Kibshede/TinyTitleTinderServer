@@ -12,7 +12,7 @@ export const createOrigin = async (req: Request, res: Response) => {
     };
 
     const response = await originService.createOrigin(originRequestDTO);
-    responseController.response(res, response, 200);
+    responseController.response(res, response, 201);
 };
 
 export const getOriginByID = async (req: Request, res: Response) => {

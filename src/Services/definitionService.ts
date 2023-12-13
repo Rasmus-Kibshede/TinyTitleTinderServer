@@ -1,6 +1,6 @@
 import { DefinitionRequestDTO, DefinitionResponseDTO } from '../DTO/definitionDTO';
-import { Definition } from '../Entities/Definition';
-import { definitionRepo } from '../Repositories/definitionRepository';
+import { Definition } from '../Entities/Mysql/Definition';
+import { definitionRepo } from '../Repositories/Mysql/definitionRepository';
 import { failed, success } from '../Utils/errorHandler';
 
 export const createDefinition = async (definitionRequestDTO: DefinitionRequestDTO) => {
@@ -16,7 +16,7 @@ export const createDefinition = async (definitionRequestDTO: DefinitionRequestDT
 export const getDefinitions = async () => {
     try {
         const definitions = await definitionRepo.findAll();
-        const definitionDTOs: DefinitionResponseDTO[] = definitions.map(definition => convertToDTO(definition));
+        const definitionDTOs: DefinitionResponseDTO[] = definitions.map((definition: Definition) => convertToDTO(definition));
         return success(definitionDTOs);
 
     } catch (err) {

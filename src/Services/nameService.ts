@@ -1,15 +1,21 @@
 import { NameRequestDTO, NameResponseDTO } from '../DTO/nameDTO';
 import { OriginResponseDTO } from '../DTO/originDTO';
-import { Name } from '../Entities/Name';
-import { nameRepo } from '../Repositories/nameRepository';
+// import { Name } from '../Entities/Mysql/Name';
 import { failed, success } from '../Utils/errorHandler';
 import { DefinitionResponseDTO } from '../DTO/definitionDTO';
+import { nameRepository } from '../Repositories/repositoryHandler';
+import { nameRepo } from '../Repositories/Mysql/nameRepository';
+import { Name } from '../Entities/Mysql/Name';
 
 export const createName = async (nameRequestDTO: NameRequestDTO) => {
   try {
-    const response = await nameRepo.save(nameRequestDTO);
+    
+    const response = await nameRepository()?.createOneName(nameRequestDTO);
+    if (!response) {
+      return failed('name');
+    }
 
-    return success(convertToDTO(response));
+    return success(response);
   } catch (err) {
     return failed(err);
   }
@@ -23,7 +29,20 @@ export const getNameByID = async (id: number) => {
       return failed('name');
     }
 
-    return success(convertToDTO(response));
+    return success(response);
+  } catch (err) {
+    return failed(err);
+  }
+};
+
+export const getNameByNameSuggestName = async (name: string) => {
+try {
+  const response = await nameRepo.findOneByName(name);
+  if(!response){
+    return failed(new Error('No such name'));
+  }
+
+   return success(convertToDTO(response));
   } catch (err) {
     return failed(err);
   }
@@ -32,7 +51,7 @@ export const getNameByID = async (id: number) => {
 export const getNames = async () => {
   try {
     const names = await nameRepo.findAll();
-    const nameDTOs: NameResponseDTO[] = names.map((name) => convertToDTO(name));
+    const nameDTOs: NameResponseDTO[] = names.map((name: Name) => convertToDTO(name));
 
     return success(nameDTOs);
   } catch (err) {
@@ -45,10 +64,12 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
     let response;
     if (isLiked === 'true') {
       response = await nameRepo.findNamesByParentId(parentId);
-    } else (isLiked === 'false'); {
+    } else if (isLiked === 'false') {
       response = await nameRepo.findDislikedNamesByParentId(parentId);
+    } else {
+      return failed('isLiked');
     }
-    
+
     const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
 
     return success(nameDTOs);
@@ -59,19 +80,18 @@ export const getNamesByParentId = async (parentId: number, isLiked: string) => {
 
 export const getParentlessNames = async (parentId: number) => {
   try {
-  const response = await nameRepo.findParentlessNames(parentId);
-  const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
-  return success(nameDTOs);
-} catch (err) {
-  return failed(err);
-}
+    const response = await nameRepo.findParentlessNames(parentId);
+    const nameDTOs: NameResponseDTO[] = RemoveDublicates(response);
+    return success(nameDTOs);
+  } catch (err) {
+    return failed(err);
+  }
 };
 
 export const updateName = async (nameRequestDTO: NameRequestDTO) => {
   try {
     const response = await nameRepo.save(nameRequestDTO);
     return success(convertToDTO(response));
-
   } catch (err) {
     return failed(err);
   }
@@ -79,13 +99,13 @@ export const updateName = async (nameRequestDTO: NameRequestDTO) => {
 
 export const deleteNameByID = async (id: number) => {
   try {
-    const nameDB = await nameRepo.findOneByID(id);
+    const { affected } = await nameRepo.delete(id);
 
-    if (!nameDB) {
+    if (affected === 0) {
       return failed('name');
     }
-    const response = await nameRepo.remove(nameDB);
-    return success(convertToDTO(response));
+
+    return success('Name deleted');
   } catch (err) {
     return failed(err);
   }
@@ -93,9 +113,16 @@ export const deleteNameByID = async (id: number) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const RemoveDublicates = (response: any) => {
-  const originDTOs: OriginResponseDTO[] = response[1].map((origin: OriginStoredProcedure) => convertToOriginDTO(origin));
-  const nameDTOs: NameResponseDTO[] = response[0].map((name: NameStoredProcedure) => convertToDTOSpecial(name,
-    originDTOs.filter(origin => origin.nameId === name.name_suggest_id)));
+  const originDTOs: OriginResponseDTO[] = response[1].map(
+    (origin: OriginStoredProcedure) => convertToOriginDTO(origin)
+  );
+  const nameDTOs: NameResponseDTO[] = response[0].map(
+    (name: NameStoredProcedure) =>
+      convertToDTOSpecial(
+        name,
+        originDTOs.filter((origin) => origin.nameId === name.name_suggest_id)
+      )
+  );
   return nameDTOs;
 };
 
@@ -112,7 +139,10 @@ const convertToDTO = (name: Name) => {
   return dto;
 };
 
-const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseDTO[]) => {
+const convertToDTOSpecial = (
+  name: NameStoredProcedure,
+  origins: OriginResponseDTO[]
+) => {
   const nameDTO: NameResponseDTO = {
     nameSuggestId: name.name_suggest_id,
     nameSuggestName: name.name_suggest_name,
@@ -128,7 +158,7 @@ const convertToDTOSpecial = (name: NameStoredProcedure, origins: OriginResponseD
 const convertToOriginDTO = (origin: OriginStoredProcedure) => {
   const definition: DefinitionResponseDTO = {
     definitionId: origin.definition_id,
-    meaning: origin.meaning
+    meaning: origin.meaning,
   };
   const originDTO: OriginResponseDTO = {
     originId: origin.origin_id,
@@ -136,7 +166,7 @@ const convertToOriginDTO = (origin: OriginStoredProcedure) => {
     religion: origin.region,
     description: origin.description,
     definition: definition,
-    nameId: origin.fk_name_suggest_id
+    nameId: origin.fk_name_suggest_id,
   };
   return originDTO;
 };

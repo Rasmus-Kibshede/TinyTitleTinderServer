@@ -16,7 +16,7 @@ export class Address {
     @Column('varchar', { length: 255, nullable: false, name: 'street' })
     street: string;
 
-    @ManyToOne(() => Location, (location) => location.streets)
+    @ManyToOne(() => Location, (location) => location.addresses)
     @JoinColumn({ name: 'fk_location_id', referencedColumnName: 'locationId' })
     location: Location;
 }

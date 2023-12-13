@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './Role';
 import { Parent } from './Parent';
 
@@ -9,6 +9,7 @@ export class User {
     userId: number;
 
     @Column('varchar', { length: 255, nullable: false, name: 'email', unique: true })
+    @Index('login',['email'], { unique: true })
     email: string;
 
     @Column('varchar', { length: 255, nullable: false, name: 'password' })

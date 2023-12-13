@@ -34,7 +34,7 @@ export class Parent {
       referencedColumnName: 'nameSuggestId',
     },
   })
-  names: Name[] | null;
+  likedNames: Name[] | null;
 
   @ManyToMany(() => Name, (name) => name.parents, { nullable: true })
   @JoinColumn()
@@ -49,7 +49,7 @@ export class Parent {
       referencedColumnName: 'nameSuggestId',
     },
   })
-  namesDisliked: Name[] | null;
+  dislikedNames: Name[] | null;
 
   @ManyToMany(() => Family, (family) => family.parents)
   families: Family[];

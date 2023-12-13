@@ -1,5 +1,5 @@
-import { roleRepo } from '../Repositories/roleRepository';
-import { Role } from '../Entities/Role';
+import { roleRepo } from '../Repositories/Mysql/roleRepository';
+import { Role } from '../Entities/Mysql/Role';
 import { RoleResponseDTO, RoleTitle } from '../DTO/roleDTO';
 import { failed, success } from '../Utils/errorHandler';
 
@@ -50,6 +50,7 @@ export const updateRole = async (roleDTO: RoleTitle) => {
 
 export const deleteRoleByID = async (roleId: number) => {
     try {
+        //TODO: Fix findOneById -> findOneByID
         const response = await roleRepo.findOneById(roleId);
         if (!response) {
             return failed('role');

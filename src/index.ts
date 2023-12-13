@@ -1,10 +1,31 @@
 import 'dotenv/config';
-
-// Import the express in typescript file
-import express from 'express';
 import 'reflect-metadata';
+import express from 'express';
+import cors from 'cors';
+import cookiePaser from 'cookie-parser';
+import { getDb } from './Repositories/data-source';
 
-// import routes
+const app = express();
+app.use(express.json());
+app.use(cookiePaser());
+
+declare global {
+  // eslint-disable-next-line no-var
+  var dbChoice: string;
+}
+
+app.use('*', async (req, res, next) => {
+  if (req.headers['database-choice'] === undefined) {
+    global.dbChoice = 'mysql';
+  } else {
+    global.dbChoice = req.headers['database-choice'] as string;
+  }
+
+  await getDb();
+  next();
+});
+
+// Routes
 import userRouter from './routes/userRoute';
 import addressRoute from './routes/addressRoute';
 import roleRouter from './routes/roleRoute';
@@ -15,46 +36,22 @@ import originRouter from './routes/originRoute';
 import locationRoute from './routes/locationRoute';
 import familyRoute from './routes/familyRoute';
 import definitionRoute from './routes/definitionRoute';
-import cors from 'cors';
-import cookiePaser from 'cookie-parser';
 
-// Initialize the express engine
-const app = express();
-app.use(express.json());
-app.use(cookiePaser());
+app.use(cors());
+app.use(userRouter);
+app.use(authRouter);
+app.use(nameRouter);
+app.use(addressRoute);
+app.use(roleRouter);
+app.use(parentRouter);
+app.use(originRouter);
+app.use(locationRoute);
+app.use(familyRoute);
+app.use(definitionRoute);
 
-//Typeorm setup
-import { appDataSource } from './Repositories/data-source';
-appDataSource
-  .initialize()
-  .then(() => {
-    // eslint-disable-next-line no-console
-    console.log('Database connection established');
+const PORT = process.env.PORT || 3000;
 
-    // Routes
-    app.use(cors());
-    app.use(userRouter);
-    app.use(authRouter);
-    app.use(nameRouter);
-    app.use(addressRoute);
-    app.use(roleRouter);
-    app.use(parentRouter);
-    app.use(originRouter);
-    app.use(locationRoute);
-    app.use(familyRoute);
-    app.use(definitionRoute);
-
-
-    // Take a port 8080 for running server.
-    const PORT = process.env.PORT || 3000;
-
-    // Server setup
-    app.listen(PORT, () => {
-      // eslint-disable-next-line no-console
-      console.log(`App: http://localhost:${PORT}/`);
-    });
-  })
-  .catch((error) => {
-    // eslint-disable-next-line no-console
-    console.log(error);
-  });
+app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log(`App: http://localhost:${PORT}/`);
+});

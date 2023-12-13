@@ -1,6 +1,6 @@
 import { OriginRequestDTO, OriginResponseDTO } from '../DTO/originDTO';
-import { Origin } from '../Entities/Origin';
-import { originRepo } from '../Repositories/originRepository';
+import { Origin } from '../Entities/Mysql/Origin';
+import { originRepo } from '../Repositories/Mysql/originRepository';
 import { failed, success } from '../Utils/errorHandler';
 
 export const createOrigin = async (OriginRequestDTO: OriginRequestDTO) => {
@@ -27,7 +27,7 @@ export const getOriginByID = async (id: number) => {
 export const getOrigins = async () => {
     try {
         const origins = await originRepo.findAll();
-        const originDTOs: OriginResponseDTO[] = origins.map((origin) => convertToDTO(origin));
+        const originDTOs: OriginResponseDTO[] = origins.map((origin: Origin) => convertToDTO(origin));
         return success(originDTOs);
     } catch (err) {
         return failed(err);

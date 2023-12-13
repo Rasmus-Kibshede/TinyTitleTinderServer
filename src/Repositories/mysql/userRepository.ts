@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { UserRequestDTO } from '../DTO/userDTO';
-import { User } from '../Entities/User';
-import { appDataSource } from './data-source';
+import { User } from '../../Entities/Mysql/User';
+import { mysqlDataSource } from '../data-source';
 
-export const userRepo = appDataSource.getRepository(User).extend({
+export const userRepo = mysqlDataSource.getRepository(User).extend({
   findOneByID(id: number) {
     return userRepo.findOne({
       relations: {
@@ -24,6 +21,16 @@ export const userRepo = appDataSource.getRepository(User).extend({
         parent: true,
       },
     });
+  },
+  updateLastLogin(email: string) {
+    return userRepo.update(
+      {
+        email: email,
+      },
+      {
+        lastLogin: new Date(),
+      }
+    );
   },
   findAll() {
     return userRepo.find({

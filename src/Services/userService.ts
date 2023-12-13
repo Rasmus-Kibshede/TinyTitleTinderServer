@@ -1,11 +1,17 @@
-import { userRepo } from '../Repositories/userRepository';
-import { User } from '../Entities/User';
+import { userRepo } from '../Repositories/Mysql/userRepository';
+import { User } from '../Entities/Mysql/User';
 import { UserLogin, UserRequestDTO, UserResponseDTO } from '../DTO/userDTO';
 import { failed, success } from '../Utils/errorHandler';
-import { roleRepo } from '../Repositories/roleRepository';
+import { roleRepo } from '../Repositories/Mysql/roleRepository';
 import * as authService from './authService';
 import { Response } from 'express';
 import { comparePassword, hashPassword } from '../Utils/passwordUtil';
+import { parentRepo } from '../Repositories/Mysql/parentRepository';
+import { ParentResponseDTO } from '../DTO/parentDTO';
+import { addressRepo } from '../Repositories/Mysql/addressRepository';
+import { AddressResponseDTO } from '../DTO/addressDTO';
+import * as nameService from './nameService';
+import { NameResponseDTO } from '../DTO/nameDTO';
 
 export const createUser = async (UserRequestDTO: UserRequestDTO) => {
   try {
@@ -49,11 +55,13 @@ export const signUp = async (userRequestDTO: UserRequestDTO) => {
 
 export const getUserByID = async (id: number) => {
   try {
+    // const response = await repoHandler.dataUser()?.findOneUser(id);
+
     const response = await userRepo.findOneByID(id);
     if (!response) {
       return failed('user');
     }
-    return success(convertToDTO(response));
+    return success(convertToDTO(response as User));
   } catch (err) {
     return failed(err);
   }
@@ -64,38 +72,59 @@ export const getParentByEmailAndPassword = async (
   res: Response
 ) => {
   try {
-    const response = await userRepo.findOneByEmail(userLogin.email);
+    const response = await userRepo.findOneByEmail(userLogin.email);  
 
     if (!response) {
       return failed(new Error('Email or password is incorrect'));
     }
-
-    const isPsswordCorrect = await comparePassword(
+    const isPasswordCorrect = await comparePassword(
       userLogin.password,
       response.password
-    );
+    );  
 
-    if (!isPsswordCorrect) {
+    if (!isPasswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
+    }
+
+    await userRepo.updateLastLogin(response.email);
+
+    const parent = await parentRepo.findOneByID(response.parent.parentId) as ParentResponseDTO;
+    if (!parent) {
+      return failed(new Error('No Parent'));
+    }
+
+    if (!parent.likedNames) {
+      const likedNames = await nameService.getNamesByParentId(parent.parentId!, 'true');
+
+      if (likedNames.success) {
+        parent.likedNames = likedNames.result.data as NameResponseDTO[];
+      }
+
+      const dislikedNames = await nameService.getNamesByParentId(parent.parentId!, 'false');
+
+      if (dislikedNames.success) {
+        parent.dislikedNames = dislikedNames.result.data as NameResponseDTO[];
+      }
     }
 
     const user: UserResponseDTO = {
       email: response.email,
       roles: response.roles,
-      parent: {
-        firstName: response.parent.firstName,
-        lastName: response.parent.lastName,
-        age: response.parent.age,
-        gender: response.parent.gender,
-        parentId: response.parent.parentId,
-        address: response.parent.address,
-      },
-      userActive: true,
+      parent: parent,
+
+      userActive: false
     };
 
-    const token = await authService.login(response, res);
+    const address = await addressRepo.findOneByID(Number(user.parent?.address.addressId)) as AddressResponseDTO;
+    if (!address) {
+      return failed(new Error('No Address'));
+    }
 
-    return success({ user, token });
+    user.parent!.address = address;
+
+    const token = await authService.login(response, res);
+  
+    return success({ user: user, token });
   } catch (err) {
     return failed(err);
   }
@@ -104,7 +133,7 @@ export const getParentByEmailAndPassword = async (
 export const getUsers = async () => {
   try {
     const users = await userRepo.findAll();
-    const userDTOs: UserResponseDTO[] = users.map((user) => convertToDTO(user));
+    const userDTOs: UserResponseDTO[] = users.map((user: User) => convertToDTO(user));
     return success(userDTOs);
   } catch (err) {
     return failed(err);
@@ -119,12 +148,12 @@ export const updateUser = async (userDTO: UserRequestDTO, email: string) => {
       return failed(new Error('Email or password is incorrect'));
     }
 
-    const isPsswordCorrect = await comparePassword(
+    const isPasswordCorrect = await comparePassword(
       userDTO.password,
       response.password
     );
 
-    if (!isPsswordCorrect) {
+    if (!isPasswordCorrect) {
       return failed(new Error('Email or password is incorrect'));
     }
 
@@ -161,7 +190,7 @@ export const convertToDTO = (user: User) => {
     email: user.email,
     userActive: user.userActive,
     roles: user.roles,
-    parent: user.parent,
+    parent: user.parent as ParentResponseDTO,
   };
 
   return dto;

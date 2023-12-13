@@ -250,4 +250,30 @@ END //
 DELIMITER ;
 
 
-call GetNamesWithNoParentRelation(1)
+#------------------ EVENTS ------------------
+
+DROP EVENT IF EXISTS changeUserToInactive;
+-- Change user_active to 0 after last login being over 1 year old
+DELIMITER //
+CREATE EVENT changeUserToInactive
+    ON SCHEDULE
+        EVERY 1 DAY STARTS CURRENT_TIMESTAMP
+    DO BEGIN
+    UPDATE user
+    SET user_active = false
+    WHERE last_login < NOW() - INTERVAL 1 YEAR
+      AND user_active = true;
+END //
+
+DROP EVENT IF EXISTS changeUserToActive;
+-- Change user_active to 1 after last login being under 1 year old
+DELIMITER //
+CREATE EVENT changeUserToActive
+    ON SCHEDULE
+        EVERY 1 DAY STARTS CURRENT_TIMESTAMP
+    DO BEGIN
+    UPDATE user
+    SET user_active = true
+    WHERE last_login > NOW() - INTERVAL 1 YEAR
+      AND user_active = false;
+END //

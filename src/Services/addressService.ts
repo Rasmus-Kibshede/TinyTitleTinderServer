@@ -1,5 +1,5 @@
-import { addressRepo } from '../Repositories/addressRepository';
-import { Address } from '../Entities/Address';
+import { addressRepo } from '../Repositories/Mysql/addressRepository';
+import { Address } from '../Entities/Mysql/Address';
 import { AddressRequestDTO, AddressResponseDTO } from '../DTO/addressDTO';
 import { failed, success } from '../Utils/errorHandler';
 

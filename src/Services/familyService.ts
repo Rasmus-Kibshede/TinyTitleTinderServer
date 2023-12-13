@@ -1,6 +1,6 @@
-import { parentRepo as familyRepo } from '../Repositories/familyRepository';
+import { parentRepo as familyRepo } from '../Repositories/Mysql/familyRepository';
 import { FamilyRequestDTO, FamilyResponseDTO } from '../DTO/familyDTO';
-import { Family } from '../Entities/Family';
+import { Family } from '../Entities/Mysql/Family';
 import { failed, success } from '../Utils/errorHandler';
 
 export const createFamily = async (familyRequestDTO: FamilyRequestDTO) => {
@@ -16,7 +16,7 @@ export const createFamily = async (familyRequestDTO: FamilyRequestDTO) => {
 export const getFamilies = async () => {
     try {
         const families = await familyRepo.findAll();
-        const familyDTOs: FamilyResponseDTO[] = families.map(family => convertToDTO(family));
+        const familyDTOs: FamilyResponseDTO[] = families.map((family: Family) => convertToDTO(family));
         return success(familyDTOs);
 
     } catch (err) {

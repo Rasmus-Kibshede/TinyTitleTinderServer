@@ -1,5 +1,5 @@
-import { parentRepo } from '../Repositories/parentRepository';
-import { Parent } from '../Entities/Parent';
+import { parentRepo } from '../Repositories/Mysql/parentRepository';
+import { Parent } from '../Entities/Mysql/Parent';
 import { ParentRequestDTO, ParentResponseDTO } from '../DTO/parentDTO';
 import { failed, success } from '../Utils/errorHandler';
 import { NameResponseDTO } from '../DTO/nameDTO';
@@ -40,7 +40,8 @@ export const getParentById = async (id: number) => {
 
 export const updateParent = async (parentDTO: ParentRequestDTO) => {
   try {
-    const response = await parentRepo.save(parentDTO);
+    const response = await parentRepo.save(parentDTO as Parent);
+
     return success(convertToDTO(response));
   } catch (err) {
     return failed(err);
@@ -61,6 +62,25 @@ export const deleteParent = async (parentId: number) => {
   }
 };
 
+export const updateTablesForName = async (
+  parentId: number,
+  likedNames: number[],
+  dislikedNames: number[]
+) => {
+  try {
+    await parentRepo.saveLikedDislikedNames(
+      parentId,
+      likedNames,
+      dislikedNames
+    );
+
+    return success(`Updated liked and disliked names for parent with id ${parentId}`);
+
+  } catch (err) {
+    return failed(err);
+  }
+};
+
 export const convertToDTO = (parent: Parent) => {
   const dto: ParentResponseDTO = {
     parentId: parent.parentId,
@@ -68,7 +88,8 @@ export const convertToDTO = (parent: Parent) => {
     gender: parent.gender,
     firstName: parent.firstName,
     lastName: parent.lastName,
-    names: parent.names as NameResponseDTO[],
+    likedNames: parent.likedNames as NameResponseDTO[],
+    dislikedNames: parent.dislikedNames as NameResponseDTO[],
     families: parent.families,
     address: parent.address,
   };
