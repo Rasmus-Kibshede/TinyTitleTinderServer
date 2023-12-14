@@ -40,7 +40,8 @@ export const getParentById = async (id: number) => {
 
 export const updateParent = async (parentDTO: ParentRequestDTO) => {
   try {
-    const response = await parentRepo.save(parentDTO as Parent);
+    
+    const response = await parentRepo.save(parentDTO);
 
     return success(convertToDTO(response));
   } catch (err) {

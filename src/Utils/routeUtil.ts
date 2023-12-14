@@ -48,24 +48,29 @@ export const validateParamsEmail = (req: Request, res: Response, next: NextFunct
 
 export const validateCredintials = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const newEmail = req.body.email;
+        const email = req.body.email;
         const password = req.body.password;
 
-        if (validator.isEmail(newEmail) && validator.isStrongPassword(password)) {
-            
+        if (validator.isEmail(email) && validator.isStrongPassword(password)) {
             next();
-        } 
+        }else{
+            responseError(res, failed(new Error('Invalid email or password')));
+        }
     } catch (error) {
         responseError(res, error);
     }
 };
 
-export const validateNewMail = (req: Request, res: Response, next: NextFunction) => {
+export const validateNewMailAndPassword = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const newEmail = req.body.email;
+        const newEmail = req.body.newEmail;
+        const newPassword = req.body.newPassword;
+        const isPsswordValid = validator.isStrongPassword(newPassword) || newPassword === '';
 
-        if (validator.isEmail(newEmail)) {
+        if (validator.isEmail(newEmail) && isPsswordValid) {
             next();
+        } else {
+            responseError(res, failed(new Error('Invalid email or password')));
         }
     } catch (error) {
         responseError(res, error);
