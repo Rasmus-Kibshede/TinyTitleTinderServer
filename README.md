@@ -120,12 +120,12 @@ SYNCHRONIZE=false
 ```
 
 - Information about the content in this env file.
-Mysql db = the mysql connection informations needed.
-Mongo db = the mongo connection informations needed.
+- Mysql db = the mysql connection informations needed.
+- Mongo db = the mongo connection informations needed.
   - url example for localhost: mongodb://localhost:27017/?authMechanism=DEFAULT
   - url example for production: mongodb+srv://<username>:<password>@<database>.mongodb.net/
-JWT = a secret that can be anything, need this for generation of JWT.
-SYNCHRONIZE = true or false. Default value is false if the value is not set.
+- JWT = a secret that can be anything, need this for generation of JWT.
+- SYNCHRONIZE = true or false. Default value is false if the value is not set.
   - SYNCHRONIZE is creating the data structure in the database from typeorm base entities.
 
 </details>
