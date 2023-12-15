@@ -5,7 +5,6 @@
 ```
 npm i
 ```
-- impplement the .env file before starting the project.
 <details>
 <summary>Env file setup guide before running</summary>
 - Make an .env file in root with the following variables<br>
