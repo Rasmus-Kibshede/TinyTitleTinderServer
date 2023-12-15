@@ -1,5 +1,53 @@
 # TinyTitleTinderServer
 
+# Install guide
+- To install the project run the follwing in the terminal: 
+```
+npm i
+```
+- impplement the .env file before starting the project.
+<details>
+<summary>Env file setup guide before running</summary>
+- Make an .env file in root with the following variables<br>
+Copy and paste the env file below:
+  
+```
+# Mysql DB
+DB_MYSQL_HOST=
+DB_MYSQL_PORT=3306
+DB_MYSQL_USERNAME=
+DB_MYSQL_PASSWORD=
+DB_MYSQL_DATABASE=
+
+# Mongo DB
+DB_MONGO_DATABASE=
+DB_MONGO_URL=
+
+# Server port
+PORT=3000
+
+# JWT
+JWT_SECRET=
+
+SYNCHRONIZE=false
+```
+
+- Information about the content in this env file.
+- Mysql db = the mysql connection informations needed.
+- Mongo db = the mongo connection informations needed.
+  - url example for localhost: mongodb://localhost:27017/?authMechanism=DEFAULT
+  - url example for production: mongodb+srv://<username>:<password>@<database>.mongodb.net/
+- JWT = a secret that can be anything, need this for generation of JWT.
+- SYNCHRONIZE = true or false. Default value is false if the value is not set.
+  - SYNCHRONIZE is creating the data structure in the database from typeorm base entities.
+
+</details>
+
+- Database setup:
+The project is running on diffrent database types (Mysql, mongo and graph)
+There will be provided DDL and DML script in the project under documents/scripts
+
+
 ## Explore Rest APIs
 
 The app defines following CRUD APIs.
@@ -86,53 +134,6 @@ The app defines following CRUD APIs.
 | GET    | /definitions             | Get all definitions        |  
 | PUT    | /definitions             | Edit a definition by Id    | 
 | PUT    | /definitions/:id         | Delete a definition by Id  |
-
-# Install guide
-- To install the project run the follwing in the terminal: 
-```
-npm i
-```
-- impplement the .env file before starting the project.
-<details>
-<summary>Env file setup guide before running</summary>
-- Make an .env file in root with the following variables<br>
-Copy and paste the env file below:
-  
-```
-# Mysql DB
-DB_MYSQL_HOST=
-DB_MYSQL_PORT=3306
-DB_MYSQL_USERNAME=
-DB_MYSQL_PASSWORD=
-DB_MYSQL_DATABASE=
-
-# Mongo DB
-DB_MONGO_DATABASE=
-DB_MONGO_URL=
-
-# Server port
-PORT=3000
-
-# JWT
-JWT_SECRET=
-
-SYNCHRONIZE=false
-```
-
-- Information about the content in this env file.
-- Mysql db = the mysql connection informations needed.
-- Mongo db = the mongo connection informations needed.
-  - url example for localhost: mongodb://localhost:27017/?authMechanism=DEFAULT
-  - url example for production: mongodb+srv://<username>:<password>@<database>.mongodb.net/
-- JWT = a secret that can be anything, need this for generation of JWT.
-- SYNCHRONIZE = true or false. Default value is false if the value is not set.
-  - SYNCHRONIZE is creating the data structure in the database from typeorm base entities.
-
-</details>
-
-- Database setup:
-The project is running on diffrent database types (Mysql, mongo and graph)
-There will be provided DDL and DML script in the project under documents/scripts
 
 
 <details>
