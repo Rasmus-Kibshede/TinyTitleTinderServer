@@ -92,7 +92,7 @@ The app defines following CRUD APIs.
 ```
 npm i
 ```
-
+- impplement the .env file before starting the project.
 <details>
 <summary>Env file setup guide before running</summary>
 - Make an .env file in root with the following variables<br>
@@ -129,6 +129,11 @@ SYNCHRONIZE=false
   - SYNCHRONIZE is creating the data structure in the database from typeorm base entities.
 
 </details>
+
+- Database setup:
+The project is running on diffrent database types (Mysql, mongo and graph)
+There will be provided DDL and DML script in the project under documents/scripts
+
 
 <details>
 <summary>All run commands</summary>
