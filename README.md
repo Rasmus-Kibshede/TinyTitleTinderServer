@@ -98,12 +98,13 @@ npm i
 - Make an .env file in root with the following variables<br>
 Copy and paste the env file below:
   
-#Mysql DB
-# DB_MYSQL_HOST=
-# DB_MYSQL_PORT=3306
-# DB_MYSQL_USERNAME=
-# DB_MYSQL_PASSWORD=
-# DB_MYSQL_DATABASE=
+```
+# Mysql DB
+DB_MYSQL_HOST=
+DB_MYSQL_PORT=3306
+DB_MYSQL_USERNAME=
+DB_MYSQL_PASSWORD=
+DB_MYSQL_DATABASE=
 
 # Mongo DB
 DB_MONGO_DATABASE=
@@ -116,6 +117,7 @@ PORT=3000
 JWT_SECRET=
 
 SYNCHRONIZE=false
+```
 
 - Information about the content in this env file.
 Mysql db = the mysql connection informations needed.
