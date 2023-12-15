@@ -1,16 +1,31 @@
-USE tiny_title_tinder_database;
-
+/*USE tiny_title_tinder_database;
+*/
 INSERT INTO definition (meaning) VALUES
 ('John is a masculine name of Hebrew origin, derived from "Yohannan," meaning "God is gracious."'),
 ('Beloved'),
 ('Free man, valiant'),
-('Lofty');
+('Lofty'),
+('Named after John F. Kennedy'),
+('Named after Priyanka Chopra'),
+('Named after Carlos Santana'),
+('Named after Wei Jingsheng'),
+('Named after Hans Pilgaard'),
+('Named after Margot Robbie'),
+('Named after Maria Bello'),
+('Named after Zane Grey'),
+('Named after Zara Larsson');
 
-INSERT INTO origin (region, religion, description, fk_definition_id) VALUES
-('United States', 'Christianity', 'The land of the free and school shootings', 1),
-('India', 'Hinduism', 'Budda checkin', 2),
-('Brazil', 'Catholicism', 'Pendejo', 3),
-('China', 'Buddhism', 'The religion of China should be Taoism, not buddhism. Taiwan # 1', 4);
+insert into origin (region, religion, description, fk_definition_id)
+values
+    ('North America', 'Christianity', 'Named after John F. Kennedy', 1),
+    ('India', 'Hinduism', 'Named after Priyanka Chopra', 2),
+    ('South America', 'Christianity', 'Named after Carlos Santana', 3),
+    ('China', 'Buddhism', 'Named after Wei Jingsheng', 4),
+    ('Europe', 'Christianity', 'Named after Hans Pilgaard', 5),
+    ('Australia', 'Christianity', 'Named after Margot Robbie', 6),
+    ('North America', 'Christianity', 'Named after Maria Bello', 7),
+    ('United States', 'Christianity', 'Named after Zane Grey', 8),
+    ('Sweden', 'Christianity', 'Named after Zara Larsson', 9);
 
 INSERT INTO name_suggest (name_suggest_name, gender, popularity, name_days, namesakes) VALUES
 ('John', 'Male', 0.85, '01-01-2023', 'John F. Kennedy'),
@@ -61,10 +76,17 @@ INSERT INTO name_suggest (name_suggest_name, gender, popularity, name_days, name
 ('Jamie', 'Unisex', 0.80, '01-01-2023', 'Jamie Foxx');
 
 INSERT INTO location (country) VALUES
-('United States'),
-('India'),
-('Brazil'),
-('China');
+('United Kingdom'),
+('Canada'),
+('Australia'),
+('Germany'),
+('France'),
+('Japan'),
+('South Korea'),
+('Mexico'),
+('Russia'),
+('Italy'),
+('Denmark');
 
 INSERT INTO address (city, zipcode, street, fk_location_id) VALUES
 ('New York', '10001', '123 Main St', 1),
@@ -73,16 +95,16 @@ INSERT INTO address (city, zipcode, street, fk_location_id) VALUES
 ('Beijing', '100000', '101 Pine St', 4);
 
 INSERT INTO parent (age, gender, first_name, last_name, fk_address_id) VALUES
-(35, 'Male', 'John', 'Smith',1),
-(30, 'Female', 'Priya', 'Patel',2),
-(40, 'Male', 'Carlos', 'Silva',3),
-(32, 'Male', 'Wei', 'Wang',4);
+(28, 'Female', 'Emily', 'Taylor', 1),
+(33, 'Male', 'Christopher', 'Brown', 2),
+(37, 'Female', 'Sophia', 'Miller', 3),
+(31, 'Female', 'Jessica', 'Davis', 4);
 
 INSERT INTO user (email, password, user_active, created_at, last_login, fk_parent_id) VALUES
-('user1@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 YEAR, 1),
-('user2@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2016-11-05 14:29:36', NOW() - INTERVAL 1 MONTH, 2),
-('user3@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 WEEK, 3),
-('user4@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2019-11-05 14:29:36', NOW() - INTERVAL 1 DAY, 4);
+('emily.taylor@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 YEAR, 1),
+('christopher.brown@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2016-11-05 14:29:36', NOW() - INTERVAL 1 MONTH, 2),
+('sophia.miller@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2012-11-05 14:29:36', NOW() - INTERVAL 1 WEEK, 3),
+('jessica.davis@example.com', '$2b$10$7cCi2z1vHM/./DHuK0TpWejNnFaNOJ5ZrXbIMfilP4gyBW1fA/xJm', 1, '2019-11-05 14:29:36', NOW() - INTERVAL 1 DAY, 4);
 
 INSERT INTO role (title) VALUES
 ('Super Admin'),
@@ -93,25 +115,61 @@ INSERT INTO user_role (fk_user_id, fk_role_id) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
-(4, 1);
+(4, 3);
 
 INSERT INTO family (family_name) VALUES
-('Smith'),
-('Patel'),
-('Silva'),
-('Wang');
+('Taylor'),
+('Miller');
 
 insert into family_parent(fk_family_id, fk_parent_id) values
 (1, 1),
-(2,2),
-(3,3),
-(4,4);
+(1,2),
+(2,3),
+(2,4);
 
-INSERT INTO name_suggest_origin (fk_name_suggest_id, fk_origin_id) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4);
+insert into name_suggest_origin (fk_name_suggest_id, fk_origin_id)
+values
+     (1, 1),
+    (3, 2),
+    (4, 3),
+    (5, 4),
+    (6, 4),
+    (8, 5),
+    (9, 6),
+    (11, 7),
+    (13, 8),
+    (15, 9),
+    (17, 1),
+    (19, 2),
+    (21, 3),
+    (23, 4),
+    (27, 5),
+    (29, 6),
+    (2, 7),
+    (7, 8),
+    (10, 9),
+    (12, 1),
+    (14, 2),
+    (16, 3),
+    (18, 4),
+    (20, 5),
+    (22, 6),
+    (24, 7),
+    (26, 8),
+    (28, 9),
+    (30, 1),
+    (32, 2),
+    (34, 3),
+    (36, 4),
+    (38, 5),
+    (31, 6),
+    (33, 7),
+    (35, 8),
+    (37, 9),
+    (39, 1),
+    (41, 2),
+    (43, 3),
+    (45, 4);
 
 INSERT INTO parent_name_suggest (fk_parent_id, fk_name_suggest_id) VALUES
 (1, 2),
