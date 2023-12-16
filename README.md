@@ -1,5 +1,52 @@
 # TinyTitleTinderServer
 
+# Install guide
+- To install the project run the follwing in the terminal: 
+```
+npm i
+```
+<details>
+<summary>Env file setup guide before running</summary>
+- Make an .env file in root with the following variables<br>
+Copy and paste the env file below:
+  
+```
+# Mysql DB
+DB_MYSQL_HOST=
+DB_MYSQL_PORT=3306
+DB_MYSQL_USERNAME=
+DB_MYSQL_PASSWORD=
+DB_MYSQL_DATABASE=
+
+# Mongo DB
+DB_MONGO_DATABASE=
+DB_MONGO_URL=
+
+# Server port
+PORT=3000
+
+# JWT
+JWT_SECRET=
+
+SYNCHRONIZE=false
+```
+
+- Information about the content in this env file.
+- Mysql db = the mysql connection informations needed.
+- Mongo db = the mongo connection informations needed.
+  - url example for localhost: mongodb://localhost:27017/?authMechanism=DEFAULT
+  - url example for production: mongodb+srv://<username>:<password>@<database>.mongodb.net/
+- JWT = a secret that can be anything, need this for generation of JWT.
+- SYNCHRONIZE = true or false. Default value is false if the value is not set.
+  - SYNCHRONIZE is creating the data structure in the database from typeorm base entities.
+
+</details>
+
+- Database setup:
+The project is running on diffrent database types (Mysql, mongo and graph)
+There will be provided DDL and DML script in the project under documents/scripts
+
+
 ## Explore Rest APIs
 
 The app defines following CRUD APIs.
@@ -87,29 +134,13 @@ The app defines following CRUD APIs.
 | PUT    | /definitions             | Edit a definition by Id    | 
 | PUT    | /definitions/:id         | Delete a definition by Id  |
 
-# Install guide
-- To install the project run the follwing in the terminal: 
-```
-npm i
-```
-
-<details>
-<summary>Env file setup guide before running</summary>
-- Make an .env file in root with the following variables<br>
-- PORT = The port the application is running on<br>
-- DB_HOST = Name of the database host<br>
-- DB_PORT = Database port<br>
-- DB_USERNAME = Database username<br>
-- DB_PASSWORD = Database password<br>
-- DB_DATABASE = The name of the database<br>
-</details>
 
 <details>
 <summary>All run commands</summary>
 
 - Run as dev: 
 ```
-npm run start-dev
+npm run dev
 ```
 
 - Run in production (only on production server): 
@@ -140,7 +171,7 @@ express setup with typescript:
 https://www.geeksforgeeks.org/how-to-use-express-in-typescript/
 
 <details>
-<summary>Documentation on lib</summary>
+<summary>Documentation on libs</summary>
 - Axios        =   https://www.npmjs.com/package/axios<br>
 - Dotenv       =   https://www.npmjs.com/package/dotenv<br>
 - Express      =   https://www.npmjs.com/package/express<br>
