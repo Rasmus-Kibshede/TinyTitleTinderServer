@@ -1,0 +1,108 @@
+[{
+  "_id": {
+    "$oid": "6578417f996019bf373cbef6"
+  },
+  "familyName": "Sarahs family",
+  "users": [
+    {
+      "email": "sarah.smith@example.com",
+      "password": "$2a$12$h2T4gPOuOpGp9Q5aXGnW4e8ly0o5tNwRULeaNTf.TU3.x.kyUe7qG",
+      "userActive": true,
+      "createdAt": "2023-11-15",
+      "lastLogin": "2023-12-03",
+      "roles": [
+        {
+          "title": "User"
+        }
+      ],
+      "parent": {
+        "firstName": "David",
+        "lastName": "Smith",
+        "age": 40,
+        "address": {
+          "city": "Sydney",
+          "zipcode": "2000",
+          "street": "George Street",
+          "country": "Australia"
+        }
+      }
+    },
+    {
+      "email": "james.doe@example.com",
+      "password": "$2a$12$Wm9tPR7LBntc8eErKSCNBeRfRZjjgyTnUCV0tN69CMId6oMdAoStS",
+      "userActive": true,
+      "createdAt": "2023-10-01",
+      "lastLogin": "2023-11-28",
+      "roles": [
+        {
+          "title": "User"
+        }
+      ],
+      "parent": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "age": 38,
+        "address": {
+          "city": "New York",
+          "zipcode": "10001",
+          "street": "Broadway",
+          "country": "USA"
+        }
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "657841ea996019bf373cbefa"
+  },
+  "familyName": "Alexs family",
+  "users": [
+    {
+      "email": "lily.martin@example.com",
+      "password": "$2a$12$As8xFiORzQcNUnKFw9EiY.F71FVU6u/WnoGPiRF9r5nv5VbOPRZra",
+      "userActive": true,
+      "createdAt": "2023-09-15",
+      "lastLogin": "2023-11-25",
+      "roles": [
+        {
+          "title": "User"
+        }
+      ],
+      "parent": {
+        "firstName": "Daniel",
+        "lastName": "Martin",
+        "age": 42,
+        "address": {
+          "city": "Los Angeles",
+          "zipcode": "90001",
+          "street": "Hollywood Blvd",
+          "country": "USA"
+        }
+      }
+    },
+    {
+      "email": "alex.johnson@example.com",
+      "password": "$2a$12$DoULG2kujQRgYNUmY45sIuFvpy9y5rZDT5KofPGK3nXYaO/1s9M9i",
+      "userActive": true,
+      "createdAt": "2023-08-10",
+      "lastLogin": "2023-11-20",
+      "roles": [
+        {
+          "title": "User"
+        }
+      ],
+      "parent": {
+        "firstName": "Robert",
+        "lastName": "Johnson",
+        "age": 39,
+        "address": {
+          "city": "Toronto",
+          "zipcode": "M5V 1M1",
+          "street": "King Street",
+          "country": "Canada"
+        }
+      }
+    }
+  ]
+}]

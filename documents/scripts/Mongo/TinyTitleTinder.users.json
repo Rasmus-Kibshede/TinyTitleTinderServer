@@ -1,0 +1,328 @@
+[{
+  "_id": {
+    "$oid": "65783dd7996019bf373cbee9"
+  },
+  "email": "sarah.smith@example.com",
+  "password": "$2a$12$h2T4gPOuOpGp9Q5aXGnW4e8ly0o5tNwRULeaNTf.TU3.x.kyUe7qG",
+  "userActive": true,
+  "createdAt": "2023-11-15",
+  "lastLogin": "2023-12-03",
+  "roles": [
+    {
+      "title": "User"
+    }
+  ],
+  "parent": {
+    "firstName": "David",
+    "lastName": "Smith",
+    "age": 40,
+    "address": {
+      "city": "Sydney",
+      "zipcode": "2000",
+      "street": "George Street",
+      "country": "Australia"
+    }
+  },
+  "likedNames": [
+    {
+      "name": "Ethan",
+      "gender": "Male",
+      "popularity": 88,
+      "nameDays": "May 10th",
+      "nameskaes": "Strawberry Shortcake",
+      "definition": "Ethan is a Hebrew name, meaning 'strong' or 'firm.' It has a resilient and determined character.",
+      "origins": {
+        "region": "Hebrew",
+        "religion": "Various",
+        "description": "Ethan has its roots in Hebrew and is associated with strength and firmness. It has been embraced in various cultures for its timeless qualities."
+      }
+    },
+    {
+      "name": "Ava",
+      "gender": "Female",
+      "popularity": 85,
+      "nameDays": "April 29th",
+      "nameskaes": "Lemon Tart",
+      "definition": "Ava is a feminine name with Germanic origins, meaning 'life' or 'living one.' It has roots in various cultures.",
+      "origins": {
+        "region": "Germanic",
+        "religion": "Various",
+        "description": "Ava has roots in the Germanic languages and has been used in various cultures. The name is associated with vitality and has a timeless appeal, making it popular in different regions."
+      }
+    }
+  ],
+  "disLikedNames": [
+    {
+      "name": "Liam",
+      "gender": "Male",
+      "popularity": 91,
+      "nameDays": "August 15th",
+      "nameskaes": "Caramel Macchiato",
+      "definition": "Liam is an Irish name, meaning 'strong-willed warrior.' It is a name with a bold and resilient character.",
+      "origins": {
+        "region": "Irish",
+        "religion": "Various",
+        "description": "Liam has its roots in Irish culture and is associated with strength and determination. It has gained popularity across different regions and is appreciated for its simplicity and strength."
+      }
+    },
+    {
+      "name": "Sophia",
+      "gender": "Female",
+      "popularity": 90,
+      "nameDays": "September 30th",
+      "nameskaes": "Pumpkin Spice Latte",
+      "definition": "Sophia is a feminine name of Greek origin, meaning 'wisdom.'",
+      "origins": {
+        "region": "Greek",
+        "religion": "Various",
+        "description": "Sophia has a rich history in Greek philosophy and is associated with the concept of wisdom. It has been widely embraced in various cultures and is a popular name across different regions."
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "65783e3c996019bf373cbeeb"
+  },
+  "email": "james.doe@example.com",
+  "password": "$2a$12$Wm9tPR7LBntc8eErKSCNBeRfRZjjgyTnUCV0tN69CMId6oMdAoStS",
+  "userActive": true,
+  "createdAt": "2023-10-01",
+  "lastLogin": "2023-11-28",
+  "roles": [
+    {
+      "title": "User"
+    }
+  ],
+  "parent": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "age": 38,
+    "address": {
+      "city": "New York",
+      "zipcode": "10001",
+      "street": "Broadway",
+      "country": "USA"
+    }
+  },
+  "likedNames": [
+    {
+      "name": "Emma",
+      "gender": "Female",
+      "popularity": 88,
+      "nameDays": "November 12th",
+      "nameskaes": "Apple Pie",
+      "definition": "Emma is a Germanic name, meaning 'universal' or 'whole.' It has a timeless and elegant quality.",
+      "origins": {
+        "region": "Germanic",
+        "religion": "Various",
+        "description": "Emma has Germanic origins and has been a name with widespread popularity. It is known for its simplicity and versatility across different cultures."
+      }
+    },
+    {
+      "name": "Mason",
+      "gender": "Male",
+      "popularity": 89,
+      "nameDays": "December 5th",
+      "nameskaes": "Gingerbread Cookie",
+      "definition": "Mason is a name of English origin, meaning 'worker in stone' or 'bricklayer.' It has a strong and industrious character.",
+      "origins": {
+        "region": "English",
+        "religion": "Various",
+        "description": "Mason has English origins and is associated with the skilled craft of working with stone or bricks. It has a strong and industrious character, making it a name of substance."
+      }
+    }
+  ],
+  "disLikedNames": [
+    {
+      "name": "Aria",
+      "gender": "Female",
+      "popularity": 87,
+      "nameDays": "January 25th",
+      "nameskaes": "Mint Chocolate Chip",
+      "definition": "Aria is a name of Italian origin, meaning 'air' or 'melody.' It has a musical and airy quality.",
+      "origins": {
+        "region": "Italian",
+        "religion": "Various",
+        "description": "Aria has Italian origins and is associated with the concepts of air and melody. It carries a musical and airy quality, making it a name with artistic connotations."
+      }
+    },
+    {
+      "name": "Benjamin",
+      "gender": "Male",
+      "popularity": 92,
+      "nameDays": "October 20th",
+      "nameskaes": "Cinnamon Roll",
+      "definition": "Benjamin is a Hebrew name, meaning 'son of the right hand' or 'favorite son.' It has a cherished and meaningful significance.",
+      "origins": {
+        "region": "Hebrew",
+        "religion": "Various",
+        "description": "Benjamin is a name with deep Hebrew roots and is associated with being a favored or cherished son. It carries a meaningful and sentimental connotation."
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "65783e3c996019bf373cbeec"
+  },
+  "email": "lily.martin@example.com",
+  "password": "$2a$12$As8xFiORzQcNUnKFw9EiY.F71FVU6u/WnoGPiRF9r5nv5VbOPRZra",
+  "userActive": true,
+  "createdAt": "2023-09-15",
+  "lastLogin": "2023-11-25",
+  "roles": [
+    {
+      "title": "User"
+    }
+  ],
+  "parent": {
+    "firstName": "Daniel",
+    "lastName": "Martin",
+    "age": 42,
+    "address": {
+      "city": "Los Angeles",
+      "zipcode": "90001",
+      "street": "Hollywood Blvd",
+      "country": "USA"
+    }
+  },
+  "likedNames": [
+    {
+      "name": "Grace",
+      "gender": "Female",
+      "popularity": 89,
+      "nameDays": "July 8th",
+      "nameskaes": "Vanilla Cupcake",
+      "definition": "Grace is a name with Latin origins, meaning 'grace' or 'favor.' It reflects elegance and divine favor.",
+      "origins": {
+        "region": "Latin",
+        "religion": "Various",
+        "description": "Grace is a name associated with elegance and divine favor. It has Latin origins and has been embraced in various cultures for its timeless appeal."
+      }
+    },
+    {
+      "name": "Liam",
+      "gender": "Male",
+      "popularity": 91,
+      "nameDays": "August 15th",
+      "nameskaes": "Caramel Macchiato",
+      "definition": "Liam is an Irish name, meaning 'strong-willed warrior.' It is a name with a bold and resilient character.",
+      "origins": {
+        "region": "Irish",
+        "religion": "Various",
+        "description": "Liam has its roots in Irish culture and is associated with strength and determination. It has gained popularity across different regions and is appreciated for its simplicity and strength."
+      }
+    }
+  ],
+  "disLikedNames": [
+    {
+      "name": "Sophia",
+      "gender": "Female",
+      "popularity": 90,
+      "nameDays": "September 30th",
+      "nameskaes": "Pumpkin Spice Latte",
+      "definition": "Sophia is a feminine name of Greek origin, meaning 'wisdom.'",
+      "origins": {
+        "region": "Greek",
+        "religion": "Various",
+        "description": "Sophia has a rich history in Greek philosophy and is associated with the concept of wisdom. It has been widely embraced in various cultures and is a popular name across different regions."
+      }
+    },
+    {
+      "name": "Mia",
+      "gender": "Female",
+      "popularity": 86,
+      "nameDays": "February 20th",
+      "nameskaes": "Chocolate Brownie",
+      "definition": "Mia is an Italian name, meaning 'mine' or 'belonging to me.' It has a sweet and endearing quality.",
+      "origins": {
+        "region": "Italian",
+        "religion": "Various",
+        "description": "Mia is of Italian origin and is associated with love and affection. It has gained popularity for its simplicity and charm."
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "65783e3c996019bf373cbeed"
+  },
+  "email": "alex.johnson@example.com",
+  "password": "$2a$12$DoULG2kujQRgYNUmY45sIuFvpy9y5rZDT5KofPGK3nXYaO/1s9M9i",
+  "userActive": true,
+  "createdAt": "2023-08-10",
+  "lastLogin": "2023-11-20",
+  "roles": [
+    {
+      "title": "User"
+    }
+  ],
+  "parent": {
+    "firstName": "Robert",
+    "lastName": "Johnson",
+    "age": 39,
+    "address": {
+      "city": "Toronto",
+      "zipcode": "M5V 1M1",
+      "street": "King Street",
+      "country": "Canada"
+    }
+  },
+  "likedNames": [
+    {
+      "name": "Liam",
+      "gender": "Male",
+      "popularity": 91,
+      "nameDays": "August 15th",
+      "nameskaes": "Caramel Macchiato",
+      "definition": "Liam is an Irish name, meaning 'strong-willed warrior.' It is a name with a bold and resilient character.",
+      "origins": {
+        "region": "Irish",
+        "religion": "Various",
+        "description": "Liam has its roots in Irish culture and is associated with strength and determination. It has gained popularity across different regions and is appreciated for its simplicity and strength."
+      }
+    },
+    {
+      "name": "Sophia",
+      "gender": "Female",
+      "popularity": 90,
+      "nameDays": "September 30th",
+      "nameskaes": "Pumpkin Spice Latte",
+      "definition": "Sophia is a feminine name of Greek origin, meaning 'wisdom.'",
+      "origins": {
+        "region": "Greek",
+        "religion": "Various",
+        "description": "Sophia has a rich history in Greek philosophy and is associated with the concept of wisdom. It has been widely embraced in various cultures and is a popular name across different regions."
+      }
+    }
+  ],
+  "disLikedNames": [
+    {
+      "name": "Ethan",
+      "gender": "Male",
+      "popularity": 88,
+      "nameDays": "May 10th",
+      "nameskaes": "Strawberry Shortcake",
+      "definition": "Ethan is a Hebrew name, meaning 'strong' or 'firm.' It has a resilient and determined character.",
+      "origins": {
+        "region": "Hebrew",
+        "religion": "Various",
+        "description": "Ethan has its roots in Hebrew and is associated with strength and firmness. It has been embraced in various cultures for its timeless qualities."
+      }
+    },
+    {
+      "name": "Ava",
+      "gender": "Female",
+      "popularity": 85,
+      "nameDays": "April 29th",
+      "nameskaes": "Lemon Tart",
+      "definition": "Ava is a feminine name with Germanic origins, meaning 'life' or 'living one.' It has roots in various cultures.",
+      "origins": {
+        "region": "Germanic",
+        "religion": "Various",
+        "description": "Ava has roots in the Germanic languages and has been used in various cultures. The name is associated with vitality and has a timeless appeal, making it popular in different regions."
+      }
+    }
+  ]
+}]

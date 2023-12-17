@@ -1,5 +1,5 @@
-/*USE tiny_title_tinder_database;
-*/
+USE tinytitletinder;
+
 INSERT INTO definition (meaning) VALUES
 ('John is a masculine name of Hebrew origin, derived from "Yohannan," meaning "God is gracious."'),
 ('Beloved'),

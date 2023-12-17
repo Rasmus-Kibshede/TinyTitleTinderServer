@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS tinytitletinder;
+USE tinytitletinder;
+
 create table if not exists adt_address
 (
     _seq           bigint auto_increment
@@ -897,3 +900,10 @@ ALTER TABLE adt_user
 
 ALTER TABLE adt_user
     ADD COLUMN fk_parent_id INT;
+
+CREATE OR REPLACE VIEW
+  usersWithParent AS
+  SELECT * FROM user
+    JOIN parent p on p.parent_id = user.fk_parent_id
+    JOIN address a on a.address_id = p.fk_address_id
+    JOIN location l on l.location_id = a.fk_location_id;
