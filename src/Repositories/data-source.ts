@@ -14,7 +14,7 @@ export const mysqlDataSource = new DataSource({
   ],
   subscribers: [AuditingSubscriber],
   synchronize: process.env.SYNCHRONIZE === 'true' || false,
-  logging: false,
+  logging: true,
 });
 
 export const mongoDataSource = new DataSource({

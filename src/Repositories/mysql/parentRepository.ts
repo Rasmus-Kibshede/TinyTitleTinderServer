@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Parent } from '../../Entities/Mysql/Parent';
 import { mysqlDataSource } from '../data-source';
 
@@ -25,18 +26,30 @@ export const parentRepo = mysqlDataSource.getRepository(Parent).extend({
         });
     },
     saveLikedDislikedNames(parentId: number, likedNames: number[], dislikedNames: number[]) {
-        return parentRepo.manager.transaction(
-            'READ UNCOMMITTED',
-            async (transactionalEntityManager) => {
-                if (likedNames.length > 0) {
-                    const likedValues = likedNames.map(nameSuggestId => `(${parentId}, ${nameSuggestId})`).join(', ');
-                    await transactionalEntityManager.query(`INSERT INTO parent_name_suggest (fk_parent_id, fk_name_suggest_id) VALUES ${likedValues}`);
-                }
-                if (dislikedNames.length > 0) {
-                    const dislikedValues = dislikedNames.map(nameSuggestId => `(${parentId}, ${nameSuggestId})`).join(', ');
-                    await transactionalEntityManager.query(`INSERT INTO parent_name_suggest_dislike (fk_parent_id, fk_name_suggest_id) VALUES ${dislikedValues}`);
-                }
-            }
-        );
-    },
+        return parentRepo.manager.transaction(async transactionalEntityManager => {
+          if (likedNames.length > 0) {
+            await transactionalEntityManager
+              .createQueryBuilder()
+              .insert()
+              .into('parent_name_suggest')
+              .values(likedNames.map(nameSuggestId => ({
+                fk_parent_id: parentId,
+                fk_name_suggest_id: nameSuggestId
+              })))
+              .execute();
+          }
+      
+          if (dislikedNames.length > 0) {
+            await transactionalEntityManager
+              .createQueryBuilder()
+              .insert()
+              .into('parent_name_suggest_dislike')
+              .values(dislikedNames.map(nameSuggestId => ({
+                fk_parent_id: parentId,
+                fk_name_suggest_id: nameSuggestId
+              })))
+              .execute();
+          }
+        });
+      }
 });
