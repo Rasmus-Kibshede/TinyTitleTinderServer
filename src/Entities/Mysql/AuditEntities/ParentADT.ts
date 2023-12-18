@@ -1,6 +1,6 @@
 import { AuditingAction, AuditingEntity, AuditingEntityDefaultColumns } from 'typeorm-auditing';
 import { Parent } from '../Parent';
-import { BeforeInsert } from 'typeorm';
+import { BeforeInsert} from 'typeorm';
 import { mysqlDataSource } from '../../../Repositories/data-source';
 
 @AuditingEntity(Parent, { name: 'adt_parent' })
