@@ -15,7 +15,7 @@ export class User {
     @Column('varchar', { length: 255, nullable: false, name: 'password' })
     password: string;
 
-    @Column('boolean', { nullable: false, name: 'user_active', default: true })
+    @Column('boolean', { nullable: false, name: 'user_active', default: false })
     userActive: boolean;
 
     @CreateDateColumn({ nullable: false, name: 'created_at' })
